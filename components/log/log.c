@@ -9,12 +9,10 @@
 #include "freertos/semphr.h"
 
 #include "sys/queue.h"
+#include "stm_log.h"
 
-#include "stm32f407xx.h"
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_uart.h"
-
-#include "stm_log.h"
 
 static const char *TAG = "LOG";
 /* Print number of bytes per line for stm_log_buffer_char and stm_log_buffer_hex */
@@ -76,9 +74,9 @@ static inline void heap_swap(int i, int j);
 static inline bool should_output(stm_log_level_t level_for_message, stm_log_level_t level_for_tag);
 static inline void clear_log_level_list();
 
-void stm_log_init(UART_HandleTypeDef *huart)
+void stm_log_init(void)
 {
-	memcpy(&huart_log, huart, sizeof(UART_HandleTypeDef));
+	// memcpy(&huart_log, huart, sizeof(UART_HandleTypeDef));
 }
 
 void stm_log_level_set(const char *tag, stm_log_level_t level)

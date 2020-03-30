@@ -47,7 +47,7 @@ typedef enum {
 * @param   huart Uart handle.
 * @return  None.
 */
-void stm_log_init(UART_HandleTypeDef *huart);
+void stm_log_init(void);
 
 /*
 * @brief   Set log level for given tag.
