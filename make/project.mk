@@ -180,6 +180,7 @@ C_INCLUDES =  \
 -I$(CMSIS_PATH)/Include \
 -I$(CMSIS_PATH)/Include \
 -I$(RTOS_PATH)/include \
+-I$(RTOS_PATH)/include/freertos \
 -I$(CMSIS_RTOS_PATH) \
 -I$(RTOS_PATH)/portable/gcc/arm_cm4f
 
