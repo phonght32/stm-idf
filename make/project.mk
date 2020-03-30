@@ -116,6 +116,7 @@ $(RTOS_PATH)/portable/memmang/heap_4.c \
 $(RTOS_PATH)/portable/gcc/arm_cm4f/port.c \
 $(CMSIS_RTOS_PATH)/cmsis_os.c \
 $(IDF_COMPONENT_PATH)/stm32/panic.c \
+$(IDF_COMPONENT_PATH)/log/log.c \
 
 # ASM sources
 ASM_SOURCES =  \
@@ -181,7 +182,8 @@ C_INCLUDES =  \
 -I$(RTOS_PATH)/include \
 -I$(RTOS_PATH)/include/freertos \
 -I$(CMSIS_RTOS_PATH) \
--I$(RTOS_PATH)/portable/gcc/arm_cm4f
+-I$(RTOS_PATH)/portable/gcc/arm_cm4f \
+-I$(IDF_COMPONENT_PATH)/log/include \
 
 
 # compile gcc flags
