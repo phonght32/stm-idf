@@ -83,7 +83,7 @@ void stm_log_write(stm_log_level_t level, const char *tag, const char *format, .
 /*
  * Log local level.
  */
-#define LOG_LOCAL_LEVEL     4
+#define LOG_LOCAL_LEVEL     3
 
 /*
  * @brief   Log a buffer of hex bytes at specified level, separated into 16 bytes each line.
