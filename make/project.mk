@@ -119,7 +119,7 @@ $(IDF_COMPONENT_PATH)/stm32/panic.c \
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f407xx.s
+stm-idf/drivers/startup/startup_stm32f407xx.s
 
 
 #######################################
