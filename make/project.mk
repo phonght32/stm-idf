@@ -38,7 +38,6 @@ BUILD_DIR = build
 C_SOURCES =  \
 main/main.c \
 main/stm32f4xx_it.c \
-main/stm32f4xx_hal_msp.c \
 main/system_stm32f4xx.c \
 $(STM32F4XX_HAL_PATH)/src/stm32f4xx_hal.c \
 $(STM32F4XX_HAL_PATH)/src/stm32f4xx_hal_adc.c \
