@@ -14,7 +14,6 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_uart.h"
 
-static const char *TAG = "LOG";
 /* Print number of bytes per line for stm_log_buffer_char and stm_log_buffer_hex */
 #define BYTES_PER_LINE      16
 
@@ -153,7 +152,6 @@ void stm_log_level_set(const char *tag, stm_log_level_t level)
         }
     }
     xSemaphoreGive(set_log_lock);
-    STM_LOGI(TAG, "stm_set_level");
 }
 
 static void clear_log_level_list(void)
@@ -311,9 +309,8 @@ static inline void heap_swap(int i, int j)
 
 uint32_t stm_log_timestamp(void)
 {
-    uint32_t tick;
-    tick = SysTick->VAL;
-    return tick;
+    return HAL_GetTick();
+
 }
 
 void stm_log_buffer_hex_internal(const char *tag,
