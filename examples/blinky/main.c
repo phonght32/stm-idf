@@ -30,7 +30,7 @@ static void system_clock_init(void)
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
-static void gpio_init(void)
+static void blinky_task(void* arg)
 {
     __HAL_RCC_GPIOH_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
@@ -44,10 +44,7 @@ static void gpio_init(void)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-}
 
-static void blinky_task(void* arg)
-{
     while(1)
     {
         HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
@@ -58,10 +55,7 @@ static void blinky_task(void* arg)
 int main(void)
 {
     HAL_Init();
-
     system_clock_init();
-
-    gpio_init();
 
     xTaskCreate(blinky_task, "blinky_task", 512, NULL, 5, NULL);
     vTaskStartScheduler();
