@@ -52,12 +52,32 @@ typedef enum {
 } uart_pins_pack_t;
 
 /*
+ * UART Frame Format Typedef.
+ */
+typedef enum {
+    UART_FRAME_8N1 = 0,     /*!< 8 bit data, none parity, 1 stop bit */
+    UART_FRAME_8N2,         /*!< 8 bit data, none parity, 2 stop bit */
+    UART_FRAME_9N1,         /*!< 9 bit data, none parity, 1 stop bit */
+    UART_FRAME_9N2,         /*!< 9 bit data, none parity, 2 stop bit */
+    UART_FRAME_8E1,         /*!< 8 bit data, even parity, 1 stop bit */
+    UART_FRAME_8E2,         /*!< 8 bit data, even parity, 2 stop bit */
+    UART_FRAME_9E1,         /*!< 9 bit data, even parity, 1 stop bit */
+    UART_FRAME_9E2,         /*!< 9 bit data, even parity, 2 stop bit */
+    UART_FRAME_8O1,         /*!< 8 bit data, odd parity, 1 stop bit */
+    UART_FRAME_8O2,         /*!< 8 bit data, odd parity, 2 stop bit */
+    UART_FRAME_9O1,         /*!< 9 bit data, odd parity, 1 stop bit */
+    UART_FRAME_9O2,         /*!< 9 bit data, odd parity, 2 stop bit */
+    UART_FRAME_MAX_TYPE
+} uart_frame_format_t;
+
+/*
  * UART Configuration Typedef.
  */
 typedef struct {
-    uart_num_t         uart_num;            /*!< UART Num */
-    uart_pins_pack_t   uart_pins_pack;      /*!< UART Pins Pack */
-    uint32_t           baudrate;            /*!< UART Baudrate */
+    uart_num_t          uart_num;               /*!< UART Num */
+    uart_pins_pack_t    uart_pins_pack;         /*!< UART Pins Pack */
+    uint32_t            baudrate;               /*!< UART Baudrate */
+    uart_frame_format_t frame_format;           /*!< UART Frame Format */
 } uart_config_t;
 
 /*

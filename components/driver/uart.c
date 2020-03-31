@@ -131,6 +131,16 @@
 static UART_HandleTypeDef uart_handle[UART_NUM_MAX];
 
 /*
+ * UART frame format index.
+ */
+typedef enum {
+    FRAME_FORMAT_WORD_LEN = 0,      /*!< Word length index */
+    FRAME_FORMAT_PARITY,            /*!< Parity index */
+    FRAME_FORMAT_STOP_BIT,          /*!< Stop bit index */
+    FRAME_FORMAT_MAX_INDEX
+} frame_format_index_t;
+
+/*
  * UART Hardware Information Typedef.
  */
 typedef struct {
@@ -155,6 +165,24 @@ uart_hw_info_t UART_HW_INFO_MAPPING[UART_NUM_MAX][UART_PINS_PACK_MAX] = {
     {UART4_PP1_HW_INFO, UART4_PP2_HW_INFO,               {0}},
     {UART5_PP1_HW_INFO,               {0},               {0}},
     {UART6_PP1_HW_INFO, UART6_PP2_HW_INFO,               {0}}
+};
+
+/*
+ * UART Frame Format Mapping Table.
+ */
+static uint32_t UART_FRAME_FORMAT_MAPPING[UART_FRAME_MAX_TYPE][FRAME_FORMAT_MAX_INDEX] = {
+    {UART_WORDLENGTH_8B, UART_PARITY_NONE, UART_STOPBITS_1},
+    {UART_WORDLENGTH_8B, UART_PARITY_NONE, UART_STOPBITS_2},
+    {UART_WORDLENGTH_9B, UART_PARITY_NONE, UART_STOPBITS_1},
+    {UART_WORDLENGTH_9B, UART_PARITY_NONE, UART_STOPBITS_2},
+    {UART_WORDLENGTH_8B, UART_PARITY_EVEN, UART_STOPBITS_1},
+    {UART_WORDLENGTH_8B, UART_PARITY_EVEN, UART_STOPBITS_2},
+    {UART_WORDLENGTH_9B, UART_PARITY_EVEN, UART_STOPBITS_1},
+    {UART_WORDLENGTH_9B, UART_PARITY_EVEN, UART_STOPBITS_2},
+    {UART_WORDLENGTH_8B, UART_PARITY_ODD , UART_STOPBITS_1},
+    {UART_WORDLENGTH_8B, UART_PARITY_ODD , UART_STOPBITS_2},
+    {UART_WORDLENGTH_9B, UART_PARITY_ODD , UART_STOPBITS_1},
+    {UART_WORDLENGTH_9B, UART_PARITY_ODD , UART_STOPBITS_2}
 };
 
 static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t uart_pins_pack)
@@ -205,12 +233,17 @@ int uart_init(uart_config_t *config)
     tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen_rx);
     UNUSED(tmpreg);
 
+    /* Get UART frame format parameters */
+    uint32_t word_len = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_WORD_LEN];
+    uint32_t parity   = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_PARITY];
+    uint32_t stop_bit = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_STOP_BIT];
+
     /* Configure UART */
     uart_handle[config->uart_num].Instance = hw_info.usart;
     uart_handle[config->uart_num].Init.BaudRate = config->baudrate;
-    uart_handle[config->uart_num].Init.WordLength = UART_WORDLENGTH_DEFAULT;
-    uart_handle[config->uart_num].Init.StopBits = UART_STOPBITS_DEFAULT;
-    uart_handle[config->uart_num].Init.Parity = UART_PARITY_DEFAULT;
+    uart_handle[config->uart_num].Init.WordLength = word_len;
+    uart_handle[config->uart_num].Init.StopBits = stop_bit;
+    uart_handle[config->uart_num].Init.Parity = parity;
     uart_handle[config->uart_num].Init.Mode = UART_MODE_DEFAULT;
     uart_handle[config->uart_num].Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
     uart_handle[config->uart_num].Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
