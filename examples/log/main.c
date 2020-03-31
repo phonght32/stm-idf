@@ -6,6 +6,7 @@
 #include "stm_log.h"
 
 static const char *TAG = "STM_LOG";
+static char buffer[7] = {'S', 'T', 'M', '-', 'I', 'D', 'F'};
 
 static void system_clock_init(void)
 {
@@ -37,6 +38,7 @@ static void log_example_task(void* arg)
 {
     while(1)
     {
+        STM_LOG_BUFFER_CHAR(TAG, buffer, 7);
         STM_LOGI(TAG, "Welcome to stm-idf");
         vTaskDelay(1000/portTICK_PERIOD_MS);
     }
