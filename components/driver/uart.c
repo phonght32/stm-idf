@@ -158,7 +158,7 @@ typedef struct {
 /*
  * UART Hardware Information Mapping Table.
  */
-uart_hw_info_t UART_HW_INFO_MAPPING[UART_NUM_MAX][UART_PINS_PACK_MAX] = {
+static uart_hw_info_t UART_HW_INFO_MAPPING[UART_NUM_MAX][UART_PINS_PACK_MAX] = {
     {UART1_PP1_HW_INFO, UART1_PP2_HW_INFO,               {0}},
     {UART2_PP1_HW_INFO, UART2_PP2_HW_INFO,               {0}},
     {UART3_PP1_HW_INFO, UART3_PP2_HW_INFO, UART3_PP3_HW_INFO},
