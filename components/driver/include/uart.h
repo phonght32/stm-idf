@@ -107,14 +107,14 @@ typedef struct {
  * @brief   Initialize UART.
  * @param   config Struct pointer.
  * @return
- *      - UART handle structure: Success.
- *      - 0: Fail.
+ *      - 0: Success.
+ *      - (-1): Fail.
  */
 int uart_init(uart_config_t *config);
 
 /*
  * @brief   UART write bytes.
- * @param   handle UART handle structure.
+ * @param   uart_num UART num.
  * @param   data Data transmit pointer.
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
@@ -126,7 +126,7 @@ int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32
 
 /*
  * @brief   UART read bytes.
- * @param   handle UART handle structure.
+ * @param   uart_num UART num.
  * @param   buf Data receive pointer.
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
