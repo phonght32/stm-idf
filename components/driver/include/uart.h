@@ -81,6 +81,17 @@ typedef enum {
 } uart_transfer_mode_t;
 
 /*
+ * UART Hardware Flow Control Typedef.
+ */
+typedef enum {
+    UART_HW_FLW_CTRL_NONE = 0,  /* No hardware flow control */
+    UART_HW_FLW_CTRL_RTS,       /* Use RTS */
+    UART_HW_FLW_CTRL_CTS,       /* Use CTS */
+    UART_HW_FLW_CTRL_RTS_CTS,   /* Use RTS and CTS */
+    UART_HW_FLW_CTRL_MAX_TYPE
+} uart_hw_flw_ctrl_t;
+
+/*
  * UART Configuration Typedef.
  */
 typedef struct {
@@ -89,6 +100,7 @@ typedef struct {
     uint32_t                baudrate;               /*!< UART Baudrate */
     uart_frame_format_t     frame_format;           /*!< UART Frame Format */
     uart_transfer_mode_t    mode;                   /*!< UART Mode */ 
+    uart_hw_flw_ctrl_t      hw_flw_ctrl;
 } uart_config_t;
 
 /*

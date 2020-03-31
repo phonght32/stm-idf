@@ -194,6 +194,16 @@ static uint32_t UART_TRANSFER_MODE_MAPPING[UART_TRANSFER_MODE_MAX] = {
     UART_MODE_TX_RX
 };
 
+/*
+ * UART Hardware Flow Control Table.
+ */
+static uint32_t UART_HW_FLW_CTRL_MAPPING[UART_HW_FLW_CTRL_MAX_TYPE] = {
+    UART_HWCONTROL_NONE,
+    UART_HWCONTROL_RTS,
+    UART_HWCONTROL_CTS,
+    UART_HWCONTROL_RTS_CTS
+};
+
 static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t uart_pins_pack)
 {
     uart_hw_info_t hw_info;
@@ -243,10 +253,11 @@ int uart_init(uart_config_t *config)
     UNUSED(tmpreg);
 
     /* Get UART frame format parameters */
-    uint32_t word_len = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_WORD_LEN];
-    uint32_t parity   = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_PARITY];
-    uint32_t stop_bit = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_STOP_BIT];
-    uint32_t mode     = UART_TRANSFER_MODE_MAPPING[config->mode];
+    uint32_t word_len       = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_WORD_LEN];
+    uint32_t parity         = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_PARITY];
+    uint32_t stop_bit       = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_STOP_BIT];
+    uint32_t mode           = UART_TRANSFER_MODE_MAPPING[config->mode];
+    uint32_t hw_flw_ctrl   = UART_HW_FLW_CTRL_MAPPING[config->hw_flw_ctrl];
 
     /* Configure UART */
     uart_handle[config->uart_num].Instance = hw_info.usart;
@@ -255,7 +266,7 @@ int uart_init(uart_config_t *config)
     uart_handle[config->uart_num].Init.StopBits = stop_bit;
     uart_handle[config->uart_num].Init.Parity = parity;
     uart_handle[config->uart_num].Init.Mode = mode;
-    uart_handle[config->uart_num].Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
+    uart_handle[config->uart_num].Init.HwFlowCtl = hw_flw_ctrl;
     uart_handle[config->uart_num].Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
     err = HAL_UART_Init(&uart_handle[config->uart_num]);
     if (err != HAL_OK)
