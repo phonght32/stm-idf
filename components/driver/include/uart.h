@@ -29,16 +29,6 @@ extern "C" {
  */
 
 /*
- * UART Status Typedef.
- */
-typedef enum {
-    UART_ERROR = -1,    /*!< UART error */
-    UART_READY,         /*!< UART ready*/
-    UART_READING,       /*!< UART reading */
-    UART_WRITING        /*!< UART writing */
-} uart_status_t;
-
-/*
  * UART Num Select Typedef.
  */
 typedef enum {
