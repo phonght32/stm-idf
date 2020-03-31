@@ -28,8 +28,6 @@ extern "C" {
  *  USART8   |  PE1   PE0  |  -     -    |  -     -    |   1   |
  */
 
-typedef struct uart *uart_handle_t;
-
 /*
  * UART Status Typedef.
  */
@@ -79,7 +77,7 @@ typedef struct {
  *      - UART handle structure: Success.
  *      - 0: Fail.
  */
-uart_handle_t uart_init(uart_config_t *config);
+int uart_init(uart_config_t *config, UART_HandleTypeDef *handle);
 
 /*
  * @brief   UART write bytes.
@@ -91,7 +89,7 @@ uart_handle_t uart_init(uart_config_t *config);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int uart_write_bytes(uart_handle_t handle, uint8_t *data, uint16_t length, uint32_t timeout_ms);
+int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
 /*
  * @brief   UART read bytes.
@@ -103,14 +101,7 @@ int uart_write_bytes(uart_handle_t handle, uint8_t *data, uint16_t length, uint3
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int uart_read_bytes(uart_handle_t handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
-
-/*
- * @brief   Get UART_HandleTypeDef.
- * @param   handle UART handle structure.
- * @return  UART_HandleTypeDef.
- */
-UART_HandleTypeDef uart_get_UART_HandleTypeDef(uart_handle_t handle);
+int uart_read_bytes(UART_HandleTypeDef *handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 
 #ifdef __cplusplus

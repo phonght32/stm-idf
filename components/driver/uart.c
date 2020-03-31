@@ -144,17 +144,6 @@ typedef struct {
 } uart_hw_info_t;
 
 /*
- * UART Handle Typedef.
- */
-typedef struct uart {
-    uart_num_t         uart_num;            /*!< UART Num */
-    uart_pins_pack_t   uart_pins_pack;      /*!< UART Pins Pack */
-    uart_hw_info_t     hw_info;             /*!< UART Hardware Information */
-    uart_status_t      uart_status;
-    UART_HandleTypeDef hal_handle;          /*!< UART_HandleTypeDef */
-} uart_t;
-
-/*
  * UART Hardware Information Mapping Table.
  */
 uart_hw_info_t UART_HW_INFO_MAPPING[UART_NUM_MAX][UART_PINS_PACK_MAX] = {
@@ -174,107 +163,82 @@ static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t ua
     return hw_info;
 }
 
-static int _uart_cleanup(uart_handle_t handle)
-{
-    free(handle);
-
-    return 0;
-}
-
-uart_handle_t uart_init(uart_config_t *config)
+int uart_init(uart_config_t *config, UART_HandleTypeDef *handle)
 {
     /* Check input condition */
     if (!config)
     {
-        return 0;
-    }
-
-    /* Allocate memory for handle structure */
-    uart_handle_t handle;
-    handle = calloc(1, sizeof(uart_t));
-    if (handle == NULL)
-    {
-        return 0;
+        return -1;
     }
 
     /* Get UART hardware information */
-    handle->hw_info = _uart_get_hw_info(config->uart_num, config->uart_pins_pack);
+    uart_hw_info_t hw_info;
+    hw_info = _uart_get_hw_info(config->uart_num, config->uart_pins_pack);
 
     int err;
 
     /* Enable UART clock */
-    do
+    uint32_t tmpreg = 0x00;
+    if ((config->uart_num == UART_NUM_1) || (config->uart_num == UART_NUM_6)) 
     {
-        uint32_t tmpreg = 0x00;
-        if ((config->uart_num == UART_NUM_1) || (config->uart_num == UART_NUM_6)) {
-            SET_BIT(RCC->APB2ENR, handle->hw_info.rcc_apbenr_usarten);
-            tmpreg = READ_BIT(RCC->APB2ENR, handle->hw_info.rcc_apbenr_usarten);
-        }
-        else {
-            SET_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_usarten);
-            tmpreg = READ_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_usarten);
-        }
-        UNUSED(tmpreg);
-    } while (0);
+        SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_usarten);
+        tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_usarten);
+    }
+    else 
+    {
+        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_usarten);
+        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_usarten);
+    }
+    UNUSED(tmpreg);
 
     /* Enable TX GPIO port clock */
-    do {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR,  handle->hw_info.rcc_ahbenr_gpioen_tx);
-        tmpreg = READ_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpioen_tx);
-        UNUSED(tmpreg);
-    } while (0);
+    tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR,  hw_info.rcc_ahbenr_gpioen_tx);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen_tx);
+    UNUSED(tmpreg);
 
     /* Enable RX GPIO port clock */
-    do {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpioen_rx);
-        tmpreg = READ_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpioen_rx);
-        UNUSED(tmpreg);
-    } while (0);
+    tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen_rx);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen_rx);
+    UNUSED(tmpreg);
 
     /* Configure UART */
-    handle->hal_handle.Instance = handle->hw_info.usart;
-    handle->hal_handle.Init.BaudRate = config->baudrate;
-    handle->hal_handle.Init.WordLength = UART_WORDLENGTH_DEFAULT;
-    handle->hal_handle.Init.StopBits = UART_STOPBITS_DEFAULT;
-    handle->hal_handle.Init.Parity = UART_PARITY_DEFAULT;
-    handle->hal_handle.Init.Mode = UART_MODE_DEFAULT;
-    handle->hal_handle.Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
-    handle->hal_handle.Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
-    err = HAL_UART_Init(&handle->hal_handle);
+    handle->Instance = hw_info.usart;
+    handle->Init.BaudRate = config->baudrate;
+    handle->Init.WordLength = UART_WORDLENGTH_DEFAULT;
+    handle->Init.StopBits = UART_STOPBITS_DEFAULT;
+    handle->Init.Parity = UART_PARITY_DEFAULT;
+    handle->Init.Mode = UART_MODE_DEFAULT;
+    handle->Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
+    handle->Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
+    err = HAL_UART_Init(handle);
     if (err != HAL_OK)
     {
-        _uart_cleanup(handle);
-        return 0;
+        return -1;
     }
 
     /* Configure UART TX pins */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = handle->hw_info.pin_tx;
+    GPIO_InitStruct.Pin = hw_info.pin_tx;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = handle->hw_info.alternate_func;
-    HAL_GPIO_Init(handle->hw_info.port_tx, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    HAL_GPIO_Init(hw_info.port_tx, &GPIO_InitStruct);
 
     /* Configure UART RX pins */
-    GPIO_InitStruct.Pin = handle->hw_info.pin_rx;
+    GPIO_InitStruct.Pin = hw_info.pin_rx;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = handle->hw_info.alternate_func;
-    HAL_GPIO_Init(handle->hw_info.port_rx, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    HAL_GPIO_Init(hw_info.port_rx, &GPIO_InitStruct);
 
-    /* Update handle structure */
-    handle->uart_num = config->uart_num;
-    handle->uart_pins_pack = config->uart_pins_pack;
-    handle->uart_status = UART_READY;
-
-    return handle;
+    return 0;
 }
 
-int uart_write_bytes(uart_handle_t handle, uint8_t *data, uint16_t length, uint32_t timeout_ms)
+int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
     /* Check if handle structure is empty or length equal 0 */
     if (handle == NULL || length == 0)
@@ -283,18 +247,15 @@ int uart_write_bytes(uart_handle_t handle, uint8_t *data, uint16_t length, uint3
     }
 
     /* Transmit data */
-    handle->uart_status = UART_WRITING;
-    if (HAL_UART_Transmit(&handle->hal_handle, data, length, timeout_ms))
+    if (HAL_UART_Transmit(handle, data, length, timeout_ms))
     {
-        handle->uart_status = UART_ERROR;
         return -1;
     }
 
-    handle->uart_status = UART_READY;
     return 0;
 }
 
-int uart_read_bytes(uart_handle_t handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+int uart_read_bytes(UART_HandleTypeDef *handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     /* Check if handle structure is empty or length equal 0 */
     if (handle == NULL || length == 0)
@@ -303,19 +264,11 @@ int uart_read_bytes(uart_handle_t handle, uint8_t *buf, uint16_t length, uint32_
     }
 
     /* Receive data */
-    handle->uart_status = UART_READING;
-    if (HAL_UART_Receive(&handle->hal_handle, buf, length, timeout_ms))
+    if (HAL_UART_Receive(handle, buf, length, timeout_ms))
     {
-        handle->uart_status = UART_ERROR;
         return -1;
     }
 
-    handle->uart_status = UART_READY;
     return 0;
-}
-
-UART_HandleTypeDef uart_get_UART_HandleTypeDef(uart_handle_t handle)
-{
-    return handle->hal_handle;
 }
 
