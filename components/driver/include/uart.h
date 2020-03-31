@@ -71,13 +71,24 @@ typedef enum {
 } uart_frame_format_t;
 
 /*
+ * UART Transfer Mode Typedef.
+ */
+typedef enum {
+    UART_TRANSFER_MODE_RX = 0,  /*!< UART mode receive*/
+    UART_TRANSFER_MODE_TX,      /*!< UART mode transfer*/
+    UART_TRANSFER_MODE_TX_RX,   /*!< UART mode transfer and receive */
+    UART_TRANSFER_MODE_MAX
+} uart_transfer_mode_t;
+
+/*
  * UART Configuration Typedef.
  */
 typedef struct {
-    uart_num_t          uart_num;               /*!< UART Num */
-    uart_pins_pack_t    uart_pins_pack;         /*!< UART Pins Pack */
-    uint32_t            baudrate;               /*!< UART Baudrate */
-    uart_frame_format_t frame_format;           /*!< UART Frame Format */
+    uart_num_t              uart_num;               /*!< UART Num */
+    uart_pins_pack_t        uart_pins_pack;         /*!< UART Pins Pack */
+    uint32_t                baudrate;               /*!< UART Baudrate */
+    uart_frame_format_t     frame_format;           /*!< UART Frame Format */
+    uart_transfer_mode_t    mode;                   /*!< UART Mode */ 
 } uart_config_t;
 
 /*
