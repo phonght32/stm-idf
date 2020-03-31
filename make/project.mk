@@ -184,6 +184,7 @@ C_INCLUDES =  \
 -I$(CMSIS_RTOS_PATH) \
 -I$(RTOS_PATH)/portable/gcc/arm_cm4f \
 -I$(IDF_COMPONENT_PATH)/log/include \
+-I$(IDF_COMPONENT_PATH)/newlib/include \
 
 
 # compile gcc flags
