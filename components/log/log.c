@@ -319,13 +319,31 @@ void stm_log_buffer_hex_internal(const char *tag,
                                  stm_log_level_t log_level)
 {
     if (buff_len == 0) return;
+    char temp_buffer[BYTES_PER_LINE + 3];
     char hex_buffer[3 * BYTES_PER_LINE + 1];
+    int bytes_current_line;
 
-    for (int i = 0; i < buff_len; i++)
-    {
-        sprintf(&hex_buffer[i * 3], "%02x ", buffer[i]);
-    }
-    STM_LOG_LEVEL(log_level, tag, "%s", hex_buffer);
+    do {
+        if( buff_len > BYTES_PER_LINE) 
+        {
+            bytes_current_line = BYTES_PER_LINE;
+        } 
+        else 
+        {
+            bytes_current_line = buff_len;
+        }
+
+        memcpy(temp_buffer, buffer, (bytes_current_line + 3) / 4 * 4);
+
+        for (int i = 0; i < buff_len; i++)
+        {
+            sprintf(&hex_buffer[i * 3], "%02x ", buffer[i]);
+        }
+
+        STM_LOG_LEVEL(log_level, tag, "%s", hex_buffer);
+        buff_len -= bytes_current_line;
+        buffer += bytes_current_line;
+    } while(buff_len);
 }
 
 void stm_log_buffer_char_internal(const char *tag,
