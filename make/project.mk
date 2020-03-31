@@ -119,6 +119,7 @@ $(IDF_COMPONENT_PATH)/stm32/panic.c \
 $(IDF_COMPONENT_PATH)/log/log.c \
 $(IDF_COMPONENT_PATH)/driver/uart.c \
 $(IDF_COMPONENT_PATH)/driver/i2c.c \
+$(IDF_COMPONENT_PATH)/driver/timer.c \
 
 # ASM sources
 ASM_SOURCES =  \
