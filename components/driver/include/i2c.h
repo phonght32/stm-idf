@@ -95,15 +95,6 @@ typedef struct {
 i2c_handle_t i2c_init(i2c_config_t *config);
 
 /*
- * @brief   Get I2C_HandleTypeDef.
- * @param   handle I2C handle structure.
- * @return
- *      - I2C_HandleTypeDef: Success.
- *      - 0: Fail.
- */
-I2C_HandleTypeDef i2c_get_I2C_HandleTypeDef(i2c_handle_t handle);
-
-/*
  * @brief   I2C master transmit data.
  * @param   handle I2C handle structure.
  * @param   dev_addr Device address.

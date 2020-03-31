@@ -220,11 +220,6 @@ i2c_handle_t i2c_init(i2c_config_t *config)
     return handle;
 }
 
-I2C_HandleTypeDef i2c_get_I2C_HandleTypeDef(i2c_handle_t handle)
-{
-    return handle->hal_handle;
-}
-
 int i2c_master_write_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
     /* Check if handle structure is empty */
