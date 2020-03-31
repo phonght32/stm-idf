@@ -117,6 +117,7 @@ $(RTOS_PATH)/portable/gcc/arm_cm4f/port.c \
 $(CMSIS_RTOS_PATH)/cmsis_os.c \
 $(IDF_COMPONENT_PATH)/stm32/panic.c \
 $(IDF_COMPONENT_PATH)/log/log.c \
+$(IDF_COMPONENT_PATH)/driver/uart.c \
 
 # ASM sources
 ASM_SOURCES =  \
@@ -185,6 +186,7 @@ C_INCLUDES =  \
 -I$(RTOS_PATH)/portable/gcc/arm_cm4f \
 -I$(IDF_COMPONENT_PATH)/log/include \
 -I$(IDF_COMPONENT_PATH)/newlib/include \
+-I$(IDF_COMPONENT_PATH)/driver/include \
 
 
 # compile gcc flags
