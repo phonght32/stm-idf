@@ -252,12 +252,12 @@ int uart_init(uart_config_t *config)
     tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen_rx);
     UNUSED(tmpreg);
 
-    /* Get UART frame format parameters */
+    /* Get UART parameters */
     uint32_t word_len       = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_WORD_LEN];
     uint32_t parity         = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_PARITY];
     uint32_t stop_bit       = UART_FRAME_FORMAT_MAPPING[config->frame_format][FRAME_FORMAT_STOP_BIT];
     uint32_t mode           = UART_TRANSFER_MODE_MAPPING[config->mode];
-    uint32_t hw_flw_ctrl   = UART_HW_FLW_CTRL_MAPPING[config->hw_flw_ctrl];
+    uint32_t hw_flw_ctrl    = UART_HW_FLW_CTRL_MAPPING[config->hw_flw_ctrl];
 
     /* Configure UART */
     uart_handle[config->uart_num].Instance = hw_info.usart;
