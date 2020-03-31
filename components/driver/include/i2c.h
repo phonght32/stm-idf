@@ -81,6 +81,7 @@ typedef enum {
 typedef struct {
     i2c_num_t       i2c_num;        /*!< I2C Num */
     i2c_pins_pack_t i2c_pins_pack;  /*!< I2C Pins Pack */
+    uint32_t        clk_speed;      /*!< I2C Clock Speed */
 } i2c_config_t;
 
 /*

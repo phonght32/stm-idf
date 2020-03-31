@@ -170,7 +170,7 @@ int i2c_init(i2c_config_t *config)
 
     /* Configure I2C */
     i2c_handle[config->i2c_num].Instance = hw_info.i2c;
-    i2c_handle[config->i2c_num].Init.ClockSpeed = I2C_CLOCKSPEED_DEFAULT;
+    i2c_handle[config->i2c_num].Init.ClockSpeed = config->clk_speed;
     i2c_handle[config->i2c_num].Init.DutyCycle = I2C_DUTYCYCLE_DEFAULT;
     i2c_handle[config->i2c_num].Init.OwnAddress1 = I2C_OWN_ADDRESS1_DEFAULT;
     i2c_handle[config->i2c_num].Init.AddressingMode = I2C_ADDRESSING_MODE_DEFAULT;
