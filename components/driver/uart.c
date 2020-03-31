@@ -128,8 +128,6 @@
                              .pin_rx = GPIO_PIN_9,                           \
                              .alternate_func = GPIO_AF8_USART6}
 
-static UART_HandleTypeDef uart_handle[UART_NUM_MAX];
-
 /*
  * UART frame format index.
  */
@@ -154,6 +152,11 @@ typedef struct {
     uint16_t       pin_rx;                  /*!< RX GPIO Pin */
     uint8_t        alternate_func;          /*!< UART alternative function */
 } uart_hw_info_t;
+
+/*
+ * UART Handle.
+ */
+static UART_HandleTypeDef uart_handle[UART_NUM_MAX];
 
 /*
  * UART Hardware Information Mapping Table.
