@@ -3,6 +3,13 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
+#include "stm_log.h"
+#include "uart.h"
+
+#define TASK_SIZE   1024
+#define TASK_PRIOR  5
+
+static const char *TAG = "APP_MAIN";
 
 static void system_clock_init(void)
 {
@@ -30,25 +37,22 @@ static void system_clock_init(void)
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
-static void blinky_task(void* arg)
+static void uart_example_task(void* arg)
 {
-    __HAL_RCC_GPIOH_CLK_ENABLE();
-    __HAL_RCC_GPIOD_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-
-    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_RESET);
-
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+    uart_config_t uart_config;
+    uart_config.uart_num = UART_NUM_4;
+    uart_config.uart_pins_pack = UART_PINS_PACK_1;
+    uart_config.baudrate = 115200;
+    uart_config.frame_format = UART_FRAME_8N1;
+    uart_config.mode = UART_TRANSFER_MODE_TX_RX;
+    uart_config.hw_flw_ctrl = UART_HW_FLW_CTRL_NONE;
+    uart_init(&uart_config);
+    STM_LOGI(TAG, "UART init complete");
 
     while(1)
     {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        vTaskDelay(200/portTICK_PERIOD_MS);
+        uart_write_bytes(UART_NUM_4, (uint8_t *)"Welcome to STM-IDF \r\n", 21,100);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
 
@@ -56,7 +60,11 @@ int main(void)
 {
     HAL_Init();
     system_clock_init();
+    stm_log_init();
 
-    xTaskCreate(blinky_task, "blinky_task", 512, NULL, 5, NULL);
+    stm_log_level_set("*", STM_LOG_NONE);
+    stm_log_level_set("APP_MAIN", STM_LOG_INFO);
+
+    xTaskCreate(uart_example_task, "uart_example_task", TASK_SIZE, NULL, TASK_PRIOR, NULL);
     vTaskStartScheduler();
 }
