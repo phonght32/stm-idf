@@ -45,17 +45,6 @@ extern "C" {
  */
 
 /*
- * I2C Status Typedef
- */
-typedef enum {
-    I2C_ERROR   = -1,   /*!< I2C error */
-    I2C_READY,          /*!< I2C ready */
-    I2C_READING,        /*!< I2C reading */
-    I2C_WRITING,        /*!< I2C writting */
-    I2C_BUSY            /*!< I2C busy */
-} i2c_status_t;
-
-/*
  * I2C Num Select Typedef.
  */
 typedef enum {
