@@ -128,6 +128,8 @@
                              .pin_rx = GPIO_PIN_9,                           \
                              .alternate_func = GPIO_AF8_USART6}
 
+static UART_HandleTypeDef uart_handle[UART_NUM_MAX];
+
 /*
  * UART Hardware Information Typedef.
  */
@@ -163,7 +165,7 @@ static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t ua
     return hw_info;
 }
 
-int uart_init(uart_config_t *config, UART_HandleTypeDef *handle)
+int uart_init(uart_config_t *config)
 {
     /* Check input condition */
     if (!config)
@@ -204,15 +206,15 @@ int uart_init(uart_config_t *config, UART_HandleTypeDef *handle)
     UNUSED(tmpreg);
 
     /* Configure UART */
-    handle->Instance = hw_info.usart;
-    handle->Init.BaudRate = config->baudrate;
-    handle->Init.WordLength = UART_WORDLENGTH_DEFAULT;
-    handle->Init.StopBits = UART_STOPBITS_DEFAULT;
-    handle->Init.Parity = UART_PARITY_DEFAULT;
-    handle->Init.Mode = UART_MODE_DEFAULT;
-    handle->Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
-    handle->Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
-    err = HAL_UART_Init(handle);
+    uart_handle[config->uart_num].Instance = hw_info.usart;
+    uart_handle[config->uart_num].Init.BaudRate = config->baudrate;
+    uart_handle[config->uart_num].Init.WordLength = UART_WORDLENGTH_DEFAULT;
+    uart_handle[config->uart_num].Init.StopBits = UART_STOPBITS_DEFAULT;
+    uart_handle[config->uart_num].Init.Parity = UART_PARITY_DEFAULT;
+    uart_handle[config->uart_num].Init.Mode = UART_MODE_DEFAULT;
+    uart_handle[config->uart_num].Init.HwFlowCtl = UART_HW_FLOWCTRL_DEFAULT;
+    uart_handle[config->uart_num].Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
+    err = HAL_UART_Init(&uart_handle[config->uart_num]);
     if (err != HAL_OK)
     {
         return -1;
@@ -238,16 +240,10 @@ int uart_init(uart_config_t *config, UART_HandleTypeDef *handle)
     return 0;
 }
 
-int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length, uint32_t timeout_ms)
+int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
-    /* Check if handle structure is empty or length equal 0 */
-    if (handle == NULL || length == 0)
-    {
-        return -1;
-    }
-
     /* Transmit data */
-    if (HAL_UART_Transmit(handle, data, length, timeout_ms))
+    if (HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms))
     {
         return -1;
     }
@@ -255,16 +251,10 @@ int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length,
     return 0;
 }
 
-int uart_read_bytes(UART_HandleTypeDef *handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+int uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
-    /* Check if handle structure is empty or length equal 0 */
-    if (handle == NULL || length == 0)
-    {
-        return -1;
-    }
-
     /* Receive data */
-    if (HAL_UART_Receive(handle, buf, length, timeout_ms))
+    if (HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms))
     {
         return -1;
     }

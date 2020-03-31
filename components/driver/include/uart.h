@@ -77,7 +77,7 @@ typedef struct {
  *      - UART handle structure: Success.
  *      - 0: Fail.
  */
-int uart_init(uart_config_t *config, UART_HandleTypeDef *handle);
+int uart_init(uart_config_t *config);
 
 /*
  * @brief   UART write bytes.
@@ -89,7 +89,7 @@ int uart_init(uart_config_t *config, UART_HandleTypeDef *handle);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length, uint32_t timeout_ms);
+int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
 /*
  * @brief   UART read bytes.
@@ -101,7 +101,7 @@ int uart_write_bytes(UART_HandleTypeDef *handle, uint8_t *data, uint16_t length,
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int uart_read_bytes(UART_HandleTypeDef *handle, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
+int uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 
 #ifdef __cplusplus
