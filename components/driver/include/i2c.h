@@ -44,8 +44,6 @@ extern "C" {
  *  I2C3 |  PA8   PC9  |  PH7   PH8  |  -      -   |   1   |
  */
 
-typedef struct i2c *i2c_handle_t;
-
 /*
  * I2C Status Typedef
  */
@@ -89,16 +87,15 @@ typedef struct {
  * @brief   Initialize I2C.
  * @param   config Struct pointer.
  * @return
- *      - I2C handle structure: Success.
- *      - 0: Fail.
+ *      - 0: Success.
+ *      - (-1): Fail.
  */
-i2c_handle_t i2c_init(i2c_config_t *config);
+int i2c_init(i2c_config_t *config);
 
 /*
  * @brief   I2C master transmit data.
- * @param   handle I2C handle structure.
+ * @param   i2c_num I2C num.
  * @param   dev_addr Device address.
- * @param   reg_addr Register address.
  * @param   data Data send.
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
@@ -106,13 +103,12 @@ i2c_handle_t i2c_init(i2c_config_t *config);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int i2c_master_write_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms);
+int i2c_master_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
 /*
  * @brief   I2C master receive data.
- * @param   handle I2C handle structure.
+ * @param   i2c_num I2C num.
  * @param   dev_addr Device address.
- * @param   reg_addr Register address.
  * @param   buf Buffer receive.
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
@@ -120,7 +116,7 @@ int i2c_master_write_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_a
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int i2c_master_read_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
+int i2c_master_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 
 #ifdef __cplusplus

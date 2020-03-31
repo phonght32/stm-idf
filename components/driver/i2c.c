@@ -111,26 +111,19 @@ typedef struct {
     uint8_t         alternate_func;         /*!< I2C Alternate Function */
 } i2c_hw_info_t;
 
-/*
- * I2C Handle Typedef.
+/* 
+ * I2C Handle.
  */
-typedef struct i2c {
-    i2c_num_t i2c_num;                  /*!< I2C Num */
-    i2c_pins_pack_t i2c_pins_pack;      /*!< I2C Pins Pack */
-    i2c_hw_info_t hw_info;              /*!< I2C Hardware Information */
-    i2c_status_t i2c_status;                /*!< I2C status */
-    I2C_HandleTypeDef hal_handle;       /*!< I2C_HandleTypeDef */
-} i2c_t;
+static I2C_HandleTypeDef i2c_handle[I2C_NUM_MAX];
 
 /*
  * I2C Hardware Information Mapping Table.
  */
-i2c_hw_info_t I2C_HW_INFO_MAPPING[I2C_NUM_MAX][I2C_PINS_PACK_MAX] = {
+static i2c_hw_info_t I2C_HW_INFO_MAPPING[I2C_NUM_MAX][I2C_PINS_PACK_MAX] = {
     {I2C1_PP1_HW_INFO, I2C1_PP2_HW_INFO, I2C1_PP3_HW_INFO},
     {I2C2_PP1_HW_INFO, I2C2_PP2_HW_INFO, I2C2_PP3_HW_INFO},
     {I2C3_PP1_HW_INFO, I2C3_PP2_HW_INFO, {0}             }
 };
-
 
 static i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pins_pack)
 {
@@ -140,7 +133,7 @@ static i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pin
     return hw_info;
 }
 
-i2c_handle_t i2c_init(i2c_config_t *config)
+int i2c_init(i2c_config_t *config)
 {
     /* Check input condition */
     if (!config)
@@ -148,133 +141,83 @@ i2c_handle_t i2c_init(i2c_config_t *config)
         return 0;
     }
 
-    /* Allocate memory for handle structure */
-    i2c_handle_t handle;
-    handle = calloc(1, sizeof(i2c_t));
-    if (handle == NULL)
-    {
-        return 0;
-    }
-
     /* Get I2C hardware information */
-    handle->hw_info = _i2c_get_hw_info(config->i2c_num, config->i2c_pins_pack);
+    i2c_hw_info_t hw_info = _i2c_get_hw_info(config->i2c_num, config->i2c_pins_pack);
 
     /* Enable I2C clock */
     do {
         uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_i2cen);
-        tmpreg = READ_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_i2cen);
+        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
+        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
         UNUSED(tmpreg);
     } while (0);
 
     /* Enable SCL GPIO Port clock */
     do {
         uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpio_scl);
-        tmpreg = READ_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpio_scl);
+        SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
+        tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
         UNUSED(tmpreg);
     } while (0);
 
     /* Enable SDA GPIO Port clock */
     do {
         uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpio_sda);
-        tmpreg = READ_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpio_sda);
+        SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
+        tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
         UNUSED(tmpreg);
     } while (0);
 
     /* Configure I2C */
-    handle->hal_handle.Instance = handle->hw_info.i2c;
-    handle->hal_handle.Init.ClockSpeed = I2C_CLOCKSPEED_DEFAULT;
-    handle->hal_handle.Init.DutyCycle = I2C_DUTYCYCLE_DEFAULT;
-    handle->hal_handle.Init.OwnAddress1 = I2C_OWN_ADDRESS1_DEFAULT;
-    handle->hal_handle.Init.AddressingMode = I2C_ADDRESSING_MODE_DEFAULT;
-    handle->hal_handle.Init.DualAddressMode = I2C_DUAL_ADDRESS_MODE_DEFAULT;
-    handle->hal_handle.Init.OwnAddress2 = I2C_OWN_ADDRESS2_DEFAULT;
-    handle->hal_handle.Init.GeneralCallMode = I2C_GENERALCALL_MODE_DEFAULT;
-    handle->hal_handle.Init.NoStretchMode = I2C_NOSTRETCH_MODE_DEFAULT;
-    HAL_I2C_Init(&handle->hal_handle);
+    i2c_handle[config->i2c_num].Instance = hw_info.i2c;
+    i2c_handle[config->i2c_num].Init.ClockSpeed = I2C_CLOCKSPEED_DEFAULT;
+    i2c_handle[config->i2c_num].Init.DutyCycle = I2C_DUTYCYCLE_DEFAULT;
+    i2c_handle[config->i2c_num].Init.OwnAddress1 = I2C_OWN_ADDRESS1_DEFAULT;
+    i2c_handle[config->i2c_num].Init.AddressingMode = I2C_ADDRESSING_MODE_DEFAULT;
+    i2c_handle[config->i2c_num].Init.DualAddressMode = I2C_DUAL_ADDRESS_MODE_DEFAULT;
+    i2c_handle[config->i2c_num].Init.OwnAddress2 = I2C_OWN_ADDRESS2_DEFAULT;
+    i2c_handle[config->i2c_num].Init.GeneralCallMode = I2C_GENERALCALL_MODE_DEFAULT;
+    i2c_handle[config->i2c_num].Init.NoStretchMode = I2C_NOSTRETCH_MODE_DEFAULT;
+    HAL_I2C_Init(&i2c_handle[config->i2c_num]);
 
     /* Configure SCL Pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = handle->hw_info.pin_scl;
+    GPIO_InitStruct.Pin = hw_info.pin_scl;
     GPIO_InitStruct.Mode = GPIO_MODE_DEFAULT;
     GPIO_InitStruct.Pull = GPIO_PULL_REG_DEFAULT;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    GPIO_InitStruct.Alternate = handle->hw_info.alternate_func;
-    HAL_GPIO_Init(handle->hw_info.port_scl, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    HAL_GPIO_Init(hw_info.port_scl, &GPIO_InitStruct);
 
     /* Configure SDA Pin */
-    GPIO_InitStruct.Pin = handle->hw_info.pin_sda;
+    GPIO_InitStruct.Pin = hw_info.pin_sda;
     GPIO_InitStruct.Mode = GPIO_MODE_DEFAULT;
     GPIO_InitStruct.Pull = GPIO_PULL_REG_DEFAULT;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    GPIO_InitStruct.Alternate = handle->hw_info.alternate_func;
-    HAL_GPIO_Init(handle->hw_info.port_sda, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    HAL_GPIO_Init(hw_info.port_sda, &GPIO_InitStruct);
 
-    /* Update handle structure */
-    handle->i2c_num = config->i2c_num;
-    handle->i2c_pins_pack = config->i2c_pins_pack;
-    handle->i2c_status = I2C_READY;
-
-    return handle;
-}
-
-int i2c_master_write_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
-{
-    /* Check if handle structure is empty */
-    if (!handle)
-    {
-        return -1;
-    }
-
-    /* Create buffer transmit. The first byte is register address, then transmit data */
-    uint8_t buf_trans[length + 1];
-    buf_trans[0] = reg_addr;
-    for (uint16_t i = 0; i < length; i++)
-    {
-        buf_trans[i + 1] = data[i];
-    }
-
-    /* Transmit data */
-    handle->i2c_status = I2C_WRITING;
-    if (HAL_I2C_Master_Transmit(&handle->hal_handle, dev_addr, buf_trans, length + 1, timeout_ms))
-    {
-        handle->i2c_status = I2C_ERROR;
-        return -1;
-    }
-
-    handle->i2c_status = I2C_READY;
     return 0;
 }
 
-int i2c_master_read_bytes(i2c_handle_t handle, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+int i2c_master_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
-    /* Check if handle structure is empty */
-    if (!handle)
+    /* Send data */
+    if(HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms))
     {
         return -1;
     }
 
-    uint8_t buf_trans[1];
-    buf_trans[0] = reg_addr;
+    return 0;
+}
 
-    /* Transmit start register address */
-    handle->i2c_status = I2C_WRITING;
-    if (HAL_I2C_Master_Transmit(&handle->hal_handle, dev_addr, buf_trans, 1, 10))
+int i2c_master_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+{
+    /* Receive data */
+    if(HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms))
     {
-        handle->i2c_status = I2C_ERROR;
         return -1;
     }
 
-    /* Read data response */
-    handle->i2c_status = I2C_READING;
-    if (HAL_I2C_Master_Receive(&handle->hal_handle, dev_addr, buf, length, timeout_ms))
-    {
-        handle->i2c_status = I2C_ERROR;
-        return -1;
-    }
-
-    handle->i2c_status = I2C_READY;
     return 0;
 }
