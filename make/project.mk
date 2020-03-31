@@ -116,10 +116,11 @@ $(RTOS_PATH)/portable/memmang/heap_4.c \
 $(RTOS_PATH)/portable/gcc/arm_cm4f/port.c \
 $(CMSIS_RTOS_PATH)/cmsis_os.c \
 $(IDF_COMPONENT_PATH)/stm32/panic.c \
+$(IDF_COMPONENT_PATH)/log/log.c \
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f407xx.s
+stm-idf/drivers/startup/startup_stm32f407xx.s
 
 
 #######################################
@@ -181,7 +182,9 @@ C_INCLUDES =  \
 -I$(RTOS_PATH)/include \
 -I$(RTOS_PATH)/include/freertos \
 -I$(CMSIS_RTOS_PATH) \
--I$(RTOS_PATH)/portable/gcc/arm_cm4f
+-I$(RTOS_PATH)/portable/gcc/arm_cm4f \
+-I$(IDF_COMPONENT_PATH)/log/include \
+-I$(IDF_COMPONENT_PATH)/newlib/include \
 
 
 # compile gcc flags
@@ -248,6 +251,19 @@ $(BUILD_DIR):
 clean:
 	-rm -fR $(BUILD_DIR)
   
+#######################################
+# flash
+#######################################
+flash:
+	st-flash write build/$(PROJECT_NAME).bin 0x8000000
+  
+#######################################
+# flash
+#######################################
+monitor:
+	minicom -c on
+  
+
 #######################################
 # dependencies
 #######################################
