@@ -760,7 +760,7 @@ int pwm_init(pwm_config_t *config)
     UNUSED(tmpreg);
 
     /* Enable timer clock */
-    uint32_t tmpreg = 0x00;
+    tmpreg = 0x00;
     if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
         SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
         tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
@@ -849,34 +849,21 @@ int pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
 
 int pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
 {
-    /* Stop PWM generate when frequency = 0 */
-    if (freq_hz == 0)
-    {
-        HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
-    }
-    /* Start PWM generate with another values */
-    else
-    {
-        uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
-        uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
-        uint8_t cur_duty = (uint8_t)(cur_compare*100/cur_period);
+    uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
+    uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    uint8_t cur_duty = (uint8_t)(cur_compare * 100 / cur_period);
 
-        /* Calculate Timer PWM parameters. When change timer period you also
-         * need to update timer compare value to keep duty cycle stable */
-        uint32_t conduct = (uint32_t) (APBx_CLOCK_MAPPING[timer_num] / freq_hz);
-        uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
-        uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
-        uint32_t timer_compare_value = cur_duty * timer_period / 100;
+    /* Calculate Timer PWM parameters. When change timer period you also
+     * need to update timer compare value to keep duty cycle stable */
+    uint32_t conduct = (uint32_t) (APBx_CLOCK_MAPPING[timer_num] / freq_hz);
+    uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
+    uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
+    uint32_t timer_compare_value = cur_duty * timer_period / 100;
 
-        /* Configure Timer PWM parameters */
-        __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
-        __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
-        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
-
-//      /* Start PWM generate */
-//      HAL_TIM_PWM_Start(&handle->hal_handle, TIM_CHANNEL_x_MAPPING[handle->timer_channel]);
-
-    }
+    /* Configure Timer PWM parameters */
+    __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
+    __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
+    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
 
     return 0;
 }
