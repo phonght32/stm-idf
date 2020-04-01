@@ -33,9 +33,6 @@ extern "C" {
 
 #include "stm32f4xx_hal.h"
 
-/*
- * GPIO Port Select Typedef.
- */
 typedef enum {
     GPIO_PORT_A = 0,    /*!< Port A selected */
     GPIO_PORT_B,        /*!< Port B selected */
@@ -49,9 +46,6 @@ typedef enum {
     GPIO_PORT_MAX
 } gpio_port_t;
 
-/*
- * GPIO Pin Select Typedef.
- */
 typedef enum {
     GPIO_NUM_0 = 0,     /*!< Pin 0 selected */
     GPIO_NUM_1,         /*!< Pin 1 selected */
@@ -72,17 +66,11 @@ typedef enum {
     GPIO_NUM_MAX
 } gpio_num_t;
 
-/*
- * GPIO Mode Select Typedef.
- */
 typedef enum {
     GPIO_INPUT = 0,     /*!< Input mode selected */
     GPIO_OUTPUT         /*!< Output mode selected */
 } gpio_mode_t;
 
-/*
- * GPIO Pull Registor Select Typedef.
- */
 typedef enum {
     GPIO_REG_PULL_NONE = 0,     /*!< None pull registor selected */
     GPIO_REG_PULL_UP,           /*!< Registor pull up selected */
@@ -90,9 +78,6 @@ typedef enum {
     GPIO_REG_PULL_MAX
 } gpio_reg_pull_t;
 
-/*
- * GPIO Configuration Typedef.
- */
 typedef struct {
     gpio_port_t     gpio_port;      /*!< GPIO Port */
     gpio_num_t      gpio_num;       /*!< GPIO Pin */
