@@ -120,8 +120,6 @@ extern "C" {
  *
  */
 
-typedef struct ext_counter *ext_counter_handle_t;
-
 /*
  * Timer Num Select Typedef.
  */
@@ -241,28 +239,28 @@ void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t 
  *      - External counter handle structure: Success.
  *      - 0: Fail.
  */
-ext_counter_handle_t ext_counter_init(ext_counter_config_t *config);
+int ext_counter_init(ext_counter_config_t *config);
 
 /*
  * @brief   Start counter external pulse input.
  * @param   handle External handle structure.
  * @return  None.
  */
-void ext_counter_start(ext_counter_handle_t handle);
+void ext_counter_start(timer_num_t timer_num);
 
 /*
  * @brief   Start counter external pulse input.
  * @param   handle External handle structure.
  * @return  None.
  */
-void ext_counter_stop(ext_counter_handle_t handle);
+void ext_counter_stop(timer_num_t timer_num);
 
 /*
  * @brief   Get counter value.
  * @param   handle External handle structure.
  * @return  Counter value.
  */
-uint32_t ext_counter_get_value(ext_counter_handle_t handle);
+uint32_t ext_counter_get_value(timer_num_t timer_num);
 
 /*
  * @brief   Set counter value.
@@ -270,7 +268,7 @@ uint32_t ext_counter_get_value(ext_counter_handle_t handle);
  * @param   value Counter value.
  * @return  None.
  */
-void ext_counter_set_value(ext_counter_handle_t handle, uint32_t value);
+void ext_counter_set_value(timer_num_t timer_num, uint32_t value);
 
 /*
  * @brief   Set counter mode.
@@ -280,7 +278,7 @@ void ext_counter_set_value(ext_counter_handle_t handle, uint32_t value);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int ext_counter_set_mode(ext_counter_handle_t handle, timer_counter_mode_t counter_mode);
+int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode);
 
 
 #ifdef __cplusplus

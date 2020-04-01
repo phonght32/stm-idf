@@ -7,6 +7,8 @@
 #define PWM_COUNTERMODE_DEFAULT     TIM_COUNTERMODE_UP          /*!< Default PWM counter mode */
 #define PWM_TIM_CLOCK_DIV_DEFAULT   TIM_CLOCKDIVISION_DIV1      /*!< Default PWM timer clock divide */
 
+#define EXT_CNT_PRES_DEFAULT        0                           /*!< Default external counter prescaler */
+
 #define SYSTEM_CLOCK                168000000                   /*!< System clock */
 #define APB1_CLOCK                  (SYSTEM_CLOCK/2)            /*!< APB1 clock */
 #define APB2_CLOCK                  (SYSTEM_CLOCK)              /*!< APB2 clock */
@@ -719,6 +721,26 @@ tim_hw_info_t TIM_ETR_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_PINS_PACK_MAX] = {
     {                  {0},                  {0},                  {0}},
 };
 
+/* 
+ * TIM Mapping Table 
+ */
+static TIM_TypeDef *TIM_MAPPING[TIMER_NUM_MAX] = {
+    TIM1,
+    TIM2,
+    TIM3,
+    TIM4,
+    TIM5,
+    TIM6,
+    TIM7,
+    TIM8,
+    TIM9,
+    TIM10,
+    TIM11,
+    TIM12,
+    TIM13,
+    TIM14
+};
+
 static tim_hw_info_t _tim_pwm_get_hw_info(timer_num_t timer_num, timer_channel_t timer_channel, timer_pins_pack_t timer_pins_pack)
 {
     tim_hw_info_t hw_info;
@@ -869,7 +891,7 @@ void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t 
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], compare_value);
 }
 
-ext_counter_handle_t ext_counter_init(ext_counter_config_t *config)
+int ext_counter_init(ext_counter_config_t *config)
 {
     /* Check input condition */
     if (!config)
@@ -877,62 +899,48 @@ ext_counter_handle_t ext_counter_init(ext_counter_config_t *config)
         return 0;
     }
 
-    /* Allocate memory for handle structure */
-    ext_counter_handle_t handle = calloc(1, sizeof(ext_counter_t));
-    if (handle == NULL)
-    {
-        return 0;
-    }
-
     /* Get hardware information */
-    handle->hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
+    tim_hw_info_t hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
 
     int err;
 
     /* Enable GPIO clock */
-    do
-    {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpioen);
-        tmpreg = READ_BIT(RCC->AHB1ENR, handle->hw_info.rcc_ahbenr_gpioen);
-        UNUSED(tmpreg);
-    } while (0);
+    uint32_t tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
+    UNUSED(tmpreg);
 
     /* Enable timer clock */
-    do
-    {
-        uint32_t tmpreg = 0x00;
-        if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
-            SET_BIT(RCC->APB2ENR, handle->hw_info.rcc_apbenr_timen);
-            tmpreg = READ_BIT(RCC->APB2ENR, handle->hw_info.rcc_apbenr_timen);
-        }
-        else {
-            SET_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_timen);
-            tmpreg = READ_BIT(RCC->APB1ENR, handle->hw_info.rcc_apbenr_timen);
-        }
-        UNUSED(tmpreg);
-    } while (0);
+    tmpreg = 0x00;
+    if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
+        SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+        tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+    }
+    else {
+        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+    }
+    UNUSED(tmpreg);
 
     /* Configure GPIO pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = handle->hw_info.pin;
+    GPIO_InitStruct.Pin = hw_info.pin;
     GPIO_InitStruct.Mode = GPIO_MODE_DEFAULT;
     GPIO_InitStruct.Pull = GPIO_PULL_REG_DEFAULT;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    GPIO_InitStruct.Alternate = handle->hw_info.alternate_func;
-    HAL_GPIO_Init(handle->hw_info.port, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    HAL_GPIO_Init(hw_info.port, &GPIO_InitStruct);
 
     /* Configure Timer */
-    handle->hal_handle.Instance                 = handle->hw_info.timer;
-    handle->hal_handle.Init.Prescaler           = 0;
-    handle->hal_handle.Init.CounterMode         = TIMER_COUNTER_MODE_MAPPING[config->counter_mode];
-    handle->hal_handle.Init.Period              = config->max_reload;
-    handle->hal_handle.Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
-    handle->hal_handle.Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    err = HAL_TIM_Base_Init(&handle->hal_handle);
+    timer_handle[config->timer_num].Instance                 = hw_info.timer;
+    timer_handle[config->timer_num].Init.Prescaler           = EXT_CNT_PRES_DEFAULT;
+    timer_handle[config->timer_num].Init.CounterMode         = TIMER_COUNTER_MODE_MAPPING[config->counter_mode];
+    timer_handle[config->timer_num].Init.Period              = config->max_reload;
+    timer_handle[config->timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
+    timer_handle[config->timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    err = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
     if (err != HAL_OK)
     {
-        _ext_counter_cleanup(handle);
         return 0;
     }
 
@@ -942,10 +950,9 @@ ext_counter_handle_t ext_counter_init(ext_counter_config_t *config)
     sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
     sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
     sClockSourceConfig.ClockFilter = 0;
-    err = HAL_TIM_ConfigClockSource(&handle->hal_handle, &sClockSourceConfig);
+    err = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
     if (err != HAL_OK)
     {
-        _ext_counter_cleanup(handle);
         return 0;
     }
 
@@ -953,76 +960,66 @@ ext_counter_handle_t ext_counter_init(ext_counter_config_t *config)
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    err = HAL_TIMEx_MasterConfigSynchronization(&handle->hal_handle, &sMasterConfig);
+    err = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
     if (err != HAL_OK)
     {
-        _ext_counter_cleanup(handle);
         return 0;
     }
 
-    /* Update handle structure */
-    handle->timer_num        = config->timer_num;
-    handle->timer_pins_pack  = config->timer_pins_pack;
-    handle->max_reload       = config->max_reload;
-    handle->counter_mode     = config->counter_mode;
-
-    return handle;
+    return 0;
 }
 
-void ext_counter_start(ext_counter_handle_t handle)
+void ext_counter_start(timer_num_t timer_num)
 {
     /* Start timer base */
-    HAL_TIM_Base_Start(&handle->hal_handle);
+    HAL_TIM_Base_Start(&timer_handle[timer_num]);
 }
 
-void ext_counter_stop(ext_counter_handle_t handle)
+void ext_counter_stop(timer_num_t timer_num)
 {
     /* Stop time base */
-    HAL_TIM_Base_Stop(&handle->hal_handle);
+    HAL_TIM_Base_Stop(&timer_handle[timer_num]);
 }
 
-uint32_t ext_counter_get_value(ext_counter_handle_t handle)
+uint32_t ext_counter_get_value(timer_num_t timer_num)
 {
     /* Get counter value */
-    return __HAL_TIM_GET_COUNTER(&handle->hal_handle);
+    return __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 }
 
-void ext_counter_set_value(ext_counter_handle_t handle, uint32_t value)
+void ext_counter_set_value(timer_num_t timer_num, uint32_t value)
 {
     /* Set counter value */
-    __HAL_TIM_SET_COUNTER(&handle->hal_handle, value);
+    __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], value);
 }
 
-int ext_counter_set_mode(ext_counter_handle_t handle, timer_counter_mode_t counter_mode)
+int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 {
     /* Stop time base */
-    HAL_TIM_Base_Stop(&handle->hal_handle);
+    HAL_TIM_Base_Stop(&timer_handle[timer_num]);
 
     /* Reconfigure timer init parameters */
-    handle->hal_handle.Instance                 = handle->hw_info.timer;
-    handle->hal_handle.Init.Prescaler           = 0;
-    handle->hal_handle.Init.CounterMode         = TIMER_COUNTER_MODE_MAPPING[counter_mode];
-    handle->hal_handle.Init.Period              = handle->max_reload;
-    handle->hal_handle.Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
-    handle->hal_handle.Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    timer_handle[timer_num].Instance                 = TIM_MAPPING[timer_num];
+    timer_handle[timer_num].Init.Prescaler           = EXT_CNT_PRES_DEFAULT;
+    timer_handle[timer_num].Init.CounterMode         = TIMER_COUNTER_MODE_MAPPING[counter_mode];
+    timer_handle[timer_num].Init.Period              = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
+    timer_handle[timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
+    timer_handle[timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
 
     /* Keep last counter value */
-    uint32_t last_counter_val = __HAL_TIM_GET_COUNTER(&handle->hal_handle);
+    uint32_t last_counter_val = __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 
     /* Set timer counter mode */
-    if (HAL_TIM_Base_Init(&handle->hal_handle) != HAL_OK)
+    if (HAL_TIM_Base_Init(&timer_handle[timer_num]) != HAL_OK)
     {
         return -1;
     }
 
     /* Set timer last counter value */
-    __HAL_TIM_SET_COUNTER(&handle->hal_handle, last_counter_val);
+    __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], last_counter_val);
 
     /* Start timer base again */
-    HAL_TIM_Base_Start(&handle->hal_handle);
-
-    /* Update handle structure */
-    handle->counter_mode = counter_mode;
+    HAL_TIM_Base_Start(&timer_handle[timer_num]);
 
     return 0;
 }
