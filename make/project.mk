@@ -117,6 +117,7 @@ $(RTOS_PATH)/portable/gcc/arm_cm4f/port.c \
 $(CMSIS_RTOS_PATH)/cmsis_os.c \
 $(IDF_COMPONENT_PATH)/stm32/panic.c \
 $(IDF_COMPONENT_PATH)/driver/adc.c \
+$(IDF_COMPONENT_PATH)/driver/can.c \
 $(IDF_COMPONENT_PATH)/driver/dac.c \
 $(IDF_COMPONENT_PATH)/driver/gpio.c \
 $(IDF_COMPONENT_PATH)/driver/i2c.c \
