@@ -119,6 +119,7 @@ $(IDF_COMPONENT_PATH)/stm32/panic.c \
 $(IDF_COMPONENT_PATH)/driver/adc.c \
 $(IDF_COMPONENT_PATH)/driver/can.c \
 $(IDF_COMPONENT_PATH)/driver/dac.c \
+$(IDF_COMPONENT_PATH)/driver/dma.c \
 $(IDF_COMPONENT_PATH)/driver/gpio.c \
 $(IDF_COMPONENT_PATH)/driver/i2c.c \
 $(IDF_COMPONENT_PATH)/driver/spi.c \
