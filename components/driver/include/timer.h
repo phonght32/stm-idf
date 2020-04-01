@@ -180,41 +180,37 @@ int pwm_init(pwm_config_t *config);
 
 /*
  * @brief   Start PWM generate.
- * @param   handle PWM handle structure.
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ * @param   timer_num Timer num.
+ * @param   timer_channel Timer channel.
+ * @return  None.
  */
-int pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
+void pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
 
 /*
  * @brief   Stop PWM generate.
- * @param   handle PWM handle structure.
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ * @param   timer_num Timer num.
+ * @param   timer_channel Timer channel.
+ * @return  None.
  */
-int pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
+void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
 
 /*
  * @brief   Set PWM frequency in Hz.
- * @param   handle PWM handle structure.
- * @param   freq_hz Frequency (Hz).
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ * @param   timer_num Timer num.
+ * @param   timer_channel Timer channel.
+ * @param   freq_hz Frequency in Hz.
+ * @return  None.
  */
-int pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
+void pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
 
 /*
  * @brief   Set PWM duty cycle in %.
- * @param   handle PWM handle structure.
- * @param   duty_percent Duty cycle (%).
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ * @param   timer_num Timer num.
+ * @param   timer_channel Timer channel.
+ * @param   duty_percent Duty cycle in %.
+ * @return  None.
  */
-int pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
+void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
 
 /*
  * @brief   Initialize Externan Counter input.

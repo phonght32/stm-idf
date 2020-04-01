@@ -835,19 +835,17 @@ int pwm_init(pwm_config_t *config)
     return 0;
 }
 
-int pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)
+void pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)
 {
     HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
-    return 0;
 }
 
-int pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
+void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
 {
     HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
-    return 0;
 }
 
-int pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
+void pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
 {
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
     uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
@@ -864,22 +862,16 @@ int pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t 
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
-
-    return 0;
 }
 
-int pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent)
+void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent)
 {
-
-
     /* Calculate PWM compare value */
     uint32_t compare_value;
     compare_value = duty_percent * (timer_handle[timer_num].Instance->ARR) / 100;
 
     /* Configure PWM compare value */
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], compare_value);
-
-    return 0;
 }
 
 ext_counter_handle_t ext_counter_init(ext_counter_config_t *config)
