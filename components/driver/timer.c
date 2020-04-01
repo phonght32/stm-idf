@@ -862,7 +862,7 @@ void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
     HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
 }
 
-void pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
+void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
 {
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
     uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);

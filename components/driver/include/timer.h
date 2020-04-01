@@ -224,7 +224,7 @@ void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
  * @param   freq_hz Frequency in Hz.
  * @return  None.
  */
-void pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
+void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
 
 /*
  * @brief   Set PWM duty cycle in %.
