@@ -1,25 +1,3 @@
-// MIT License
-
-// Copyright (c) 2020 phonght32 & thuanpham98
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 #ifndef _TIMER_H_
 #define _TIMER_H_
 
@@ -199,6 +177,92 @@ typedef struct {
  *      - 0: Fail.
  */
 int pwm_init(pwm_config_t *config);
+
+/*
+ * @brief   Start PWM generate.
+ * @param   handle PWM handle structure.
+ * @return
+ *      - 0: Success.
+ *      - (-1): Fail.
+ */
+int pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
+
+/*
+ * @brief   Stop PWM generate.
+ * @param   handle PWM handle structure.
+ * @return
+ *      - 0: Success.
+ *      - (-1): Fail.
+ */
+int pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
+
+/*
+ * @brief   Set PWM frequency in Hz.
+ * @param   handle PWM handle structure.
+ * @param   freq_hz Frequency (Hz).
+ * @return
+ *      - 0: Success.
+ *      - (-1): Fail.
+ */
+int pwm_set_freq(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
+
+/*
+ * @brief   Set PWM duty cycle in %.
+ * @param   handle PWM handle structure.
+ * @param   duty_percent Duty cycle (%).
+ * @return
+ *      - 0: Success.
+ *      - (-1): Fail.
+ */
+int pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
+
+/*
+ * @brief   Initialize Externan Counter input.
+ * @param   config Struct pointer.
+ * @return
+ *      - External counter handle structure: Success.
+ *      - 0: Fail.
+ */
+ext_counter_handle_t ext_counter_init(ext_counter_config_t *config);
+
+/*
+ * @brief   Start counter external pulse input.
+ * @param   handle External handle structure.
+ * @return  None.
+ */
+void ext_counter_start(ext_counter_handle_t handle);
+
+/*
+ * @brief   Start counter external pulse input.
+ * @param   handle External handle structure.
+ * @return  None.
+ */
+void ext_counter_stop(ext_counter_handle_t handle);
+
+/*
+ * @brief   Get counter value.
+ * @param   handle External handle structure.
+ * @return  Counter value.
+ */
+uint32_t ext_counter_get_value(ext_counter_handle_t handle);
+
+/*
+ * @brief   Set counter value.
+ * @param   handle External handle structure.
+ * @param   value Counter value.
+ * @return  None.
+ */
+void ext_counter_set_value(ext_counter_handle_t handle, uint32_t value);
+
+/*
+ * @brief   Set counter mode.
+ * @param   handle External handle structure.
+ * @param   counter_mode Counter mode.
+ * @return
+ *      - 0: Success.
+ *      - (-1): Fail.
+ */
+int ext_counter_set_mode(ext_counter_handle_t handle, timer_counter_mode_t counter_mode);
 
 
 #ifdef __cplusplus
