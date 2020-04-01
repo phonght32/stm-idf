@@ -10,11 +10,6 @@ extern "C" {
 #include "stdlib.h"
 
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_rcc.h"
-#include "stm32f4xx_hal_gpio.h"
-
-
-typedef struct gpio *gpio_handle_t;
 
 /*
  * GPIO Port Select Typedef.
@@ -90,16 +85,7 @@ typedef struct {
  *      - GPIO handle structure: Success.
  *      - 0 :Fail.
  */
-gpio_handle_t gpio_init(gpio_config_t *config);
-
-/*
- * @brief   Deinitialize GPIO.
- * @param   handle Handle structure.
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
- */
-int gpio_deinit(gpio_handle_t handle);
+int gpio_init(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.
@@ -109,23 +95,14 @@ int gpio_deinit(gpio_handle_t handle);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int gpio_set_level(gpio_handle_t handle, bool state);
+void gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
 
 /*
  * @brief   Toggle GPIO level.
  * @param   handle GPIO handle structure.
  * @return  None.
  */
-int gpio_toggle_level(gpio_handle_t handle);
-
-/*
- * @brief   Get GPIO level.
- * @param   handle GPIO handle structure.
- * @return
- *      - (-1): Fail.
- *      - Others: GPIO level.
- */
-int gpio_get_level(gpio_handle_t handle);
+void gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
 
 
 #ifdef __cplusplus

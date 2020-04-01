@@ -4,17 +4,6 @@
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
 
 /*
- * GPIO Handle Typedef.
- */
-typedef struct gpio {
-    gpio_port_t     gpio_port;      /*!< GPIO Port */
-    gpio_num_t      gpio_num;       /*!< GPIO Pin */
-    gpio_mode_t     gpio_mode;      /*!< GPIO Mode */
-    gpio_reg_pull_t gpio_reg_pull;  /*!< GPIO Pull Register */
-    bool            gpio_level;     /*!< GPIO Level */
-} gpio_t;
-
-/*
  * GPIO Port Mapping Table.
  */
 GPIO_TypeDef *GPIOx_MAPPING[GPIO_PORT_MAX] = {
@@ -75,25 +64,12 @@ uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOIEN,    /*!< HAL GPIO Port I RCC AHBENR Register define */
 };
 
-static void _gpio_cleanup(gpio_handle_t handle)
-{
-    free(handle);
-}
-
-gpio_handle_t gpio_init(gpio_config_t *config)
+int gpio_init(gpio_config_t *config)
 {
     /* Check input parameters */
     if (!config)
     {
-        return 0;
-    }
-
-    /* Allocate memory for handle structre */
-    gpio_handle_t handle;
-    handle = calloc(1, sizeof(gpio_t));
-    if (handle == NULL)
-    {
-        return 0;
+        return -1;
     }
 
     /* Mapping GPIO Parameters */
@@ -138,85 +114,18 @@ gpio_handle_t gpio_init(gpio_config_t *config)
         HAL_GPIO_WritePin(GPIOx_MAPPING[config->gpio_port], GPIO_PIN_x_MAPPING[config->gpio_num], 0);
     }
 
-    /* Update handle structure */
-    handle->gpio_port     = config->gpio_port;
-    handle->gpio_num      = config->gpio_num;
-    handle->gpio_mode     = config->gpio_mode;
-    handle->gpio_reg_pull = config->gpio_reg_pull;
-    handle->gpio_level    = GPIO_LEVEL_DEFAULT;
-
-    return handle;
-}
-
-int gpio_deinit(gpio_handle_t handle)
-{
-    /* Check if handle structure is empty */
-    if (!handle)
-    {
-        return -1;
-    }
-
-    /* Deinit GPIO pin */
-    HAL_GPIO_DeInit(GPIOx_MAPPING[handle->gpio_port], GPIO_PIN_x_MAPPING[handle->gpio_num]);
-
-    /* Clean handle structure */
-    _gpio_cleanup(handle);
-
     return 0;
 }
 
-int gpio_set_level(gpio_handle_t handle, bool state)
+void gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
 {
-    /* Check if handle structure is empty */
-    if (!handle)
-    {
-        return -1;
-    }
-    /* Configure GPIO level */
-    HAL_GPIO_WritePin(GPIOx_MAPPING[handle->gpio_port], GPIO_PIN_x_MAPPING[handle->gpio_num], state);
-
-    /* Update handle structure */
-    handle->gpio_level = state;
-
-    return 0;
+    HAL_GPIO_WritePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num], state);
 }
 
-int gpio_toggle_level(gpio_handle_t handle)
+void gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num)
 {
-    /* Check if handle structure is empty */
-    if (!handle)
-    {
-        return -1;
-    }
-    /* Configure GPIO level */
-    HAL_GPIO_TogglePin(GPIOx_MAPPING[handle->gpio_port], GPIO_PIN_x_MAPPING[handle->gpio_num]);
-
-    /* Update handle structure */
-    handle->gpio_level = !handle->gpio_level;
-
-    return 0;
+    HAL_GPIO_TogglePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num]);
 }
 
-int gpio_get_level(gpio_handle_t handle)
-{
-    /* Check if handle structure is empty */
-    if (!handle)
-    {
-        return -1;
-    }
-
-    /* Get GPIO level */
-    if (handle->gpio_mode == GPIO_INPUT)
-    {
-        return HAL_GPIO_ReadPin(GPIOx_MAPPING[handle->gpio_port], GPIO_PIN_x_MAPPING[handle->gpio_num]);
-    }
-
-    if (handle->gpio_mode == GPIO_OUTPUT)
-    {
-        return handle->gpio_level;
-    }
-
-    return -1;
-}
 
 
