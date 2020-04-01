@@ -122,6 +122,7 @@ $(IDF_COMPONENT_PATH)/driver/dac.c \
 $(IDF_COMPONENT_PATH)/driver/dma.c \
 $(IDF_COMPONENT_PATH)/driver/gpio.c \
 $(IDF_COMPONENT_PATH)/driver/i2c.c \
+$(IDF_COMPONENT_PATH)/driver/i2s.c \
 $(IDF_COMPONENT_PATH)/driver/rtc.c \
 $(IDF_COMPONENT_PATH)/driver/spi.c \
 $(IDF_COMPONENT_PATH)/driver/timer.c \
