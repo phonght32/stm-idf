@@ -735,11 +735,6 @@ static tim_hw_info_t _tim_etr_get_hw_info(timer_num_t timer_num, timer_pins_pack
     return hw_info;
 }
 
-static void _ext_counter_cleanup(ext_counter_handle_t handle)
-{
-    free(handle);
-}
-
 int pwm_init(pwm_config_t *config)
 {
     /* Check input condition */
