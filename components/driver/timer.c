@@ -754,28 +754,22 @@ int pwm_init(pwm_config_t *config)
     int err;
 
     /* Enable GPIO clock */
-    do
-    {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
-        tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
-        UNUSED(tmpreg);
-    } while (0);
+    uint32_t tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
+    UNUSED(tmpreg);
 
     /* Enable timer clock */
-    do
-    {
-        uint32_t tmpreg = 0x00;
-        if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
-            SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
-            tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
-        }
-        else {
-            SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
-            tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
-        }
-        UNUSED(tmpreg);
-    } while (0);
+    uint32_t tmpreg = 0x00;
+    if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
+        SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+        tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+    }
+    else {
+        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+    }
+    UNUSED(tmpreg);
 
     /* Configure GPIO Pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -796,14 +790,14 @@ int pwm_init(pwm_config_t *config)
     err = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure PWM */
     err = HAL_TIM_PWM_Init(&timer_handle[config->timer_num]);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure Timer clock source */
@@ -812,7 +806,7 @@ int pwm_init(pwm_config_t *config)
     err = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure Timer in master mode */
@@ -822,7 +816,7 @@ int pwm_init(pwm_config_t *config)
     err = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure Timer PWM channel */
@@ -834,7 +828,7 @@ int pwm_init(pwm_config_t *config)
     err = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_channel]);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     HAL_TIM_Base_Start(&timer_handle[config->timer_num]);
