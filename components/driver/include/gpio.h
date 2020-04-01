@@ -82,24 +82,24 @@ typedef struct {
  * @brief   Initialize GPIO. Default logic 0 when output mode.
  * @param   config Struct pointer.
  * @return
- *      - GPIO handle structure: Success.
- *      - 0 :Fail.
+ *      - 0: Success.
+ *      - (-1): Fail.
  */
 int gpio_init(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.
- * @param   handle GPIO handle structure.
+ * @param   gpio_port GPIO Port.
+ * @param   gpio_num GPIO Num.
  * @param   state Level.
- * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ * @return  None.
  */
 void gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
 
 /*
  * @brief   Toggle GPIO level.
- * @param   handle GPIO handle structure.
+ * @param   gpio_port GPIO Port.
+ * @param   gpio_num GPIO Num.
  * @return  None.
  */
 void gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);

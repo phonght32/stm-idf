@@ -6,7 +6,7 @@
 /*
  * GPIO Port Mapping Table.
  */
-GPIO_TypeDef *GPIOx_MAPPING[GPIO_PORT_MAX] = {
+static GPIO_TypeDef *GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOA,          /*!< HAL GPIO Port A define */
     GPIOB,          /*!< HAL GPIO Port B define */
     GPIOC,          /*!< HAL GPIO Port C define */
@@ -21,7 +21,7 @@ GPIO_TypeDef *GPIOx_MAPPING[GPIO_PORT_MAX] = {
 /*
  * GPIO Pin Mapping Table.
  */
-uint16_t GPIO_PIN_x_MAPPING[GPIO_NUM_MAX] = {
+static uint16_t GPIO_PIN_x_MAPPING[GPIO_NUM_MAX] = {
     GPIO_PIN_0,     /*!< HAL GPIO Pin 0 define */
     GPIO_PIN_1,     /*!< HAL GPIO Pin 1 define */
     GPIO_PIN_2,     /*!< HAL GPIO Pin 2 define */
@@ -43,7 +43,7 @@ uint16_t GPIO_PIN_x_MAPPING[GPIO_NUM_MAX] = {
 /*
  * GPIO Pull Register Mapping Table.
  */
-uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
+static uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
     GPIO_NOPULL,    /*!< HAL GPIO no pull registor define */
     GPIO_PULLUP,    /*!< HAL GPIO pull up registor define */
     GPIO_PULLDOWN   /*!< HAL GPIO pull down registor define */
@@ -52,7 +52,7 @@ uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
 /*
  * GPIO RCC_APBENR Register Mapping Table.
  */
-uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
+static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOAEN,    /*!< HAL GPIO Port A RCC AHBENR Register define */
     RCC_AHB1ENR_GPIOBEN,    /*!< HAL GPIO Port B RCC AHBENR Register define */
     RCC_AHB1ENR_GPIOCEN,    /*!< HAL GPIO Port C RCC AHBENR Register define */
