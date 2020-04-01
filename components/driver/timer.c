@@ -995,9 +995,6 @@ void ext_counter_set_value(timer_num_t timer_num, uint32_t value)
 
 int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 {
-    /* Stop time base */
-    HAL_TIM_Base_Stop(&timer_handle[timer_num]);
-
     /* Reconfigure timer init parameters */
     timer_handle[timer_num].Instance                 = TIM_MAPPING[timer_num];
     timer_handle[timer_num].Init.Prescaler           = EXT_CNT_PRES_DEFAULT;
@@ -1017,9 +1014,6 @@ int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mod
 
     /* Set timer last counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], last_counter_val);
-
-    /* Start timer base again */
-    HAL_TIM_Base_Start(&timer_handle[timer_num]);
 
     return 0;
 }
