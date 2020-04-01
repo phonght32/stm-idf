@@ -138,35 +138,31 @@ int i2c_init(i2c_config_t *config)
     /* Check input condition */
     if (!config)
     {
-        return 0;
+        return -1;
     }
 
     /* Get I2C hardware information */
     i2c_hw_info_t hw_info = _i2c_get_hw_info(config->i2c_num, config->i2c_pins_pack);
 
     /* Enable I2C clock */
-    do {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
-        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
-        UNUSED(tmpreg);
-    } while (0);
+    uint32_t tmpreg = 0x00;
+    SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
+    tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_i2cen);
+    UNUSED(tmpreg);
 
     /* Enable SCL GPIO Port clock */
-    do {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
-        tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
-        UNUSED(tmpreg);
-    } while (0);
+    tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_scl);
+    UNUSED(tmpreg);
 
     /* Enable SDA GPIO Port clock */
-    do {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
-        tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
-        UNUSED(tmpreg);
-    } while (0);
+    tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
+    tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
+    UNUSED(tmpreg);
+
+    int err;
 
     /* Configure I2C */
     i2c_handle[config->i2c_num].Instance = hw_info.i2c;
@@ -178,8 +174,12 @@ int i2c_init(i2c_config_t *config)
     i2c_handle[config->i2c_num].Init.OwnAddress2 = I2C_OWN_ADDRESS2_DEFAULT;
     i2c_handle[config->i2c_num].Init.GeneralCallMode = I2C_GENERALCALL_MODE_DEFAULT;
     i2c_handle[config->i2c_num].Init.NoStretchMode = I2C_NOSTRETCH_MODE_DEFAULT;
-    HAL_I2C_Init(&i2c_handle[config->i2c_num]);
-
+    err = HAL_I2C_Init(&i2c_handle[config->i2c_num]);
+    if (err != HAL_OK)
+    {
+        return -1;
+    }
+    
     /* Configure SCL Pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = hw_info.pin_scl;
