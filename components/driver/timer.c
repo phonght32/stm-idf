@@ -896,7 +896,7 @@ int ext_counter_init(ext_counter_config_t *config)
     /* Check input condition */
     if (!config)
     {
-        return 0;
+        return -1;
     }
 
     /* Get hardware information */
@@ -941,7 +941,7 @@ int ext_counter_init(ext_counter_config_t *config)
     err = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure Timer clock source */
@@ -953,7 +953,7 @@ int ext_counter_init(ext_counter_config_t *config)
     err = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     /* Configure Timer in master mode */
@@ -963,7 +963,7 @@ int ext_counter_init(ext_counter_config_t *config)
     err = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
     if (err != HAL_OK)
     {
-        return 0;
+        return -1;
     }
 
     return 0;
