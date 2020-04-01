@@ -78,16 +78,25 @@ typedef enum {
     GPIO_REG_PULL_MAX
 } gpio_reg_pull_t;
 
+typedef enum {
+    GPIO_INTR_DISABLE = 0,
+    GPIO_INTR_POS_EDGE,
+    GPIO_INTR_NEG_EDGE,
+    GPIO_INTR_ANY_EDGE,
+    GPIO_INTR_MAX
+} gpio_intr_type_t;
+
 typedef struct {
-    gpio_port_t     gpio_port;      /*!< GPIO Port */
-    gpio_num_t      gpio_num;       /*!< GPIO Pin */
-    gpio_mode_t     gpio_mode;      /*!< GPIO Mode */
-    gpio_reg_pull_t gpio_reg_pull;  /*!< GPIO Pull Registor */
+    gpio_port_t         port;      /*!< GPIO Port */
+    gpio_num_t          num;       /*!< GPIO Pin */
+    gpio_mode_t         mode;      /*!< GPIO Mode */
+    gpio_reg_pull_t     pull_mode;  /*!< GPIO Pull Registor */
+    gpio_intr_type_t    intr_type;      /*!< GPIO interrupt type */
 } gpio_config_t;
 
 /*
- * @brief   Initialize GPIO. Default logic 0 when output mode.
- * @param   config Struct pointer.
+ * @brief   Configure GPIO's mode, pull register type. Default logic 0 when output mode.
+ * @param   config Pointer to GPIO configure struct.
  * @return
  *      - 0: Success.
  *      - (-1): Fail.
@@ -96,20 +105,20 @@ int gpio_init(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.
- * @param   gpio_port GPIO Port.
- * @param   gpio_num GPIO Num.
+ * @param   port GPIO Port.
+ * @param   num GPIO Num.
  * @param   state Level.
  * @return  None.
  */
-void gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
+void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
 
 /*
  * @brief   Toggle GPIO level.
- * @param   gpio_port GPIO Port.
- * @param   gpio_num GPIO Num.
+ * @param   port GPIO Port.
+ * @param   num GPIO Num.
  * @return  None.
  */
-void gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
+void gpio_toggle_level(gpio_port_t port, gpio_num_t num);
 
 
 #ifdef __cplusplus

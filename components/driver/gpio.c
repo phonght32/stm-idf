@@ -78,10 +78,10 @@ int gpio_init(gpio_config_t *config)
     GPIO_TypeDef *GPIOx;
     uint32_t GPIO_REG_PULL_TYPE;
 
-    RCC_AHB1ENR_GPIOxEN = RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port];
-    GPIO_PIN_x = GPIO_PIN_x_MAPPING[config->gpio_num];
-    GPIOx = GPIOx_MAPPING[config->gpio_port];
-    GPIO_REG_PULL_TYPE = GPIO_REG_PULL_MAPPING[config->gpio_reg_pull];
+    RCC_AHB1ENR_GPIOxEN = RCC_AHB1ENR_GPIOxEN_MAPPING[config->port];
+    GPIO_PIN_x = GPIO_PIN_x_MAPPING[config->num];
+    GPIOx = GPIOx_MAPPING[config->port];
+    GPIO_REG_PULL_TYPE = GPIO_REG_PULL_MAPPING[config->pull_mode];
 
     /* Enable GPIO Port clock */
     uint32_t tmpreg = 0x00;
@@ -91,14 +91,14 @@ int gpio_init(gpio_config_t *config)
 
     /* Initialize GPIO function */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    if (config->gpio_mode == GPIO_INPUT)        /*!< Input mode configuration */
+    if (config->mode == GPIO_INPUT)        /*!< Input mode configuration */
     {
         GPIO_InitStruct.Pin = GPIO_PIN_x;
         GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
         GPIO_InitStruct.Pull = GPIO_REG_PULL_TYPE;
         HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
     }
-    if (config->gpio_mode == GPIO_OUTPUT)       /*!< Output mode configuration */
+    if (config->mode == GPIO_OUTPUT)       /*!< Output mode configuration */
     {
         HAL_GPIO_WritePin(GPIOx, GPIO_PIN_x, GPIO_PIN_RESET);
         GPIO_InitStruct.Pin = GPIO_PIN_x;
@@ -108,20 +108,20 @@ int gpio_init(gpio_config_t *config)
         HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 
         /* Set GPIO default level */
-        HAL_GPIO_WritePin(GPIOx_MAPPING[config->gpio_port], GPIO_PIN_x_MAPPING[config->gpio_num], 0);
+        HAL_GPIO_WritePin(GPIOx_MAPPING[config->port], GPIO_PIN_x_MAPPING[config->num], 0);
     }
 
     return 0;
 }
 
-void gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
+void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
 {
-    HAL_GPIO_WritePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num], state);
+    HAL_GPIO_WritePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num], state);
 }
 
-void gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num)
+void gpio_toggle_level(gpio_port_t port, gpio_num_t num)
 {
-    HAL_GPIO_TogglePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num]);
+    HAL_GPIO_TogglePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num]);
 }
 
 
