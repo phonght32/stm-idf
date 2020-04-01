@@ -64,7 +64,7 @@ static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOIEN,    /*!< HAL GPIO Port I RCC AHBENR Register define */
 };
 
-int gpio_init(gpio_config_t *config)
+int gpio_config(gpio_config_t *config)
 {
     /* Check input parameters */
     if (!config)

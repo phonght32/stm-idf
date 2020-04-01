@@ -76,13 +76,13 @@ typedef enum {
     GPIO_REG_PULL_UP,           /*!< Registor pull up selected */
     GPIO_REG_PULL_DOWN,         /*!< Registor pull down selected*/
     GPIO_REG_PULL_MAX
-} gpio_reg_pull_t;
+} gpio_pull_mode_t;
 
 typedef enum {
-    GPIO_INTR_DISABLE = 0,
-    GPIO_INTR_POS_EDGE,
-    GPIO_INTR_NEG_EDGE,
-    GPIO_INTR_ANY_EDGE,
+    GPIO_INTR_DISABLE = 0,      /*!< Disable interrupt */
+    GPIO_INTR_POS_EDGE,         /*!< Interrupt trigger when positive edge */
+    GPIO_INTR_NEG_EDGE,         /*!< Interrupt trigger when negative edge */
+    GPIO_INTR_ANY_EDGE,         /*!< Interrupt trigger when any edge */
     GPIO_INTR_MAX
 } gpio_intr_type_t;
 
@@ -90,7 +90,7 @@ typedef struct {
     gpio_port_t         port;      /*!< GPIO Port */
     gpio_num_t          num;       /*!< GPIO Pin */
     gpio_mode_t         mode;      /*!< GPIO Mode */
-    gpio_reg_pull_t     pull_mode;  /*!< GPIO Pull Registor */
+    gpio_pull_mode_t    pull_mode;  /*!< GPIO Pull Registor */
     gpio_intr_type_t    intr_type;      /*!< GPIO interrupt type */
 } gpio_config_t;
 
@@ -101,7 +101,7 @@ typedef struct {
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int gpio_init(gpio_config_t *config);
+int gpio_config(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.
