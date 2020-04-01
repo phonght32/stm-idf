@@ -84,13 +84,10 @@ int gpio_init(gpio_config_t *config)
     GPIO_REG_PULL_TYPE = GPIO_REG_PULL_MAPPING[config->gpio_reg_pull];
 
     /* Enable GPIO Port clock */
-    do
-    {
-        uint32_t tmpreg = 0x00;
-        SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
-        tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
-        UNUSED(tmpreg);
-    } while (0);
+    uint32_t tmpreg = 0x00;
+    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
+    tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
+    UNUSED(tmpreg);
 
     /* Initialize GPIO function */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
