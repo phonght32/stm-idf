@@ -182,6 +182,9 @@ typedef struct {
     uint8_t             pwm_duty_percent;   /*!< PWM Duty Cycle  */
 } pwm_config_t;
 
+/*
+ * External Counter Typedef.
+ */
 typedef struct {
     timer_num_t             timer_num;          /*!< Timer Num */
     timer_pins_pack_t       timer_pins_pack;    /*!< Timer Pins Pack */
@@ -193,8 +196,8 @@ typedef struct {
  * @brief   Initialize PWM.
  * @param   config Struct pointer.
  * @return
- *      - PWM handle structure: Success.
- *      - 0: Fail.
+ *      - 0: Success.
+ *      - (-1): Fail.
  */
 int pwm_init(pwm_config_t *config);
 
@@ -236,35 +239,35 @@ void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t 
  * @brief   Initialize Externan Counter input.
  * @param   config Struct pointer.
  * @return
- *      - External counter handle structure: Success.
- *      - 0: Fail.
+ *      - 0: Success.
+ *      - (-1): Fail.
  */
 int ext_counter_init(ext_counter_config_t *config);
 
 /*
  * @brief   Start counter external pulse input.
- * @param   handle External handle structure.
+ * @param   timer_num Timer num.
  * @return  None.
  */
 void ext_counter_start(timer_num_t timer_num);
 
 /*
  * @brief   Start counter external pulse input.
- * @param   handle External handle structure.
+ * @param   timer_num Timer num.
  * @return  None.
  */
 void ext_counter_stop(timer_num_t timer_num);
 
 /*
  * @brief   Get counter value.
- * @param   handle External handle structure.
+ * @param   timer_num Timer num.
  * @return  Counter value.
  */
 uint32_t ext_counter_get_value(timer_num_t timer_num);
 
 /*
  * @brief   Set counter value.
- * @param   handle External handle structure.
+ * @param   timer_num Timer num.
  * @param   value Counter value.
  * @return  None.
  */
@@ -272,7 +275,7 @@ void ext_counter_set_value(timer_num_t timer_num, uint32_t value);
 
 /*
  * @brief   Set counter mode.
- * @param   handle External handle structure.
+ * @param   timer_num Timer num.
  * @param   counter_mode Counter mode.
  * @return
  *      - 0: Success.
