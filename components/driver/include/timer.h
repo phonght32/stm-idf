@@ -31,8 +31,6 @@ extern "C" {
 #include "stdlib.h"
 
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_rcc.h"
-#include "stm32f4xx_hal_tim.h"
 
 /*
  * Table below shows all Timer's clock description.
