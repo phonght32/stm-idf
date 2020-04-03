@@ -15,14 +15,27 @@ include stm-idf/make/project_dir.mk
 ######################################
 TARGET = $(PROJECT_NAME)
 
-
-######################################
-# building variables
-######################################
-# debug build?
-DEBUG = 1
-# optimization
-OPT = -Og
+#######################################
+# binaries
+#######################################
+PREFIX = arm-none-eabi-
+# The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
+# either it can be added to the PATH environment variable.
+ifdef GCC_PATH
+CC = $(GCC_PATH)/$(PREFIX)gcc
+CXX = $(GCC_PATH)/$(PREFIX)g++
+AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
+CP = $(GCC_PATH)/$(PREFIX)objcopy
+SZ = $(GCC_PATH)/$(PREFIX)size
+else
+CC = $(PREFIX)gcc
+CXX = $(PREFIX)g++
+AS = $(PREFIX)gcc -x assembler-with-cpp
+CP = $(PREFIX)objcopy
+SZ = $(PREFIX)size
+endif
+HEX = $(CP) -O ihex
+BIN = $(CP) -O binary -S
 
 
 #######################################
@@ -31,9 +44,22 @@ OPT = -Og
 # Build path
 BUILD_DIR = build
 
-######################################
-# source
-######################################
+# C includes
+C_INCLUDES =  \
+-Imain/inc \
+-I$(STM32F4XX_HAL_PATH)/inc \
+-I$(STM32F4XX_HAL_PATH)/inc/Legacy \
+-I$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
+-I$(CMSIS_PATH)/Include \
+-I$(CMSIS_PATH)/Include \
+-I$(RTOS_PATH)/include \
+-I$(RTOS_PATH)/include/freertos \
+-I$(CMSIS_RTOS_PATH) \
+-I$(RTOS_PATH)/portable/gcc/arm_cm4f \
+-I$(IDF_COMPONENT_PATH)/log/include \
+-I$(IDF_COMPONENT_PATH)/newlib/include \
+-I$(IDF_COMPONENT_PATH)/driver/include \
+
 # C sources
 C_SOURCES =  \
 main/main.c \
@@ -129,30 +155,29 @@ $(IDF_COMPONENT_PATH)/driver/timer.c \
 $(IDF_COMPONENT_PATH)/driver/uart.c \
 $(IDF_COMPONENT_PATH)/log/log.c \
 
+# AS includes
+AS_INCLUDES = 
+
 # ASM sources
 ASM_SOURCES =  \
 stm-idf/drivers/startup/startup_stm32f407xx.s
 
+CPP_INCLUDES = \
+-I$(IDF_COMPONENT_PATH)/ros_lib \
 
-#######################################
-# binaries
-#######################################
-PREFIX = arm-none-eabi-
-# The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
-# either it can be added to the PATH environment variable.
-ifdef GCC_PATH
-CC = $(GCC_PATH)/$(PREFIX)gcc
-AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
-CP = $(GCC_PATH)/$(PREFIX)objcopy
-SZ = $(GCC_PATH)/$(PREFIX)size
-else
-CC = $(PREFIX)gcc
-AS = $(PREFIX)gcc -x assembler-with-cpp
-CP = $(PREFIX)objcopy
-SZ = $(PREFIX)size
-endif
-HEX = $(CP) -O ihex
-BIN = $(CP) -O binary -S
+
+CPP_SOURCES = \
+$(IDF_COMPONENT_PATH)/ros_lib/time.cpp\
+$(IDF_COMPONENT_PATH)/ros_lib/duration.cpp\
+
+######################################
+# building variables
+######################################
+# debug build?
+DEBUG = 1
+# optimization
+OPT = -Og
+
  
 #######################################
 # CFLAGS
@@ -179,25 +204,8 @@ C_DEFS =  \
 -DSTM32F407xx
 
 
-# AS includes
-AS_INCLUDES = 
 
-# C includes
-C_INCLUDES =  \
--Imain/inc \
--I$(STM32F4XX_HAL_PATH)/inc \
--I$(STM32F4XX_HAL_PATH)/inc/Legacy \
--I$(CMSIS_PATH)/Device/ST/STM32F4xx/Include \
--I$(CMSIS_PATH)/Include \
--I$(CMSIS_PATH)/Include \
--I$(RTOS_PATH)/include \
--I$(RTOS_PATH)/include/freertos \
--I$(CMSIS_RTOS_PATH) \
--I$(RTOS_PATH)/portable/gcc/arm_cm4f \
--I$(IDF_COMPONENT_PATH)/log/include \
--I$(IDF_COMPONENT_PATH)/newlib/include \
--I$(IDF_COMPONENT_PATH)/driver/include \
-
+CXXFLAGS = $(MCU) $(C_DEFS) $(CPP_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -238,11 +246,18 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(CPP_SOURCES:.cpp=.o)))
+vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
+
+
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR)
+	$(CXX) -c $(CXXFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
