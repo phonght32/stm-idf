@@ -16,6 +16,42 @@ help:
 	@echo "Visit https://github.com/thanhphong98/stm-idf to see more details about STM-IDF or contribute"
 	@echo "Visit https://github.com/thanhphong98/stm32-template to get project template"
 
+######################################
+# building variables
+######################################
+# debug build?
+DEBUG = 1
+# optimization
+OPT = -Og
+
+ 
+#######################################
+# CFLAGS
+#######################################
+# cpu
+CPU = -mcpu=cortex-m4
+
+# fpu
+FPU = -mfpu=fpv4-sp-d16
+
+# float-abi
+FLOAT-ABI = -mfloat-abi=hard
+
+# mcu
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+
+# macros for gcc
+# AS defines
+AS_DEFS = 
+
+# C defines
+C_DEFS =  \
+-DUSE_HAL_DRIVER \
+-DSTM32F407xx
+
+
+
+
 # Default path of the project. Assume the Makefile is exist in current project directory.
 ifndef PROJECT_PATH
 PROJECT_PATH := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
@@ -23,9 +59,9 @@ export PROJECT_PATH
 endif
 
 # The directory where we put all binaries. The project Makefile can configure it if needed.
-ifndef BUILD_DIR_BASE
-	BUILD_DIR_BASE := $(PROJECT_PATH)/build
-export BUILD_DIR_BASE
+ifndef BUILD_DIR
+	BUILD_DIR = build
+export BUILD_DIR
 endif
 
 # If no configure STM_IDF_PATH to variable environment, use stm-idf in current project. Assume
@@ -83,6 +119,8 @@ COMPONENT_PATHS := $(foreach comp,$(COMPONENTS),\
                    )))
 export COMPONENT_PATHS
 
+
+
 PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
@@ -102,7 +140,101 @@ endif
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
+include $(foreach comp, $(COMPONENT_PATHS), \
+						$(addprefix $(comp)/, component.mk))
+
+COMPONENT_INCLUDES += include
+COMPONENT_SOURCES += 
+
+INCLUDE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
+					$(foreach comp_inc, $(COMPONENT_INCLUDES), \
+						$(addprefix -I$(comp)/, $(comp_inc))))
+
+SOURCE_PATHS += $(COMPONENT_PATHS)
+SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
+					$(foreach comp_src, $(COMPONENT_SOURCES), \
+						$(addprefix $(comp)/, $(comp_src))))
+
+
+
+
+C_SOURCES += $(foreach comp_src, $(SOURCE_PATHS), $(wildcard $(comp_src)/*.c))
+
+# AS includes
+AS_INCLUDES = 
+
+# ASM sources
+ASM_SOURCES =  \
+stm-idf/components/startup/startup_stm32f407xx.s
+
+
+# compile gcc flags
+ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+CFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
+
+ifeq ($(DEBUG), 1)
+CFLAGS += -g -gdwarf-2
+endif
+
+# Generate dependency information
+CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+
+#######################################
+# LDFLAGS
+#######################################
+# link script
+LDSCRIPT = stm-idf/make/stm32f4xx_flash.ld
+
+# libraries
+LIBS = -lc -lm -lnosys 
+LIBDIR = 
+LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
+
+TARGET = $(PROJECT_NAME)
+
+# default action: build all
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
+
+#######################################
+# build the application
+#######################################
+# list of objects
+OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
+vpath %.c $(sort $(dir $(C_SOURCES)))
+# list of ASM program objects
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
+vpath %.s $(sort $(dir $(ASM_SOURCES)))
+
+$(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
+	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+
+$(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
+	$(AS) -c $(CFLAGS) $< -o $@
+
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(SZ) $@
+
+$(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+	$(HEX) $< $@
+	
+$(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
+	$(BIN) $< $@	
+	
+$(BUILD_DIR):
+	mkdir $@		
+
+#######################################
+# clean up
+#######################################
+clean:
+	-rm -fR $(BUILD_DIR)
 
 
 view_info:
-	@echo $(COMPONENT_PATHS)
+	@echo $(COMPONENT_SOURCES)
+	@echo $(SOURCE_PATHS)
+
+
+
