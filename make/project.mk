@@ -16,42 +16,6 @@ help:
 	@echo "Visit https://github.com/thanhphong98/stm-idf to see more details about STM-IDF or contribute"
 	@echo "Visit https://github.com/thanhphong98/stm32-template to get project template"
 
-######################################
-# building variables
-######################################
-# debug build?
-DEBUG = 1
-# optimization
-OPT = -Og
-
- 
-#######################################
-# CFLAGS
-#######################################
-# cpu
-CPU = -mcpu=cortex-m4
-
-# fpu
-FPU = -mfpu=fpv4-sp-d16
-
-# float-abi
-FLOAT-ABI = -mfloat-abi=hard
-
-# mcu
-MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
-
-# macros for gcc
-# AS defines
-AS_DEFS = 
-
-# C defines
-C_DEFS =  \
--DUSE_HAL_DRIVER \
--DSTM32F407xx
-
-
-
-
 # Default path of the project. Assume the Makefile is exist in current project directory.
 ifndef PROJECT_PATH
 PROJECT_PATH := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
@@ -60,7 +24,7 @@ endif
 
 # The directory where we put all binaries. The project Makefile can configure it if needed.
 ifndef BUILD_DIR
-	BUILD_DIR = build
+	BUILD_DIR := $(PROJECT_PATH)/build
 export BUILD_DIR
 endif
 
@@ -83,17 +47,16 @@ COMPONENT_DIRS := $(foreach cd,$(COMPONENT_DIRS),$(abspath $(cd)))
 export COMPONENT_DIRS
 
 # This is neccessary to split COMPONET_DIRS into SINGLE_COMPONET_DIRS and MULTI_COMPONENT_DIRS.
-# List of component directories, i.e. directories which contain a component.mk file
+# SINGLE_COMPONENT_DIRS contain a component.mk file and MULTI_COMPONENT_DIRS contain folder which
+# contrain component.mk file. For example /blablabla/components/user_components/component.mk
 SINGLE_COMPONENT_DIRS := $(abspath $(dir $(dir $(foreach cd, $(COMPONENT_DIRS), $(wildcard $(cd)/component.mk)))))
 export SINGLE_COMPONENT_DIRS
-# List of components directories, i.e. directories which may contain components
 MULTI_COMPONENT_DIRS := $(filter-out $(SINGLE_COMPONENT_DIRS),$(COMPONENT_DIRS))
 
-ifndef COMPONENTS
-# Find all component names. The component names are the same as the
-# directories they're in, so /bla/components/mycomponent/component.mk -> mycomponent.
+# Find all component names (which folder contain component.mk file).
 # We need to do this for MULTI_COMPONENT_DIRS only, since SINGLE_COMPONENT_DIRS
 # are already known to contain component.mk.
+ifndef COMPONENTS
 COMPONENTS := $(dir $(foreach cd,$(MULTI_COMPONENT_DIRS),$(wildcard $(cd)/*/component.mk))) $(SINGLE_COMPONENT_DIRS)
 COMPONENTS := $(sort $(foreach comp,$(COMPONENTS),$(lastword $(subst /, ,$(comp)))))
 endif
@@ -119,11 +82,30 @@ COMPONENT_PATHS := $(foreach comp,$(COMPONENTS),\
                    )))
 export COMPONENT_PATHS
 
+# Default include and source directory in components folder.
+# 	- COMPONENT_INCLUDES: include directory regarless include folder (which set default).
+#	- COMPONENT_SOURCES: source directory regarless self directory.
+COMPONENT_INCLUDES += include
+COMPONENT_SOURCES += 
 
+# Get all variable in every components. This variable include COMPONENT_INCLUDES and COMPONENT_SOURCES.
+include $(foreach comp, $(COMPONENT_PATHS), \
+						$(addprefix $(comp)/, component.mk))
 
-PREFIX = arm-none-eabi-
+# Add component include prefix paths to componnent paths to get all absolute include paths. 
+INCLUDE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
+					$(foreach comp_inc, $(COMPONENT_INCLUDES), \
+						$(addprefix -I$(comp)/, $(comp_inc))))
+
+# Add component source prefix paths to component paths to get all absolute source paths.
+SOURCE_PATHS += $(COMPONENT_PATHS)
+SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
+					$(foreach comp_src, $(COMPONENT_SOURCES), \
+						$(addprefix $(comp)/, $(comp_src))))
+
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
+PREFIX = arm-none-eabi-
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 CXX = $(GCC_PATH)/$(PREFIX)g++
@@ -140,65 +122,44 @@ endif
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
-include $(foreach comp, $(COMPONENT_PATHS), \
-						$(addprefix $(comp)/, component.mk))
+# debug build?
+DEBUG = 1
+OPT = -Og
+CPU = -mcpu=cortex-m4
+FPU = -mfpu=fpv4-sp-d16
+FLOAT-ABI = -mfloat-abi=hard
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+AS_DEFS = 
+C_DEFS =  \
+-DUSE_HAL_DRIVER \
+-DSTM32F407xx
 
-COMPONENT_INCLUDES += include
-COMPONENT_SOURCES += 
+# ASM flags
+ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-INCLUDE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
-					$(foreach comp_inc, $(COMPONENT_INCLUDES), \
-						$(addprefix -I$(comp)/, $(comp_inc))))
-
-SOURCE_PATHS += $(COMPONENT_PATHS)
-SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
-					$(foreach comp_src, $(COMPONENT_SOURCES), \
-						$(addprefix $(comp)/, $(comp_src))))
-
-
-
-
-C_SOURCES += $(foreach comp_src, $(SOURCE_PATHS), $(wildcard $(comp_src)/*.c))
-
-# AS includes
-AS_INCLUDES = 
-
-# ASM sources
-ASM_SOURCES =  \
-stm-idf/components/startup/startup_stm32f407xx.s
-
-
-# compile gcc flags
-ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
-
+# C flags
 CFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
-
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif
-
-# Generate dependency information
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
-#######################################
-# LDFLAGS
-#######################################
+# Get all source files include .c and .s
+C_SOURCES += $(foreach comp_src, $(SOURCE_PATHS), $(wildcard $(comp_src)/*.c))
+ASM_SOURCES += $(foreach comp_src, $(SOURCE_PATHS), $(wildcard $(comp_src)/*.s))
+
 # link script
 LDSCRIPT = stm-idf/make/stm32f4xx_flash.ld
-
-# libraries
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
+# Target name
 TARGET = $(PROJECT_NAME)
 
 # default action: build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 
-#######################################
-# build the application
-#######################################
 # list of objects
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
@@ -206,6 +167,7 @@ vpath %.c $(sort $(dir $(C_SOURCES)))
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
+# Build application
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
@@ -230,6 +192,19 @@ $(BUILD_DIR):
 #######################################
 clean:
 	-rm -fR $(BUILD_DIR)
+  
+#######################################
+# flash
+#######################################
+flash:
+	st-flash write build/$(PROJECT_NAME).bin 0x8000000
+  
+#######################################
+# flash
+#######################################
+monitor:
+	minicom -c on
+  
 
 
 view_info:
