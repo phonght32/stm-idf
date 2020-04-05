@@ -3,7 +3,7 @@
 # makefiles of all components (in a seperate make process) to build all libraries, then links them 
 # together into the final file. 
 
-.PHONY: build flash clean monitor help view_info
+.PHONY: build flash clean monitor help
 
 help:
 	@echo "Welcom to STM-IDF. There are some make targets:"
@@ -200,16 +200,9 @@ flash:
 	st-flash write build/$(PROJECT_NAME).bin 0x8000000
   
 #######################################
-# flash
+# monitor 
 #######################################
 monitor:
 	minicom -c on
   
-
-
-view_info:
-	@echo $(COMPONENT_SOURCES)
-	@echo $(SOURCE_PATHS)
-
-
 
