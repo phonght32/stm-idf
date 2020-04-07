@@ -80,7 +80,7 @@ typedef struct {
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int i2c_init(i2c_config_t *config);
+int i2c_config(i2c_config_t *config);
 
 /*
  * @brief   I2C master transmit data.

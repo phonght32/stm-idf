@@ -133,7 +133,7 @@ static i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pin
     return hw_info;
 }
 
-int i2c_init(i2c_config_t *config)
+int i2c_config(i2c_config_t *config)
 {
     /* Check input condition */
     if (!config)
