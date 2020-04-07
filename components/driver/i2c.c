@@ -200,7 +200,7 @@ int i2c_config(i2c_config_t *config)
     return 0;
 }
 
-int i2c_master_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
+int i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
     /* Send data */
     if(HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms))
@@ -211,7 +211,7 @@ int i2c_master_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, 
     return 0;
 }
 
-int i2c_master_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+int i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     /* Receive data */
     if(HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms))
