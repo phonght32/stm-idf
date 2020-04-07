@@ -1,4 +1,4 @@
-#include "include/timer.h"
+#include "driver/timer.h"
 
 #define GPIO_MODE_DEFAULT           GPIO_MODE_AF_PP             /*!< Default GPIO mode */
 #define GPIO_PULL_REG_DEFAULT       GPIO_NOPULL                 /*!< Default GPIO pull registor */

@@ -1,4 +1,4 @@
-#include "include/i2c.h"
+#include "driver/i2c.h"
 
 #define I2C_DUTYCYCLE_DEFAULT           I2C_DUTYCYCLE_2             /*!< Default I2C duty cycle */
 #define I2C_CLOCKSPEED_DEFAULT          100000                      /*!< Default I2C clock speed */
@@ -211,7 +211,7 @@ int i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_
     return 0;
 }
 
-int i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t reg_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+int i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     /* Receive data */
     if(HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms))

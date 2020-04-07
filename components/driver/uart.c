@@ -1,4 +1,4 @@
-#include "include/uart.h"
+#include "driver/uart.h"
 
 #define UART_WORDLENGTH_DEFAULT         UART_WORDLENGTH_8B      /*!< Default UART word length */
 #define UART_STOPBITS_DEFAULT           UART_STOPBITS_1         /*!< Default UART stop bits */

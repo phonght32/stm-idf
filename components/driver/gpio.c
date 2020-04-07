@@ -1,4 +1,4 @@
-#include "include/gpio.h"
+#include "driver/gpio.h"
 
 #define GPIO_SPEED_FREQ_DEFAULT     GPIO_SPEED_FREQ_VERY_HIGH   /*!< GPIO speed frequency default */
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
