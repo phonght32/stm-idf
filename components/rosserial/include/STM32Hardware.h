@@ -1,12 +1,5 @@
-/*
- * STM32Hardware.h
- *
- *  Created on: Aug 14, 2018
- *      Author: yusaku
- */
-
-#ifndef ROSSERIAL_CLIENT_SRC_ROS_LIB_STM32HARDWARE_H_
-#define ROSSERIAL_CLIENT_SRC_ROS_LIB_STM32HARDWARE_H_
+#ifndef _STM32HARDWARE_H_
+#define _STM32HARDWARE_H_
 
 #include "SerialClass.h"
 
@@ -21,7 +14,7 @@ public:
 
 	void init()
 	{
-		com->start_dma();
+		com->init();
 	}
 
 	int read()
