@@ -51,9 +51,6 @@ extern "C" {
  *  USART8   |  PE1   PE0  |  -     -    |  -     -    |   1   |
  */
 
-/*
- * UART Num Select Typedef.
- */
 typedef enum {
     UART_NUM_1 = 0,     /*!< UART Num 1 selected */
     UART_NUM_2,         /*!< UART Num 2 selected */
@@ -64,9 +61,6 @@ typedef enum {
     UART_NUM_MAX
 } uart_num_t;
 
-/*
- * UART Pins Pack Select Typedef.
- */
 typedef enum {
     UART_PINS_PACK_1 = 0,   /*!< UART Pins Pack 1 selected */
     UART_PINS_PACK_2,       /*!< UART Pins Pack 2 selected */
@@ -74,9 +68,6 @@ typedef enum {
     UART_PINS_PACK_MAX
 } uart_pins_pack_t;
 
-/*
- * UART Frame Format Typedef.
- */
 typedef enum {
     UART_FRAME_8N1 = 0,     /*!< 8 bit data, none parity, 1 stop bit */
     UART_FRAME_8N2,         /*!< 8 bit data, none parity, 2 stop bit */
@@ -93,9 +84,6 @@ typedef enum {
     UART_FRAME_MAX_TYPE
 } uart_frame_format_t;
 
-/*
- * UART Transfer Mode Typedef.
- */
 typedef enum {
     UART_TRANSFER_MODE_RX = 0,  /*!< UART mode receive*/
     UART_TRANSFER_MODE_TX,      /*!< UART mode transfer*/
@@ -103,9 +91,6 @@ typedef enum {
     UART_TRANSFER_MODE_MAX
 } uart_transfer_mode_t;
 
-/*
- * UART Hardware Flow Control Typedef.
- */
 typedef enum {
     UART_HW_FLW_CTRL_NONE = 0,  /* No hardware flow control */
     UART_HW_FLW_CTRL_RTS,       /* Use RTS */
@@ -114,9 +99,6 @@ typedef enum {
     UART_HW_FLW_CTRL_MAX_TYPE
 } uart_hw_flw_ctrl_t;
 
-/*
- * UART Configuration Typedef.
- */
 typedef struct {
     uart_num_t              uart_num;               /*!< UART Num */
     uart_pins_pack_t        uart_pins_pack;         /*!< UART Pins Pack */
