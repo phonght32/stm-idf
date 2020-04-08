@@ -573,18 +573,6 @@ typedef struct {
 } tim_hw_info_t;
 
 /*
- * External Counter Typedef.
- */
-typedef struct ext_counter {
-    timer_num_t             timer_num;          /*!< Timer num */
-    timer_channel_t         timer_channel;      /*!< Timer channel */
-    timer_pins_pack_t       timer_pins_pack;    /*!< Timer pins pack */
-    uint32_t                max_reload;         /*!< Timer Max Reload value */
-    tim_hw_info_t           hw_info;            /*!< Timer hardware information */
-    timer_counter_mode_t    counter_mode;       /*!< Timer Counter Mode */
-} ext_counter_t;
-
-/*
  * Timer Handle.
  */
 static TIM_HandleTypeDef timer_handle[TIMER_NUM_MAX];
