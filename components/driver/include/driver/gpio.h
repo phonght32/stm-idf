@@ -103,7 +103,7 @@ typedef struct {
  * @param   config Pointer to GPIO configure struct.
  * @return
  *      - STM_OK:       Success.
- *      - STM_FAIL:     Fail.
+ *      - Others:       Fail.
  */
 stm_err_t gpio_config(gpio_config_t *config);
 
@@ -113,7 +113,7 @@ stm_err_t gpio_config(gpio_config_t *config);
  * @param   num GPIO Num.
  * @param   state Level.
  *      - STM_OK:       Success.
- *      - STM_FAIL:     Fail.
+ *      - Others:       Fail.
  */
 stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
 
@@ -122,7 +122,7 @@ stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
  * @param   port GPIO Port.
  * @param   num GPIO Num.
  *      - STM_OK:       Success.
- *      - STM_FAIL:     Fail.
+ *      - Others:       Fail.
  */
 stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num);
 
