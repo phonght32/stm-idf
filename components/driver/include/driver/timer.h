@@ -219,13 +219,13 @@ void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uin
 void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
 
 /*
- * @brief   Initialize Externan Counter input.
+ * @brief   Initialize External Counter input.
  * @param   config Struct pointer.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - STM_FAIL:     Fail.
  */
-int ext_counter_init(ext_counter_config_t *config);
+stm_err_t etr_config(ext_counter_config_t *config);
 
 /*
  * @brief   Start counter external pulse input.

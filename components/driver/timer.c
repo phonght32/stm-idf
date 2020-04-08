@@ -23,6 +23,8 @@
 #define PWM_FREQUENCY_ERR_STR       "pwm frequency error"
 #define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
 
+#define ETR_INIT_ERR_STR            "etr init error"
+
 static const char* TIMER_TAG = "TIMER";
 #define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(TIMER_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
@@ -873,18 +875,17 @@ void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t 
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], compare_value);
 }
 
-int ext_counter_init(ext_counter_config_t *config)
+stm_err_t etr_config(ext_counter_config_t *config)
 {
     /* Check input condition */
-    if (!config)
-    {
-        return -1;
-    }
+    TIMER_CHECK(config, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_num < TIMER_NUM_MAX, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_pins_pack < TIMER_PINS_PACK_MAX, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
 
-    int err;
+    int ret;
 
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
@@ -920,11 +921,8 @@ int ext_counter_init(ext_counter_config_t *config)
     timer_handle[config->timer_num].Init.Period              = config->max_reload;
     timer_handle[config->timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
     timer_handle[config->timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    err = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
+    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer clock source */
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -932,23 +930,17 @@ int ext_counter_init(ext_counter_config_t *config)
     sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
     sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
     sClockSourceConfig.ClockFilter = 0;
-    err = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
+    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer in master mode */
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    err = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
+    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
 
-    return 0;
+    return STM_OK;
 }
 
 void ext_counter_start(timer_num_t timer_num)
