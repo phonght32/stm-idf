@@ -34,6 +34,9 @@ extern "C" {
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_i2c.h"
 
+#include "stm_err.h"
+#include "stm_log.h"
+
 /* Table below shows all possible pins for each i2c.
  *
  *  I2Cx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
@@ -80,7 +83,7 @@ typedef struct {
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int i2c_config(i2c_config_t *config);
+stm_err_t i2c_config(i2c_config_t *config);
 
 /*
  * @brief   I2C master transmit data.

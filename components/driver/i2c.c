@@ -13,6 +13,18 @@
 #define GPIO_PULL_REG_DEFAULT           GPIO_PULLUP                 /*!< Default pull registor mode */
 #define GPIO_SPEED_FREQ_DEFAULT         GPIO_SPEED_FREQ_VERY_HIGH   /*!< Default GPIO speed */
 
+static const char* I2C_TAG = "i2c";
+#define I2C_CHECK(a, str, ret)  if(!(a)) {                                             \
+        STM_LOGE(I2C_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
+        return (ret);                                                                  \
+        }
+
+#define I2C_INIT_ERR_STR        "i2c init error"
+#define I2C_MALLOC_ERR_STR      "i2c malloc error"
+#define I2C_NUM_ERR_STR         "i2c num error"
+#define I2C_PINS_PACK_ERR_STR   "i2c pins pack error"
+#define I2C_CLOCKSPEED_ERR_STR  "i2c clock speed error"
+
 /*
  * I2C Hardware Information Define.
  */
@@ -133,13 +145,12 @@ static i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pin
     return hw_info;
 }
 
-int i2c_config(i2c_config_t *config)
+stm_err_t i2c_config(i2c_config_t *config)
 {
     /* Check input condition */
-    if (!config)
-    {
-        return -1;
-    }
+    I2C_CHECK(config, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    I2C_CHECK(config->i2c_num < I2C_NUM_MAX, I2C_NUM_ERR_STR, STM_ERR_INVALID_ARG);
+    I2C_CHECK(config->i2c_pins_pack < I2C_PINS_PACK_MAX, I2C_PINS_PACK_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get I2C hardware information */
     i2c_hw_info_t hw_info = _i2c_get_hw_info(config->i2c_num, config->i2c_pins_pack);
@@ -175,10 +186,7 @@ int i2c_config(i2c_config_t *config)
     i2c_handle[config->i2c_num].Init.GeneralCallMode = I2C_GENERALCALL_MODE_DEFAULT;
     i2c_handle[config->i2c_num].Init.NoStretchMode = I2C_NOSTRETCH_MODE_DEFAULT;
     err = HAL_I2C_Init(&i2c_handle[config->i2c_num]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    I2C_CHECK(err == HAL_OK, I2C_INIT_ERR_STR, STM_FAIL);
     
     /* Configure SCL Pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -197,7 +205,7 @@ int i2c_config(i2c_config_t *config)
     GPIO_InitStruct.Alternate = hw_info.alternate_func;
     HAL_GPIO_Init(hw_info.port_sda, &GPIO_InitStruct);
 
-    return 0;
+    return STM_OK;
 }
 
 int i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
