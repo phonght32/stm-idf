@@ -24,6 +24,8 @@ static const char* I2C_TAG = "i2c";
 #define I2C_NUM_ERR_STR         "i2c num error"
 #define I2C_PINS_PACK_ERR_STR   "i2c pins pack error"
 #define I2C_CLOCKSPEED_ERR_STR  "i2c clock speed error"
+#define I2C_TRANS_ERR_STR       "i2c transmit data error"
+#define I2C_REC_ERR_STR         "i2c receive data error"
 
 /*
  * I2C Hardware Information Define.
@@ -208,24 +210,19 @@ stm_err_t i2c_config(i2c_config_t *config)
     return STM_OK;
 }
 
-int i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
+stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
-    /* Send data */
-    if(HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms))
-    {
-        return -1;
-    }
+    int ret = HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms);
+    I2C_CHECK(ret == HAL_OK, I2C_TRANS_ERR_STR, STM_FAIL);
 
-    return 0;
+    return STM_OK;
 }
 
-int i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     /* Receive data */
-    if(HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms))
-    {
-        return -1;
-    }
+    int ret = HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms);
+    I2C_CHECK(ret == HAL_OK, I2C_REC_ERR_STR, STM_FAIL);
 
-    return 0;
+    return STM_OK;
 }
