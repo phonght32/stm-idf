@@ -188,6 +188,7 @@ stm_err_t pwm_config(pwm_config_t *config);
  * @brief   Start PWM generate.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
+ * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
@@ -197,6 +198,7 @@ stm_err_t pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
  * @brief   Stop PWM generate.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
+ * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
@@ -207,6 +209,7 @@ stm_err_t pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
  * @param   freq_hz Frequency in Hz.
+ * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
@@ -217,6 +220,7 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
  * @param   duty_percent Duty cycle in %.
+ * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
@@ -234,16 +238,20 @@ stm_err_t etr_config(ext_counter_config_t *config);
 /*
  * @brief   Start counter external pulse input.
  * @param   timer_num Timer num.
- * @return  None.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void etr_start(timer_num_t timer_num);
+stm_err_t etr_start(timer_num_t timer_num);
 
 /*
  * @brief   Start counter external pulse input.
  * @param   timer_num Timer num.
- * @return  None.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void etr_stop(timer_num_t timer_num);
+stm_err_t etr_stop(timer_num_t timer_num);
 
 /*
  * @brief   Get counter value.
@@ -256,19 +264,21 @@ uint32_t etr_get_value(timer_num_t timer_num);
  * @brief   Set counter value.
  * @param   timer_num Timer num.
  * @param   value Counter value.
- * @return  None.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void etr_set_value(timer_num_t timer_num, uint32_t value);
+stm_err_t etr_set_value(timer_num_t timer_num, uint32_t value);
 
 /*
  * @brief   Set counter mode.
  * @param   timer_num Timer num.
  * @param   counter_mode Counter mode.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-int etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode);
+stm_err_t etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode);
 
 
 #ifdef __cplusplus

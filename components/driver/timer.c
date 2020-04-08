@@ -28,6 +28,11 @@
 #define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
 
 #define ETR_INIT_ERR_STR            "etr init error"
+#define ETR_START_ERR_STR           "etr start error"
+#define ETR_STOP_ERR_STR            "etr stop error"
+#define ETR_GET_VALUE_ERR_STR       "etr get value error"
+#define ETR_SET_VALUE_ERR_STR       "etr set value error"
+#define ETR_SET_MODE_ERR_STR        "etr set mode error"
 
 static const char* TIMER_TAG = "TIMER";
 #define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
@@ -904,6 +909,7 @@ stm_err_t etr_config(ext_counter_config_t *config)
     TIMER_CHECK(config, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_num < TIMER_NUM_MAX, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_pins_pack < TIMER_PINS_PACK_MAX, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->counter_mode < TIMER_COUNTER_MODE_MAX, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
@@ -966,13 +972,16 @@ stm_err_t etr_config(ext_counter_config_t *config)
     return STM_OK;
 }
 
-void etr_start(timer_num_t timer_num)
+stm_err_t etr_start(timer_num_t timer_num)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_START_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Start timer base */
     HAL_TIM_Base_Start(&timer_handle[timer_num]);
+    return STM_OK;
 }
 
-void etr_stop(timer_num_t timer_num)
+stm_err_t etr_stop(timer_num_t timer_num)
 {
     /* Stop time base */
     HAL_TIM_Base_Stop(&timer_handle[timer_num]);
@@ -984,14 +993,20 @@ uint32_t etr_get_value(timer_num_t timer_num)
     return __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 }
 
-void etr_set_value(timer_num_t timer_num, uint32_t value)
+stm_err_t etr_set_value(timer_num_t timer_num, uint32_t value)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_SET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Set counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], value);
+    return STM_OK;
 }
 
-int etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
+stm_err_t etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_SET_MODE_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(counter_mode < TIMER_COUNTER_MODE_MAX, ETR_SET_MODE_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Reconfigure timer init parameters */
     timer_handle[timer_num].Instance                 = TIM_MAPPING[timer_num];
     timer_handle[timer_num].Init.Prescaler           = EXT_CNT_PRES_DEFAULT;
@@ -1004,15 +1019,13 @@ int etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
     uint32_t last_counter_val = __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 
     /* Set timer counter mode */
-    if (HAL_TIM_Base_Init(&timer_handle[timer_num]) != HAL_OK)
-    {
-        return -1;
-    }
+    int ret = HAL_TIM_Base_Init(&timer_handle[timer_num]);
+    TIMER_CHECK(!ret, ETR_SET_MODE_ERR_STR, STM_FAIL);
 
     /* Set timer last counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], last_counter_val);
 
-    return 0;
+    return STM_OK;
 }
 
 
