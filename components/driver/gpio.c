@@ -131,7 +131,7 @@ stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
     GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
     HAL_GPIO_WritePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num], state);
-
+    return STM_OK;
 }
 
 stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num)
