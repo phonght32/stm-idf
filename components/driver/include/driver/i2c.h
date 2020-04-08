@@ -78,9 +78,8 @@ typedef struct {
  * @brief   Initialize I2C.
  * @param   config Struct pointer.
  * @return
- *      - STM_OK:               Success.
- *      - STM_FAIL:             Fail.
- *      - STM_ERR_INVALID_ARG:  Invalid input.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
 stm_err_t i2c_config(i2c_config_t *config);
 
@@ -92,8 +91,8 @@ stm_err_t i2c_config(i2c_config_t *config);
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
  * @return
- *      - STM_OK:               Success.
- *      - STM_FAIL:             Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
 stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
@@ -105,8 +104,8 @@ stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, u
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
  * @return
- *      - STM_OK:               Success.
- *      - STM_FAIL:             Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
