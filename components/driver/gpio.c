@@ -75,7 +75,11 @@ static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
 stm_err_t gpio_config(gpio_config_t *config)
 {
     /* Check input parameters */
-    GPIO_CHECK(config, GPIO_INIT_ERR_STR, STM_FAIL);
+    GPIO_CHECK(config, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->port < GPIO_PORT_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->num < GPIO_NUM_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->mode < GPIO_MODE_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->pull_mode < GPIO_REG_PULL_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Mapping GPIO Parameters */
     uint32_t RCC_AHB1ENR_GPIOxEN;
