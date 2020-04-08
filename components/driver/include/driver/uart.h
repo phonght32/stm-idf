@@ -157,7 +157,7 @@ stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, 
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-istm_err_tnt uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
+stm_err_t uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 
 #ifdef __cplusplus
