@@ -80,8 +80,9 @@ typedef struct {
  * @brief   Initialize I2C.
  * @param   config Struct pointer.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:               Success.
+ *      - STM_FAIL:             Fail.
+ *      - STM_ERR_INVALID_ARG:  Invalid input.
  */
 stm_err_t i2c_config(i2c_config_t *config);
 
