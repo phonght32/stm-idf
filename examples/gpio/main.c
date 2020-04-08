@@ -39,17 +39,17 @@ static void system_clock_init(void)
 
 static void gpio_example_task(void* arg)
 {
-    gpio_config_t gpio_config;
-    gpio_config.gpio_port = GPIO_PORT_D;
-    gpio_config.gpio_num = GPIO_NUM_12;
-    gpio_config.gpio_mode = GPIO_OUTPUT;
-    gpio_config.gpio_reg_pull = GPIO_REG_PULL_NONE;
-    gpio_init(&gpio_config);
+    gpio_config_t gpio_cfg;
+    gpio_cfg.port = GPIO_PORT_D;
+    gpio_cfg.num = GPIO_NUM_12;
+    gpio_cfg.mode = GPIO_OUTPUT;
+    gpio_cfg.pull_mode = GPIO_REG_PULL_NONE;
+    gpio_config(&gpio_cfg);
 
     while(1)
     {
         gpio_toggle_level(GPIO_PORT_D, GPIO_NUM_12);
-        vTaskDelay(100/portTICK_PERIOD_MS);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
     }
 }
 
