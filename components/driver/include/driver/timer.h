@@ -118,30 +118,24 @@ extern "C" {
  *
  */
 
-/*
- * Timer Num Select Typedef.
- */
 typedef enum {
-    TIMER_NUM_1 = 0,    /*!< Timer Num 1 selected */
-    TIMER_NUM_2,        /*!< Timer Num 2 selected */
-    TIMER_NUM_3,        /*!< Timer Num 3 selected */
-    TIMER_NUM_4,        /*!< Timer Num 4 selected */
-    TIMER_NUM_5,        /*!< Timer Num 5 selected */
-    TIMER_NUM_6,        /*!< Timer Num 6 selected */
-    TIMER_NUM_7,        /*!< Timer Num 7 selected */
-    TIMER_NUM_8,        /*!< Timer Num 8 selected */
-    TIMER_NUM_9,        /*!< Timer Num 9 selected */
-    TIMER_NUM_10,       /*!< Timer Num 10 selected */
-    TIMER_NUM_11,       /*!< Timer Num 11 selected */
-    TIMER_NUM_12,       /*!< Timer Num 12 selected */
-    TIMER_NUM_13,       /*!< Timer Num 13 selected */
-    TIMER_NUM_14,       /*!< Timer Num 14 selected */
+    TIMER_NUM_1 = 0,        /*!< Timer Num 1 selected */
+    TIMER_NUM_2,            /*!< Timer Num 2 selected */
+    TIMER_NUM_3,            /*!< Timer Num 3 selected */
+    TIMER_NUM_4,            /*!< Timer Num 4 selected */
+    TIMER_NUM_5,            /*!< Timer Num 5 selected */
+    TIMER_NUM_6,            /*!< Timer Num 6 selected */
+    TIMER_NUM_7,            /*!< Timer Num 7 selected */
+    TIMER_NUM_8,            /*!< Timer Num 8 selected */
+    TIMER_NUM_9,            /*!< Timer Num 9 selected */
+    TIMER_NUM_10,           /*!< Timer Num 10 selected */
+    TIMER_NUM_11,           /*!< Timer Num 11 selected */
+    TIMER_NUM_12,           /*!< Timer Num 12 selected */
+    TIMER_NUM_13,           /*!< Timer Num 13 selected */
+    TIMER_NUM_14,           /*!< Timer Num 14 selected */
     TIMER_NUM_MAX
 } timer_num_t;
 
-/*
- * Timer Channel Select Typedef.
- */
 typedef enum {
     TIMER_CHANNEL_1 = 0,    /*!< Timer Channel 1 selected */
     TIMER_CHANNEL_2,        /*!< Timer Channel 2 selected */
@@ -150,9 +144,6 @@ typedef enum {
     TIMER_CHANNEL_MAX
 } timer_channel_t;
 
-/*
- * Timer Pins Pack Select Typedef.
- */
 typedef enum {
     TIMER_PINS_PACK_1 = 0,  /*!< Timer Pins Pack 1 selected */
     TIMER_PINS_PACK_2,      /*!< Timer Pins Pack 2 selected */
@@ -160,29 +151,20 @@ typedef enum {
     TIMER_PINS_PACK_MAX
 } timer_pins_pack_t;
 
-/*
- * Timer Counter Mode Typedef.
- */
 typedef enum {
     TIMER_COUNTER_UP = 0,   /*!< Timer counter mode up */
     TIMER_COUNTER_DOWN,     /*!< Timer counter mode down */
     TIMER_COUNTER_MODE_MAX
 } timer_counter_mode_t;
 
-/*
- * PWM Configuration Typedef.
- */
 typedef struct {
-    timer_num_t         timer_num;          /*!< Timer Num */
-    timer_channel_t     timer_channel;      /*!< Timer Channel */
-    timer_pins_pack_t   timer_pins_pack;    /*!< Timer Pins Pack */
-    uint32_t            pwm_freq_hz;        /*!< PWM Frequency */
-    uint8_t             pwm_duty_percent;   /*!< PWM Duty Cycle  */
+    timer_num_t         timer_num;              /*!< Timer Num */
+    timer_channel_t     timer_channel;          /*!< Timer Channel */
+    timer_pins_pack_t   timer_pins_pack;        /*!< Timer Pins Pack */
+    uint32_t            pwm_freq_hz;            /*!< PWM Frequency */
+    uint8_t             pwm_duty_percent;       /*!< PWM Duty Cycle  */
 } pwm_config_t;
 
-/*
- * External Counter Typedef.
- */
 typedef struct {
     timer_num_t             timer_num;          /*!< Timer Num */
     timer_pins_pack_t       timer_pins_pack;    /*!< Timer Pins Pack */
