@@ -762,7 +762,10 @@ static tim_hw_info_t _tim_etr_get_hw_info(timer_num_t timer_num, timer_pins_pack
 stm_err_t pwm_config(pwm_config_t *config)
 {
     /* Check input condition */
-    TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_num < TIMER_NUM_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_pins_pack < TIMER_PINS_PACK_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_channel < TIMER_CHANNEL_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_channel, config->timer_pins_pack);
