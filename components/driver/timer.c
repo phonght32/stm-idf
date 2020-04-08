@@ -15,6 +15,19 @@
 
 #define TIMER_MAX_RELOAD            0xFFFF                      /*!< User timer max value (16bit value) */
 
+#define TIMER_NUM_ERR_STR           "timer num error"
+#define TIMER_PINS_PACK_ERR_STR     "timer pins pack error"
+#define TIMER_CHANNEL_ERR_STR       "timer channel error"
+
+#define PWM_INIT_ERR_STR            "pwn init error"
+#define PWM_FREQUENCY_ERR_STR       "pwm frequency error"
+#define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
+
+static const char* TIMER_TAG = "TIMER";
+#define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
+        STM_LOGE(TIMER_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
+        return (ret);                                                                  \
+        }
 
 /*
  * Timer Hardware Information.
@@ -567,7 +580,6 @@ typedef struct ext_counter {
     timer_channel_t         timer_channel;      /*!< Timer channel */
     timer_pins_pack_t       timer_pins_pack;    /*!< Timer pins pack */
     uint32_t                max_reload;         /*!< Timer Max Reload value */
-    TIM_HandleTypeDef       hal_handle;         /*!< HAL TIM_HandleTypeDef */
     tim_hw_info_t           hw_info;            /*!< Timer hardware information */
     timer_counter_mode_t    counter_mode;       /*!< Timer Counter Mode */
 } ext_counter_t;
@@ -757,18 +769,15 @@ static tim_hw_info_t _tim_etr_get_hw_info(timer_num_t timer_num, timer_pins_pack
     return hw_info;
 }
 
-int pwm_init(pwm_config_t *config)
+stm_err_t pwm_config(pwm_config_t *config)
 {
     /* Check input condition */
-    if (!config)
-    {
-        return -1;
-    }
+    TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_channel, config->timer_pins_pack);
 
-    int err;
+    int ret;
 
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
@@ -804,37 +813,25 @@ int pwm_init(pwm_config_t *config)
     timer_handle[config->timer_num].Init.Period              = 0;
     timer_handle[config->timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
     timer_handle[config->timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    err = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
+    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure PWM */
-    err = HAL_TIM_PWM_Init(&timer_handle[config->timer_num]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_PWM_Init(&timer_handle[config->timer_num]);
+    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer clock source */
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
     sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-    err = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
+    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer in master mode */
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    err = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
+    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer PWM channel */
     TIM_OC_InitTypeDef sConfigOC = {0};
@@ -842,14 +839,11 @@ int pwm_init(pwm_config_t *config)
     sConfigOC.Pulse = 0;
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    err = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_channel]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_channel]);
+    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     HAL_TIM_Base_Start(&timer_handle[config->timer_num]);
-    return 0;
+    return STM_OK;
 }
 
 void pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)

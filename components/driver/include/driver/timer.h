@@ -32,6 +32,9 @@ extern "C" {
 
 #include "stm32f4xx_hal.h"
 
+#include "stm_err.h"
+#include "stm_log.h"
+
 /*
  * Table below shows all Timer's clock description.
  *
@@ -176,10 +179,10 @@ typedef struct {
  * @brief   Initialize PWM.
  * @param   config Struct pointer.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - STM_FAIL:     Fail.
  */
-int pwm_init(pwm_config_t *config);
+stm_err_t pwm_config(pwm_config_t *config);
 
 /*
  * @brief   Start PWM generate.
