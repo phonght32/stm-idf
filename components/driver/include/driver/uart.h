@@ -31,8 +31,9 @@ extern "C" {
 #include "stdint.h"
 
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_uart.h"
-#include "stm32f4xx_hal_dma.h"
+
+#include "stm_err.h"
+#include "stm_log.h"
 
 
 /* Table below shows all possible pins for each uart
@@ -129,10 +130,10 @@ typedef struct {
  * @brief   Initialize UART.
  * @param   config Struct pointer.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-int uart_init(uart_config_t *config);
+stm_err_t uart_config(uart_config_t *config);
 
 /*
  * @brief   UART write bytes.
@@ -141,10 +142,10 @@ int uart_init(uart_config_t *config);
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms);
+stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
 /*
  * @brief   UART read bytes.
@@ -153,10 +154,10 @@ int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32
  * @param   length Data length.
  * @param   timeout_ms Time out in microsecond.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-int uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
+istm_err_tnt uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 
 #ifdef __cplusplus

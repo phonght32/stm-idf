@@ -7,6 +7,16 @@
 #define UART_OVERSAMPLING_DEFAULT       UART_OVERSAMPLING_16    /*!< Default UART over sampling */
 #define UART_MODE_DEFAULT               UART_MODE_TX_RX         /*!< Default UART mode */
 
+#define UART_INIT_ERR_STR           "uart init error"
+#define UART_TRANS_ERR_STR          "uart transmit error"
+#define UART_REC_ERR_STR            "uart_receive error"
+
+static const char* UART_TAG = "UART";
+#define UART_CHECK(a, str, ret)  if(!(a)) {                                             \
+        STM_LOGE(UART_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
+        return (ret);                                                                   \
+        }
+
 /* UART Hardware Information */
 #define UART1_PP1_HW_INFO   {.rcc_apbenr_usarten = RCC_APB2ENR_USART1EN,     \
                              .usart = USART1,                                \
@@ -215,19 +225,21 @@ static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t ua
     return hw_info;
 }
 
-int uart_init(uart_config_t *config)
+stm_err_t uart_config(uart_config_t *config)
 {
     /* Check input condition */
-    if (!config)
-    {
-        return -1;
-    }
-
+    UART_CHECK(config, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(config->uart_num < UART_NUM_MAX, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(config->uart_pins_pack < UART_PINS_PACK_MAX, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(config->frame_format < UART_FRAME_MAX_TYPE, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(config->mode < UART_TRANSFER_MODE_MAX, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(config->hw_flw_ctrl < UART_HW_FLW_CTRL_MAX_TYPE, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    
     /* Get UART hardware information */
     uart_hw_info_t hw_info;
     hw_info = _uart_get_hw_info(config->uart_num, config->uart_pins_pack);
 
-    int err;
+    int ret;
 
     /* Enable UART clock */
     uint32_t tmpreg = 0x00;
@@ -271,11 +283,8 @@ int uart_init(uart_config_t *config)
     uart_handle[config->uart_num].Init.Mode = mode;
     uart_handle[config->uart_num].Init.HwFlowCtl = hw_flw_ctrl;
     uart_handle[config->uart_num].Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
-    err = HAL_UART_Init(&uart_handle[config->uart_num]);
-    if (err != HAL_OK)
-    {
-        return -1;
-    }
+    ret = HAL_UART_Init(&uart_handle[config->uart_num]);
+    UART_CHECK(!ret, UART_INIT_ERR_STR, STM_FAIL);
 
     /* Configure UART TX pins */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -294,28 +303,28 @@ int uart_init(uart_config_t *config)
     GPIO_InitStruct.Alternate = hw_info.alternate_func;
     HAL_GPIO_Init(hw_info.port_rx, &GPIO_InitStruct);
 
-    return 0;
+    return STM_OK;
 }
 
-int uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms)
+stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
+    UART_CHECK(uart_num < UART_NUM_MAX, UART_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Transmit data */
-    if (HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms))
-    {
-        return -1;
-    }
+    int ret = HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms);
+    UART_CHECK(!ret, UART_TRANS_ERR_STR, STM_FAIL);
 
-    return 0;
+    return STM_OK;
 }
 
-int uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
+stm_err_t uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
-    /* Receive data */
-    if (HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms))
-    {
-        return -1;
-    }
+    UART_CHECK(uart_num < UART_NUM_MAX, UART_REC_ERR_STR, STM_ERR_INVALID_ARG);
 
-    return 0;
+    /* Receive data */
+    int ret = HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms);
+    UART_CHECK(!ret, UART_REC_ERR_STR, STM_FAIL);
+
+    return STM_OK;
 }
 
