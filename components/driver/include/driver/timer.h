@@ -180,7 +180,7 @@ typedef struct {
  * @param   config Struct pointer.
  * @return
  *      - STM_OK:       Success.
- *      - STM_FAIL:     Fail.
+ *      - Others:       Fail.
  */
 stm_err_t pwm_config(pwm_config_t *config);
 
@@ -188,42 +188,46 @@ stm_err_t pwm_config(pwm_config_t *config);
  * @brief   Start PWM generate.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
+stm_err_t pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
 
 /*
  * @brief   Stop PWM generate.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
+stm_err_t pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
 
 /*
  * @brief   Set PWM frequency in Hz.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
  * @param   freq_hz Frequency in Hz.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
+stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
 
 /*
  * @brief   Set PWM duty cycle in %.
  * @param   timer_num Timer num.
  * @param   timer_channel Timer channel.
  * @param   duty_percent Duty cycle in %.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
+stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
 
 /*
  * @brief   Initialize External Counter input.
  * @param   config Struct pointer.
  * @return
  *      - STM_OK:       Success.
- *      - STM_FAIL:     Fail.
+ *      - Others:       Fail.
  */
 stm_err_t etr_config(ext_counter_config_t *config);
 

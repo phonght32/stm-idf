@@ -20,6 +20,10 @@
 #define TIMER_CHANNEL_ERR_STR       "timer channel error"
 
 #define PWM_INIT_ERR_STR            "pwn init error"
+#define PWM_START_ERR_STR           "pwm start error"
+#define PWM_STOP_ERR_STR            "pwm stop error"
+#define PWM_SET_FREQ_ERR_STR        "pwm set frequency error"
+#define PWM_SET_DUTYCYCLE_ERR_STR   "pwm set duty cycle error"
 #define PWM_FREQUENCY_ERR_STR       "pwm frequency error"
 #define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
 
@@ -839,18 +843,29 @@ stm_err_t pwm_config(pwm_config_t *config)
     return STM_OK;
 }
 
-void pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)
+stm_err_t pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
+
     HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    return STM_OK;
 }
 
-void pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
+stm_err_t pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+
     HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    return STM_OK;
 }
 
-void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
+stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
+
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
     uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
     uint8_t cur_duty = (uint8_t)(cur_compare * 100 / cur_period);
@@ -866,16 +881,21 @@ void pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uin
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+    return STM_OK;
 }
 
-void pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent)
+stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Calculate PWM compare value */
     uint32_t compare_value;
     compare_value = duty_percent * (timer_handle[timer_num].Instance->ARR) / 100;
 
     /* Configure PWM compare value */
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], compare_value);
+    return STM_OK;
 }
 
 stm_err_t etr_config(ext_counter_config_t *config)
