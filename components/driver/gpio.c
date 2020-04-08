@@ -3,7 +3,9 @@
 #define GPIO_SPEED_FREQ_DEFAULT     GPIO_SPEED_FREQ_VERY_HIGH   /*!< GPIO speed frequency default */
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
 
-#define GPIO_INIT_ERR_STR       "gpio init error"
+#define GPIO_INIT_ERR_STR           "gpio init error"
+#define GPIO_SET_LEVEL_ERR_STR      "gpio set level error"
+#define GPIO_TOGGLE_LEVEL_ERR_STR   "gpio toggle level error"
 
 static const char* GPIO_TAG = "GPIO";
 #define GPIO_CHECK(a, str, ret)  if(!(a)) {                                             \
@@ -125,11 +127,17 @@ stm_err_t gpio_config(gpio_config_t *config)
 
 void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
 {
+    GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+
     HAL_GPIO_WritePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num], state);
 }
 
 void gpio_toggle_level(gpio_port_t port, gpio_num_t num)
 {
+    GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    
     HAL_GPIO_TogglePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num]);
 }
 
