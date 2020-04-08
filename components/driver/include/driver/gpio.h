@@ -112,17 +112,19 @@ stm_err_t gpio_config(gpio_config_t *config);
  * @param   port GPIO Port.
  * @param   num GPIO Num.
  * @param   state Level.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - STM_FAIL:     Fail.
  */
-void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
+stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
 
 /*
  * @brief   Toggle GPIO level.
  * @param   port GPIO Port.
  * @param   num GPIO Num.
- * @return  None.
+ *      - STM_OK:       Success.
+ *      - STM_FAIL:     Fail.
  */
-void gpio_toggle_level(gpio_port_t port, gpio_num_t num);
+stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num);
 
 
 #ifdef __cplusplus

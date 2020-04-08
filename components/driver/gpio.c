@@ -125,20 +125,22 @@ stm_err_t gpio_config(gpio_config_t *config)
     return STM_OK;
 }
 
-void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
+stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
 {
     GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
     HAL_GPIO_WritePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num], state);
+
 }
 
-void gpio_toggle_level(gpio_port_t port, gpio_num_t num)
+stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num)
 {
     GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
-    
+
     HAL_GPIO_TogglePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num]);
+    return STM_OK;
 }
 
 
