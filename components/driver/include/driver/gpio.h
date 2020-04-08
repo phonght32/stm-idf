@@ -33,6 +33,9 @@ extern "C" {
 
 #include "stm32f4xx_hal.h"
 
+#include "stm_log.h"
+#include "stm_err.h"
+
 typedef enum {
     GPIO_PORT_A = 0,    /*!< Port A selected */
     GPIO_PORT_B,        /*!< Port B selected */
@@ -98,10 +101,10 @@ typedef struct {
  * @brief   Configure GPIO's mode, pull register type. Default logic 0 when output mode.
  * @param   config Pointer to GPIO configure struct.
  * @return
- *      - 0: Success.
- *      - (-1): Fail.
+ *      - STM_OK:       Success.
+ *      - STM_FAIL:     Fail.
  */
-int gpio_config(gpio_config_t *config);
+stm_err_t gpio_config(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.

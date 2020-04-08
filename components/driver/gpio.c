@@ -3,6 +3,14 @@
 #define GPIO_SPEED_FREQ_DEFAULT     GPIO_SPEED_FREQ_VERY_HIGH   /*!< GPIO speed frequency default */
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
 
+#define GPIO_INIT_ERR_STR       "gpio init error"
+
+static const char* GPIO_TAG = "GPIO";
+#define GPIO_CHECK(a, str, ret)  if(!(a)) {                                             \
+        STM_LOGE(GPIO_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
+        return (ret);                                                                  \
+        }
+
 /*
  * GPIO Port Mapping Table.
  */
@@ -64,13 +72,10 @@ static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOIEN,    /*!< HAL GPIO Port I RCC AHBENR Register define */
 };
 
-int gpio_config(gpio_config_t *config)
+stm_err_t gpio_config(gpio_config_t *config)
 {
     /* Check input parameters */
-    if (!config)
-    {
-        return -1;
-    }
+    GPIO_CHECK(config, GPIO_INIT_ERR_STR, STM_FAIL);
 
     /* Mapping GPIO Parameters */
     uint32_t RCC_AHB1ENR_GPIOxEN;
@@ -111,7 +116,7 @@ int gpio_config(gpio_config_t *config)
         HAL_GPIO_WritePin(GPIOx_MAPPING[config->port], GPIO_PIN_x_MAPPING[config->num], 0);
     }
 
-    return 0;
+    return STM_OK;
 }
 
 void gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
