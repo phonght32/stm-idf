@@ -212,17 +212,20 @@ stm_err_t i2c_config(i2c_config_t *config)
 
 stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
+    I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
+
     int ret = HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms);
-    I2C_CHECK(ret == HAL_OK, I2C_TRANS_ERR_STR, STM_FAIL);
+    I2C_CHECK(!ret, I2C_TRANS_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
 
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
-    /* Receive data */
+    I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_REC_ERR_STR, STM_ERR_INVALID_ARG)
+
     int ret = HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms);
-    I2C_CHECK(ret == HAL_OK, I2C_REC_ERR_STR, STM_FAIL);
+    I2C_CHECK(!ret, I2C_REC_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
