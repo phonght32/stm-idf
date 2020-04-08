@@ -31,8 +31,6 @@ extern "C" {
 #include "stdint.h"
 
 #include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_rcc.h"
-#include "stm32f4xx_hal_i2c.h"
 
 #include "stm_err.h"
 #include "stm_log.h"
