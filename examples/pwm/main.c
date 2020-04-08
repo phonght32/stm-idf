@@ -39,13 +39,13 @@ static void system_clock_init(void)
 
 static void pwm_example_task(void* arg)
 {
-    pwm_config_t pwm_config;
-    pwm_config.timer_num = TIMER_NUM_4;
-    pwm_config.timer_pins_pack = TIMER_PINS_PACK_2;
-    pwm_config.timer_channel = TIMER_CHANNEL_1;
-    pwm_init(&pwm_config);
+    pwm_config_t pwm_cfg;
+    pwm_cfg.timer_num = TIMER_NUM_4;
+    pwm_cfg.timer_pins_pack = TIMER_PINS_PACK_2;
+    pwm_cfg.timer_channel = TIMER_CHANNEL_1;
+    pwm_config(&pwm_cfg);
 
-    pwm_set_frequency(TIMER_NUM_4, TIMER_CHANNEL_1, 1);
+    pwm_set_frequency(TIMER_NUM_4, TIMER_CHANNEL_1, 2);
     pwm_set_duty(TIMER_NUM_4, TIMER_CHANNEL_1, 50);
     pwm_start(TIMER_NUM_4, TIMER_CHANNEL_1);
 
