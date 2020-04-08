@@ -946,31 +946,31 @@ stm_err_t etr_config(ext_counter_config_t *config)
     return STM_OK;
 }
 
-void ext_counter_start(timer_num_t timer_num)
+void etr_start(timer_num_t timer_num)
 {
     /* Start timer base */
     HAL_TIM_Base_Start(&timer_handle[timer_num]);
 }
 
-void ext_counter_stop(timer_num_t timer_num)
+void etr_stop(timer_num_t timer_num)
 {
     /* Stop time base */
     HAL_TIM_Base_Stop(&timer_handle[timer_num]);
 }
 
-uint32_t ext_counter_get_value(timer_num_t timer_num)
+uint32_t etr_get_value(timer_num_t timer_num)
 {
     /* Get counter value */
     return __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 }
 
-void ext_counter_set_value(timer_num_t timer_num, uint32_t value)
+void etr_set_value(timer_num_t timer_num, uint32_t value)
 {
     /* Set counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], value);
 }
 
-int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
+int etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 {
     /* Reconfigure timer init parameters */
     timer_handle[timer_num].Instance                 = TIM_MAPPING[timer_num];

@@ -232,21 +232,21 @@ stm_err_t etr_config(ext_counter_config_t *config);
  * @param   timer_num Timer num.
  * @return  None.
  */
-void ext_counter_start(timer_num_t timer_num);
+void etr_start(timer_num_t timer_num);
 
 /*
  * @brief   Start counter external pulse input.
  * @param   timer_num Timer num.
  * @return  None.
  */
-void ext_counter_stop(timer_num_t timer_num);
+void etr_stop(timer_num_t timer_num);
 
 /*
  * @brief   Get counter value.
  * @param   timer_num Timer num.
  * @return  Counter value.
  */
-uint32_t ext_counter_get_value(timer_num_t timer_num);
+uint32_t etr_get_value(timer_num_t timer_num);
 
 /*
  * @brief   Set counter value.
@@ -254,7 +254,7 @@ uint32_t ext_counter_get_value(timer_num_t timer_num);
  * @param   value Counter value.
  * @return  None.
  */
-void ext_counter_set_value(timer_num_t timer_num, uint32_t value);
+void etr_set_value(timer_num_t timer_num, uint32_t value);
 
 /*
  * @brief   Set counter mode.
@@ -264,7 +264,7 @@ void ext_counter_set_value(timer_num_t timer_num, uint32_t value);
  *      - 0: Success.
  *      - (-1): Fail.
  */
-int ext_counter_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode);
+int etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode);
 
 
 #ifdef __cplusplus
