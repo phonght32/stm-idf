@@ -173,7 +173,7 @@ typedef struct {
     timer_pins_pack_t       timer_pins_pack;    /*!< Timer Pins Pack */
     uint32_t                max_reload;         /*!< Timer Max Reload value */
     timer_counter_mode_t    counter_mode;       /*!< Timer Counter Mode */
-} ext_counter_config_t;
+} etr_config_t;
 
 /*
  * @brief   Initialize PWM.
@@ -245,7 +245,7 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, u
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t etr_config(ext_counter_config_t *config);
+stm_err_t etr_config(etr_config_t *config);
 
 /*
  * @brief   Start counter external pulse input.

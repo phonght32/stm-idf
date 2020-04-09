@@ -923,7 +923,7 @@ stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uin
     return STM_OK;
 }
 
-stm_err_t etr_config(ext_counter_config_t *config)
+stm_err_t etr_config(etr_config_t *config)
 {
     /* Check input condition */
     TIMER_CHECK(config, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
