@@ -164,8 +164,6 @@ typedef struct {
     timer_num_t         timer_num;              /*!< Timer Num */
     timer_channel_t     timer_channel;          /*!< Timer Channel */
     timer_pins_pack_t   timer_pins_pack;        /*!< Timer Pins Pack */
-    uint32_t            pwm_freq_hz;            /*!< PWM Frequency */
-    uint8_t             pwm_duty_percent;       /*!< PWM Duty Cycle  */
 } pwm_config_t;
 
 typedef struct {
