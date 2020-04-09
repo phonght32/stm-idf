@@ -35,7 +35,7 @@
 #define ETR_SET_VALUE_ERR_STR       "etr set value error"
 #define ETR_SET_MODE_ERR_STR        "etr set mode error"
 
-static const char* TIMER_TAG = "TIMER";
+static const char* TIMER_TAG = "DRIVER TIMER";
 #define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(TIMER_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                  \

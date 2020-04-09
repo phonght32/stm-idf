@@ -11,7 +11,7 @@
 #define UART_TRANS_ERR_STR          "uart transmit error"
 #define UART_REC_ERR_STR            "uart_receive error"
 
-static const char* UART_TAG = "UART";
+static const char* UART_TAG = "DRIVER UART";
 #define UART_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(UART_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                   \
