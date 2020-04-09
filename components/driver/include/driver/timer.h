@@ -268,9 +268,12 @@ stm_err_t etr_stop(timer_num_t timer_num);
 /*
  * @brief   Get counter value.
  * @param   timer_num Timer num.
- * @return  Counter value.
+ * @param   value Counter value.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
  */
-uint32_t etr_get_value(timer_num_t timer_num);
+stm_err_t etr_get_value(timer_num_t timer_num, uint32_t *value);
 
 /*
  * @brief   Set counter value.

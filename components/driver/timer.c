@@ -1003,14 +1003,20 @@ stm_err_t etr_start(timer_num_t timer_num)
 
 stm_err_t etr_stop(timer_num_t timer_num)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Stop time base */
     HAL_TIM_Base_Stop(&timer_handle[timer_num]);
+    return STM_OK;
 }
 
-uint32_t etr_get_value(timer_num_t timer_num)
+stm_err_t etr_get_value(timer_num_t timer_num, uint32_t *value)
 {
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Get counter value */
     return __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
+    return STM_OK;
 }
 
 stm_err_t etr_set_value(timer_num_t timer_num, uint32_t value)
