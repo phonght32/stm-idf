@@ -1015,7 +1015,7 @@ stm_err_t etr_get_value(timer_num_t timer_num, uint32_t *value)
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get counter value */
-    return __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
+    *value = __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
     return STM_OK;
 }
 
