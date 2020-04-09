@@ -227,6 +227,18 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel
 stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
 
 /*
+ * @brief   Set PWM set frequency and duty cycle.
+ * @param   timer_num Timer num.
+ * @param   freq_hz Frequency in Hz.
+ * @param   timer_channel Timer channel.
+ * @param   duty_percent Duty cycle in %.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
+ */
+stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz, uint8_t duty_percent);
+
+/*
  * @brief   Initialize External Counter input.
  * @param   config Struct pointer.
  * @return

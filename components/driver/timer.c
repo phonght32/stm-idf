@@ -24,6 +24,7 @@
 #define PWM_STOP_ERR_STR            "pwm stop error"
 #define PWM_SET_FREQ_ERR_STR        "pwm set frequency error"
 #define PWM_SET_DUTYCYCLE_ERR_STR   "pwm set duty cycle error"
+#define PWM_SET_PARAMS_ERR_STR      "pwm set params error"
 #define PWM_FREQUENCY_ERR_STR       "pwm frequency error"
 #define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
 
@@ -881,6 +882,25 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel
     uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
     uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
     uint32_t timer_compare_value = cur_duty * timer_period / 100;
+
+    /* Configure Timer PWM parameters */
+    __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
+    __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
+    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+    return STM_OK;
+}
+
+stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz, uint8_t duty_percent)
+{
+    TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Calculate Timer PWM parameters. When change timer period you also
+     * need to update timer compare value to keep duty cycle stable */
+    uint32_t conduct = (uint32_t) (APBx_CLOCK_MAPPING[timer_num] / freq_hz);
+    uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
+    uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
+    uint32_t timer_compare_value = duty_percent * timer_period / 100;
 
     /* Configure Timer PWM parameters */
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
