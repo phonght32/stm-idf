@@ -78,8 +78,8 @@ stm_err_t gpio_config(gpio_config_t *config)
 {
     /* Check input parameters */
     GPIO_CHECK(config, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    GPIO_CHECK(config->port < GPIO_PORT_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    GPIO_CHECK(config->num < GPIO_NUM_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->gpio_port < GPIO_PORT_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(config->gpio_num < GPIO_NUM_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(config->mode < GPIO_MODE_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(config->pull_mode < GPIO_REG_PULL_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
@@ -89,9 +89,9 @@ stm_err_t gpio_config(gpio_config_t *config)
     GPIO_TypeDef *GPIOx;
     uint32_t GPIO_REG_PULL_TYPE;
 
-    RCC_AHB1ENR_GPIOxEN = RCC_AHB1ENR_GPIOxEN_MAPPING[config->port];
-    GPIO_PIN_x = GPIO_PIN_x_MAPPING[config->num];
-    GPIOx = GPIOx_MAPPING[config->port];
+    RCC_AHB1ENR_GPIOxEN = RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port];
+    GPIO_PIN_x = GPIO_PIN_x_MAPPING[config->gpio_num];
+    GPIOx = GPIOx_MAPPING[config->gpio_port];
     GPIO_REG_PULL_TYPE = GPIO_REG_PULL_MAPPING[config->pull_mode];
 
     /* Enable GPIO Port clock */
@@ -119,27 +119,27 @@ stm_err_t gpio_config(gpio_config_t *config)
         HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 
         /* Set GPIO default level */
-        HAL_GPIO_WritePin(GPIOx_MAPPING[config->port], GPIO_PIN_x_MAPPING[config->num], 0);
+        HAL_GPIO_WritePin(GPIOx_MAPPING[config->gpio_port], GPIO_PIN_x_MAPPING[config->gpio_num], 0);
     }
 
     return STM_OK;
 }
 
-stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state)
+stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
 {
-    GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
-    GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_GPIO_WritePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num], state);
+    HAL_GPIO_WritePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num], state);
     return STM_OK;
 }
 
-stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num)
+stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num)
 {
-    GPIO_CHECK(port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
-    GPIO_CHECK(num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_GPIO_TogglePin(GPIOx_MAPPING[port], GPIO_PIN_x_MAPPING[num]);
+    HAL_GPIO_TogglePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_x_MAPPING[gpio_num]);
     return STM_OK;
 }
 

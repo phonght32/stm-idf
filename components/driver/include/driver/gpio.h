@@ -91,8 +91,8 @@ typedef enum {
 } gpio_intr_type_t;
 
 typedef struct {
-    gpio_port_t         port;      /*!< GPIO Port */
-    gpio_num_t          num;       /*!< GPIO Pin */
+    gpio_port_t         gpio_port;      /*!< GPIO Port */
+    gpio_num_t          gpio_num;       /*!< GPIO Pin */
     gpio_mode_t         mode;      /*!< GPIO Mode */
     gpio_pull_mode_t    pull_mode;  /*!< GPIO Pull Registor */
     gpio_intr_type_t    intr_type;      /*!< GPIO interrupt type */
@@ -109,22 +109,22 @@ stm_err_t gpio_config(gpio_config_t *config);
 
 /*
  * @brief   Set GPIO level.
- * @param   port GPIO Port.
- * @param   num GPIO Num.
+ * @param   gpio_port GPIO Port.
+ * @param   gpio_num GPIO Num.
  * @param   state Level.
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t gpio_set_level(gpio_port_t port, gpio_num_t num, bool state);
+stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
 
 /*
  * @brief   Toggle GPIO level.
- * @param   port GPIO Port.
- * @param   num GPIO Num.
+ * @param   gpio_port GPIO Port.
+ * @param   gpio_num GPIO Num.
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t gpio_toggle_level(gpio_port_t port, gpio_num_t num);
+stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
 
 
 #ifdef __cplusplus
