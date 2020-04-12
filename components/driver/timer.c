@@ -892,6 +892,19 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel
 
 stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz, uint8_t duty_percent)
 {
+    if(freq_hz == 0)
+    {
+        uint16_t timer_period = 0;
+        uint16_t timer_prescaler = 0;
+        uint32_t timer_compare_value = 0;
+
+        __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
+        __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
+        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+        
+        return STM_OK;
+    }
+
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
 
