@@ -138,14 +138,14 @@ C_DEFS =  \
 ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 # C flags
-CFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections 
+CFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections -std=c11
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
 endif
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # C++ flags
-CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
+CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections -std=c++11
 CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # LD flags
