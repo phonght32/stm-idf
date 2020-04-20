@@ -20,9 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "stm32f4xx_hal.h"
+#include "system_init.h"
 
-#include "stm_log.h"
+UART_HandleTypeDef huart_log;
+
+static void stm_log_init(void)
+{
+    __HAL_RCC_USART3_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+
+    huart_log.Instance = USART3;
+    huart_log.Init.BaudRate = 115200;
+    huart_log.Init.WordLength = UART_WORDLENGTH_8B;
+    huart_log.Init.StopBits = UART_STOPBITS_1;
+    huart_log.Init.Parity = UART_PARITY_NONE;
+    huart_log.Init.Mode = UART_MODE_TX_RX;
+    huart_log.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart_log.Init.OverSampling = UART_OVERSAMPLING_16;
+    HAL_UART_Init(&huart_log);
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+}
 
 static void system_clock_init(void) 
 {
@@ -50,9 +74,7 @@ static void system_clock_init(void)
     HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5);
 }
 
-void system_init(void) __attribute__((constructor));
-
-void system_init(void)
+void system_init(void) 
 {
     /* Intialize hardware abstraction layer */
     HAL_Init();

@@ -35,7 +35,7 @@
 #define mutex_destroy(x)    vQueueDelete(x)
 
 /* UART */
-static UART_HandleTypeDef huart_log;
+extern UART_HandleTypeDef huart_log;
 static char log_buf[LOG_BUF_SIZE];
 
 /*
@@ -72,30 +72,6 @@ static void heap_bubble_down(int index);
 static inline void heap_swap(int i, int j);
 static inline bool should_output(stm_log_level_t level_for_message, stm_log_level_t level_for_tag);
 static inline void clear_log_level_list();
-
-void stm_log_init(void)
-{
-    __HAL_RCC_USART3_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-
-    huart_log.Instance = USART3;
-    huart_log.Init.BaudRate = 115200;
-    huart_log.Init.WordLength = UART_WORDLENGTH_8B;
-    huart_log.Init.StopBits = UART_STOPBITS_1;
-    huart_log.Init.Parity = UART_PARITY_NONE;
-    huart_log.Init.Mode = UART_MODE_TX_RX;
-    huart_log.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    huart_log.Init.OverSampling = UART_OVERSAMPLING_16;
-    HAL_UART_Init(&huart_log);
-
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-}
 
 void stm_log_level_set(const char *tag, stm_log_level_t level)
 {

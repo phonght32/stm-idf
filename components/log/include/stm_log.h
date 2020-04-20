@@ -43,13 +43,6 @@ typedef enum {
 } stm_log_level_t;
 
 /*
-* @brief   Initialize stm log.
-* @param   huart Uart handle.
-* @return  None.
-*/
-void stm_log_init(void);
-
-/*
 * @brief   Set log level for given tag.
 * @param   tag Description tag.
 * @param   level Log level output.
