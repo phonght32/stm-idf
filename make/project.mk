@@ -149,7 +149,7 @@ CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunc
 CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # LD flags
-LDSCRIPT = stm-idf/make/stm32f4xx_flash.ld
+LDSCRIPT = $(STM_IDF_PATH)/make/stm32f4xx_flash.ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
