@@ -23,8 +23,7 @@ std_msgs::String str_msg;
 ros::Publisher chatter("chatter", &str_msg); 
 ros::Subscriber<std_msgs::UInt16> sub("led", led_cb);
 
-const char * hello = "Hello World !"; 
-
+const char *hello = "Hello World !"; 
 
 static void example_task(void* arg)
 {
