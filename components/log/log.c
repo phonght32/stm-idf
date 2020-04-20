@@ -75,10 +75,10 @@ static inline void clear_log_level_list();
 
 void stm_log_init(void)
 {
-    __HAL_RCC_USART6_CLK_ENABLE();
+    __HAL_RCC_USART3_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
 
-    huart_log.Instance = USART6;
+    huart_log.Instance = USART3;
     huart_log.Init.BaudRate = 115200;
     huart_log.Init.WordLength = UART_WORDLENGTH_8B;
     huart_log.Init.StopBits = UART_STOPBITS_1;
@@ -89,11 +89,11 @@ void stm_log_init(void)
     HAL_UART_Init(&huart_log);
 
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF8_USART6;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 }
 
