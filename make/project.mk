@@ -10,7 +10,7 @@ help:
 	@echo ""
 	@echo "make build - Build project"
 	@echo "make clean - Remove all build output"
-	@echo "make flash - Flash to stm32 targets via ST-LinkV2"
+	@echo "make flash - Flash to stm32 targets by bootloader over USART"
 	@echo "make monitor - View log output"
 	@echo ""
 	@echo "Visit https://github.com/thanhphong98/stm-idf to see more details about STM-IDF or contribute"
