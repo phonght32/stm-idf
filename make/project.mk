@@ -208,7 +208,7 @@ clean:
 # flash
 #######################################
 flash:
-	st-flash write build/$(PROJECT_NAME).bin 0x8000000
+	$(STM_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x0 /dev/ttyUSB0
   
 #######################################
 # monitor 
