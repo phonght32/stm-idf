@@ -3,14 +3,15 @@
 # makefiles of all components (in a seperate make process) to build all libraries, then links them 
 # together into the final file. 
 
-.PHONY: build flash clean monitor help
+.PHONY: build flash_usart flash_stlink clean monitor help
 
 help:
 	@echo "Welcom to STM-IDF. There are some make targets:"
 	@echo ""
 	@echo "make build - Build project"
 	@echo "make clean - Remove all build output"
-	@echo "make flash - Flash to stm32 targets by bootloader over USART"
+	@echo "make flash_usart - Flash to stm32 targets by bootloader over USART"
+	@echo "make flash_stlink - Flash to stm32 targets over st-linkV2"
 	@echo "make monitor - View log output"
 	@echo ""
 	@echo "Visit https://github.com/thanhphong98/stm-idf to see more details about STM-IDF or contribute"
@@ -206,10 +207,18 @@ clean:
   
 
 #######################################
-# flash
+# flash over USART
 #######################################
-flash:
+flash_usart:
 	$(STM_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x8000000 /dev/ttyUSB0  
+  
+
+#######################################
+# flash over USART
+#######################################
+flash_stlink:
+	st-flash write build/$(PROJECT_NAME).bin 0x8000000
+  
 
 #######################################
 # monitor 
