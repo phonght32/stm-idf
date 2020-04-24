@@ -29,18 +29,18 @@ ifndef BUILD_DIR
 export BUILD_DIR
 endif
 
-# If no configure STM_IDF_PATH to variable environment, use stm-idf in current project. Assume
-# current project contain stm-idf
-ifndef STM_IDF_PATH
-STM_IDF_PATH := $(PROJECT_PATH)/stm-idf
-export STM_IDF_PATH
+# If no configure STM32F4_IDF_PATH to variable environment, use stm-idf in current project. Assume
+# current project contain stm32f4-idf
+ifndef STM32F4_IDF_PATH
+STM32F4_IDF_PATH := $(PROJECT_PATH)/stm32f4-idf
+export STM32F4_IDF_PATH
 endif
 
 # Component directory. The project Makefile can override these directory, or add extra component
 # directory via EXTRA_COMPONENT_DIRS
 ifndef COMPONENT_DIRS
 EXTRA_COMPONENT_DIRS ?=
-COMPONENT_DIRS := $(PROJECT_PATH)/components $(EXTRA_COMPONENT_DIRS) $(STM_IDF_PATH)/components $(PROJECT_PATH)/main
+COMPONENT_DIRS := $(PROJECT_PATH)/components $(EXTRA_COMPONENT_DIRS) $(STM32F4_IDF_PATH)/components $(PROJECT_PATH)/main
 endif
 
 # Make sure that every directory in the list is absulute path without trailing slash.
@@ -150,7 +150,7 @@ CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunc
 CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # LD flags
-LDSCRIPT = $(STM_IDF_PATH)/make/stm32f4xx_flash.ld
+LDSCRIPT = $(STM32F4_IDF_PATH)/make/stm32f4xx_flash.ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
@@ -210,7 +210,7 @@ clean:
 # flash over USART
 #######################################
 flash_usart:
-	$(STM_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x8000000 /dev/ttyUSB0  
+	$(STM32F4_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x8000000 /dev/ttyUSB0  
   
 
 #######################################
