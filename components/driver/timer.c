@@ -592,7 +592,7 @@ static TIM_HandleTypeDef timer_handle[TIMER_NUM_MAX];
 /*
  * Timer Channel Mapping Table.
  */
-uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHANNEL_MAX] = {
+uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
     TIM_CHANNEL_1,      /*!< HAL Timer channel 1 define */
     TIM_CHANNEL_2,      /*!< HAL Timer channel 2 define */
     TIM_CHANNEL_3,      /*!< HAL Timer channel 3 define */
@@ -627,7 +627,7 @@ uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
 /*
  * Timer Hardware Information Mapping Table.
  */
-tim_hw_info_t TIM_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_CHANNEL_MAX][TIMER_PINS_PACK_MAX] = {
+tim_hw_info_t TIM_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_CHNL_MAX][TIMER_PINS_PACK_MAX] = {
     {   {TIM1_CH1_PP1_HW_INFO , TIM1_CH1_PP2_HW_INFO ,                  {0}},
         {TIM1_CH2_PP1_HW_INFO , TIM1_CH2_PP2_HW_INFO ,                  {0}},
         {TIM1_CH3_PP1_HW_INFO , TIM1_CH3_PP2_HW_INFO ,                  {0}},
@@ -775,7 +775,7 @@ stm_err_t pwm_config(pwm_config_t *config)
     TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_num < TIMER_NUM_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_pins_pack < TIMER_PINS_PACK_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(config->timer_chnl < TIMER_CHANNEL_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_chnl < TIMER_CHNL_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_chnl, config->timer_pins_pack);
@@ -852,7 +852,7 @@ stm_err_t pwm_config(pwm_config_t *config)
 stm_err_t pwm_start(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
 
     HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     return STM_OK;
@@ -861,7 +861,7 @@ stm_err_t pwm_start(timer_num_t timer_num, timer_chnl_t timer_chnl)
 stm_err_t pwm_stop(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
 
     HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     return STM_OK;
@@ -870,7 +870,7 @@ stm_err_t pwm_stop(timer_num_t timer_num, timer_chnl_t timer_chnl)
 stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
 
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
     uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
@@ -906,7 +906,7 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_
     }
 
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Calculate Timer PWM parameters. When change timer period you also
      * need to update timer compare value to keep duty cycle stable */
@@ -925,7 +925,7 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_
 stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t duty_percent)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Calculate PWM compare value */
     uint32_t compare_value;
