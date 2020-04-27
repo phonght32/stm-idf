@@ -96,35 +96,21 @@ stm_err_t gpio_config(gpio_config_t *config)
     GPIO_CHECK(config->gpio_port < GPIO_PORT_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(config->gpio_num < GPIO_NUM_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(config->mode < GPIO_MODE_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    GPIO_CHECK(config->pull_mode < GPIO_REG_PULL_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-
-    /* Mapping GPIO Parameters */
-    uint32_t RCC_AHB1ENR_GPIOxEN;
-    uint16_t GPIO_PIN_x;
-    GPIO_TypeDef *GPIOx;
-    uint32_t GPIO_REG_PULL_TYPE;
-
-    RCC_AHB1ENR_GPIOxEN = RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port];
-    GPIO_PIN_x = GPIO_PIN_x_MAPPING[config->gpio_num];
-    GPIOx = GPIOx_MAPPING[config->gpio_port];
-    GPIO_REG_PULL_TYPE = GPIO_REG_PULL_MAPPING[config->pull_mode];
+    GPIO_CHECK(config->reg_pull_mode < GPIO_REG_PULL_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Enable GPIO Port clock */
     uint32_t tmpreg = 0x00;
-    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
-    tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN);
+    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port]);
+    tmpreg = READ_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port]);
     UNUSED(tmpreg);
 
     /* Initialize GPIO function */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-
-    GPIO_InitStruct.Pin = GPIO_PIN_x;
+    GPIO_InitStruct.Pin = GPIO_PIN_x_MAPPING[config->gpio_num];
     GPIO_InitStruct.Mode = GPIO_MODE_MAPPING[config->mode];
-    GPIO_InitStruct.Pull = GPIO_REG_PULL_TYPE;
+    GPIO_InitStruct.Pull = GPIO_REG_PULL_MAPPING[config->reg_pull_mode];
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
-
+    HAL_GPIO_Init(GPIOx_MAPPING[config->gpio_port], &GPIO_InitStruct);
 
     return STM_OK;
 }

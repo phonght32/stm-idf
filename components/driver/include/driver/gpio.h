@@ -90,7 +90,7 @@ typedef enum {
     GPIO_REG_PULL_UP,           /*!< Registor pull up selected */
     GPIO_REG_PULL_DOWN,         /*!< Registor pull down selected*/
     GPIO_REG_PULL_MAX
-} gpio_pull_mode_t;
+} gpio_reg_pull_mode_t;
 
 typedef enum {
     GPIO_INTR_DISABLE = 0,      /*!< Disable interrupt */
@@ -101,11 +101,11 @@ typedef enum {
 } gpio_intr_type_t;
 
 typedef struct {
-    gpio_port_t         gpio_port;      /*!< GPIO Port */
-    gpio_num_t          gpio_num;       /*!< GPIO Pin */
-    gpio_mode_t         mode;      /*!< GPIO Mode */
-    gpio_pull_mode_t    pull_mode;  /*!< GPIO Pull Registor */
-    gpio_intr_type_t    intr_type;      /*!< GPIO interrupt type */
+    gpio_port_t             gpio_port;      /*!< GPIO Port */
+    gpio_num_t              gpio_num;       /*!< GPIO Pin */
+    gpio_mode_t             mode;      /*!< GPIO Mode */
+    gpio_reg_pull_mode_t    reg_pull_mode;  /*!< GPIO Pull Registor */
+    gpio_intr_type_t        intr_type;      /*!< GPIO interrupt type */
 } gpio_config_t;
 
 /*
