@@ -74,6 +74,21 @@ static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOIEN,    /*!< HAL GPIO Port I RCC AHBENR Register define */
 };
 
+static uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
+    GPIO_MODE_INPUT,
+    GPIO_MODE_OUTPUT_PP,
+    GPIO_MODE_OUTPUT_OD,
+    GPIO_MODE_AF_PP,
+    GPIO_MODE_AF_OD,
+    GPIO_MODE_ANALOG,
+    GPIO_MODE_IT_RISING,
+    GPIO_MODE_IT_FALLING,
+    GPIO_MODE_IT_RISING_FALLING,
+    GPIO_MODE_EVT_RISING,
+    GPIO_MODE_EVT_FALLING,
+    GPIO_MODE_EVT_RISING_FALLING
+};
+
 stm_err_t gpio_config(gpio_config_t *config)
 {
     /* Check input parameters */
@@ -102,25 +117,14 @@ stm_err_t gpio_config(gpio_config_t *config)
 
     /* Initialize GPIO function */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
-    if (config->mode == GPIO_INPUT)        /*!< Input mode configuration */
-    {
-        GPIO_InitStruct.Pin = GPIO_PIN_x;
-        GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-        GPIO_InitStruct.Pull = GPIO_REG_PULL_TYPE;
-        HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
-    }
-    if (config->mode == GPIO_OUTPUT)       /*!< Output mode configuration */
-    {
-        HAL_GPIO_WritePin(GPIOx, GPIO_PIN_x, GPIO_PIN_RESET);
-        GPIO_InitStruct.Pin = GPIO_PIN_x;
-        GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        GPIO_InitStruct.Pull = GPIO_REG_PULL_TYPE;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-        HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
 
-        /* Set GPIO default level */
-        HAL_GPIO_WritePin(GPIOx_MAPPING[config->gpio_port], GPIO_PIN_x_MAPPING[config->gpio_num], 0);
-    }
+
+    GPIO_InitStruct.Pin = GPIO_PIN_x;
+    GPIO_InitStruct.Mode = GPIO_MODE_MAPPING[config->mode];
+    GPIO_InitStruct.Pull = GPIO_REG_PULL_TYPE;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
+    HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
+
 
     return STM_OK;
 }

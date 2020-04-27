@@ -71,7 +71,17 @@ typedef enum {
 
 typedef enum {
     GPIO_INPUT = 0,     /*!< Input mode selected */
-    GPIO_OUTPUT,        /*!< Output mode selected */
+    GPIO_OUTPUT_PP,        /*!< Output mode selected */
+    GPIO_OUTPUT_OD,
+    GPIO_AF_PP,
+    GPIO_AF_OD,
+    GPIO_ANALOG,
+    GPIO_IT_RISING_EDGE,
+    GPIO_IT_FALLING_EDGE,
+    GPIO_IT_BOTH_EDGE,
+    GPIO_EVT_RISING_EDGE,
+    GPIO_EVT_FALLING_EDGE,
+    GPIO_EVT_BOTH_EDGE,
     GPIO_MODE_MAX
 } gpio_mode_t;
 
