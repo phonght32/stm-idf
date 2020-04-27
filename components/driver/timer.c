@@ -753,10 +753,10 @@ static TIM_TypeDef *TIM_MAPPING[TIMER_NUM_MAX] = {
     TIM14
 };
 
-static tim_hw_info_t _tim_pwm_get_hw_info(timer_num_t timer_num, timer_channel_t timer_channel, timer_pins_pack_t timer_pins_pack)
+static tim_hw_info_t _tim_pwm_get_hw_info(timer_num_t timer_num, timer_chnl_t timer_chnl, timer_pins_pack_t timer_pins_pack)
 {
     tim_hw_info_t hw_info;
-    hw_info = TIM_HW_INFO_MAPPING[timer_num][timer_channel][timer_pins_pack];
+    hw_info = TIM_HW_INFO_MAPPING[timer_num][timer_chnl][timer_pins_pack];
 
     return hw_info;
 }
@@ -775,10 +775,10 @@ stm_err_t pwm_config(pwm_config_t *config)
     TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_num < TIMER_NUM_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(config->timer_pins_pack < TIMER_PINS_PACK_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(config->timer_channel < TIMER_CHANNEL_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(config->timer_chnl < TIMER_CHANNEL_MAX, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get hardware information */
-    tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_channel, config->timer_pins_pack);
+    tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_chnl, config->timer_pins_pack);
 
     int ret;
 
@@ -842,38 +842,38 @@ stm_err_t pwm_config(pwm_config_t *config)
     sConfigOC.Pulse = 0;
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    ret = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_channel]);
+    ret = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_chnl]);
     TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
 
     HAL_TIM_Base_Start(&timer_handle[config->timer_num]);
     return STM_OK;
 }
 
-stm_err_t pwm_start(timer_num_t timer_num, timer_channel_t timer_channel)
+stm_err_t pwm_start(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     return STM_OK;
 }
 
-stm_err_t pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel)
+stm_err_t pwm_stop(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     return STM_OK;
 }
 
-stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz)
+stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
 
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
-    uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel]);
+    uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     uint8_t cur_duty = (uint8_t)(cur_compare * 100 / cur_period);
 
     /* Calculate Timer PWM parameters. When change timer period you also
@@ -886,11 +886,11 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel
     /* Configure Timer PWM parameters */
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
-    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
     return STM_OK;
 }
 
-stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz, uint8_t duty_percent)
+stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz, uint8_t duty_percent)
 {
     if(freq_hz == 0)
     {
@@ -900,13 +900,13 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, u
 
         __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
         __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
-        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
         
         return STM_OK;
     }
 
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Calculate Timer PWM parameters. When change timer period you also
      * need to update timer compare value to keep duty cycle stable */
@@ -918,21 +918,21 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, u
     /* Configure Timer PWM parameters */
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
-    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], timer_compare_value);
+    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
     return STM_OK;
 }
 
-stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent)
+stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t duty_percent)
 {
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
-    TIMER_CHECK(timer_channel < TIMER_CHANNEL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(timer_chnl < TIMER_CHANNEL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Calculate PWM compare value */
     uint32_t compare_value;
     compare_value = duty_percent * (timer_handle[timer_num].Instance->ARR) / 100;
 
     /* Configure PWM compare value */
-    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_channel], compare_value);
+    __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], compare_value);
     return STM_OK;
 }
 
