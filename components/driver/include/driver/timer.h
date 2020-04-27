@@ -140,12 +140,12 @@ typedef enum {
 } timer_num_t;
 
 typedef enum {
-    TIMER_CHANNEL_1 = 0,    /*!< Timer Channel 1 selected */
-    TIMER_CHANNEL_2,        /*!< Timer Channel 2 selected */
-    TIMER_CHANNEL_3,        /*!< Timer Channel 3 selected */
-    TIMER_CHANNEL_4,        /*!< Timer Channel 4 selected */
-    TIMER_CHANNEL_MAX
-} timer_channel_t;
+    TIMER_CHNL_1 = 0,    /*!< Timer Channel 1 selected */
+    TIMER_CHNL_2,        /*!< Timer Channel 2 selected */
+    TIMER_CHNL_3,        /*!< Timer Channel 3 selected */
+    TIMER_CHNL_4,        /*!< Timer Channel 4 selected */
+    TIMER_CHNL_MAX
+} timer_chnl_t;
 
 typedef enum {
     TIMER_PINS_PACK_1 = 0,  /*!< Timer Pins Pack 1 selected */
@@ -162,7 +162,7 @@ typedef enum {
 
 typedef struct {
     timer_num_t         timer_num;              /*!< Timer Num */
-    timer_channel_t     timer_channel;          /*!< Timer Channel */
+    timer_chnl_t        timer_chnl;             /*!< Timer Channel */
     timer_pins_pack_t   timer_pins_pack;        /*!< Timer Pins Pack */
 } pwm_config_t;
 
@@ -185,56 +185,56 @@ stm_err_t pwm_config(pwm_config_t *config);
 /*
  * @brief   Start PWM generate.
  * @param   timer_num Timer num.
- * @param   timer_channel Timer channel.
+ * @param   timer_chnl Timer channel.
  * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_start(timer_num_t timer_num, timer_channel_t timer_channel);
+stm_err_t pwm_start(timer_num_t timer_num, timer_chnl_t timer_chnl);
 
 /*
  * @brief   Stop PWM generate.
  * @param   timer_num Timer num.
- * @param   timer_channel Timer channel.
+ * @param   timer_chnl Timer channel.
  * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_stop(timer_num_t timer_num, timer_channel_t timer_channel);
+stm_err_t pwm_stop(timer_num_t timer_num, timer_chnl_t timer_chnl);
 
 /*
  * @brief   Set PWM frequency in Hz.
  * @param   timer_num Timer num.
- * @param   timer_channel Timer channel.
+ * @param   timer_chnl Timer channel.
  * @param   freq_hz Frequency in Hz.
  * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz);
+stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz);
 
 /*
  * @brief   Set PWM duty cycle in %.
  * @param   timer_num Timer num.
- * @param   timer_channel Timer channel.
+ * @param   timer_chnl Timer channel.
  * @param   duty_percent Duty cycle in %.
  * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_set_duty(timer_num_t timer_num, timer_channel_t timer_channel, uint8_t duty_percent);
+stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t duty_percent);
 
 /*
  * @brief   Set PWM set frequency and duty cycle.
  * @param   timer_num Timer num.
  * @param   freq_hz Frequency in Hz.
- * @param   timer_channel Timer channel.
+ * @param   timer_chnl Timer channel.
  * @param   duty_percent Duty cycle in %.
  * @return
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_set_params(timer_num_t timer_num, timer_channel_t timer_channel, uint32_t freq_hz, uint8_t duty_percent);
+stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz, uint8_t duty_percent);
 
 /*
  * @brief   Initialize External Counter input.

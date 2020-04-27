@@ -38,17 +38,17 @@
 
 #define TIMER_NUM           TIMER_NUM_4
 #define TIMER_PINS_PACK     TIMER_PINS_PACK_2 
-#define TIMER_CHANNEL       TIMER_CHANNEL_1
-
+#define TIMER_CHANNEL       TIMER_CHANNEL_2
+ 
 static const char *TAG = "APP_MAIN";
-
+ 
 static void example_task(void* arg)
 {
     /* Configure Timer pin as PWM generation output */
     pwm_config_t pwm_cfg;
     pwm_cfg.timer_num = TIMER_NUM;
     pwm_cfg.timer_pins_pack = TIMER_PINS_PACK;
-    pwm_cfg.timer_channel = TIMER_CHANNEL;
+    pwm_cfg.timer_chnl = TIMER_CHANNEL;
     pwm_config(&pwm_cfg);
 
     /* Configure PWM frequency and duty cycle */
