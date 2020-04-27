@@ -140,11 +140,11 @@ typedef enum {
 } timer_num_t;
 
 typedef enum {
-    TIMER_CHANNEL_1 = 0,    /*!< Timer Channel 1 selected */
-    TIMER_CHANNEL_2,        /*!< Timer Channel 2 selected */
-    TIMER_CHANNEL_3,        /*!< Timer Channel 3 selected */
-    TIMER_CHANNEL_4,        /*!< Timer Channel 4 selected */
-    TIMER_CHANNEL_MAX
+    TIMER_CHNL_1 = 0,    /*!< Timer Channel 1 selected */
+    TIMER_CHNL_2,        /*!< Timer Channel 2 selected */
+    TIMER_CHNL_3,        /*!< Timer Channel 3 selected */
+    TIMER_CHNL_4,        /*!< Timer Channel 4 selected */
+    TIMER_CHNL_MAX
 } timer_chnl_t;
 
 typedef enum {
