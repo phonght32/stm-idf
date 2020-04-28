@@ -44,562 +44,369 @@ static const char* TIMER_TAG = "DRIVER TIMER";
 /*
  * Timer Hardware Information.
  */
-#define TIM1_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM1_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM1_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM1_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_10,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_10}
 
-#define TIM1_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_10,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_10}
 
-#define TIM1_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_13,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_13}
 
-#define TIM1_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_11,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_11}
 
-#define TIM1_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_14,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_14}
 
-#define TIM2_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM2_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_5,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_5}
 
-#define TIM2_CH1_PP3_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH1_PP3_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_15,                        \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_15}
 
-#define TIM2_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_1,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_1}
 
-#define TIM2_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_3,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_3}
 
-#define TIM2_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_2,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_2}
 
-#define TIM2_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_10,                        \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_10}
 
-#define TIM2_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_3,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_3}
 
-#define TIM2_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_11,                        \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_11}
 
-#define TIM3_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM3_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_4,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_4}
 
-#define TIM3_CH1_PP3_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH1_PP3_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM3_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM3_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_5,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_5}
 
-#define TIM3_CH2_PP3_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH2_PP3_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM3_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM3_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM3_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_1,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_1}
 
-#define TIM3_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_9}
 
 
-#define TIM4_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM4_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
                                      .port = GPIOD,                             \
-                                     .pin = GPIO_PIN_12,                        \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_12}
 
-#define TIM4_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM4_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
                                      .port = GPIOD,                             \
-                                     .pin = GPIO_PIN_13,                        \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_13}
 
-#define TIM4_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM4_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
                                      .port = GPIOD,                             \
-                                     .pin = GPIO_PIN_14,                        \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_14}
 
-#define TIM4_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM4_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
                                      .port = GPIOD,                             \
-                                     .pin = GPIO_PIN_15,                        \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_15}
 
-#define TIM5_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM5_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
                                      .port = GPIOH,                             \
-                                     .pin = GPIO_PIN_10,                        \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_10}
 
-#define TIM5_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                     \
-                                     .pin = GPIO_PIN_1,                         \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_1}
 
-#define TIM5_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
                                      .port = GPIOH,                             \
-                                     .pin = GPIO_PIN_11,                        \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_11}
 
-#define TIM5_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_2,                         \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_2}
 
-#define TIM5_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
                                      .port = GPIOH,                             \
-                                     .pin = GPIO_PIN_12,                        \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_12}
 
-#define TIM5_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_3,                         \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_3}
 
-#define TIM5_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM5EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
-                                     .timer = TIM5,                             \
+#define TIM5_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF2_TIM5}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM8_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM8_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
-                                     .pin = GPIO_PIN_15,                        \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_15}
 
-#define TIM8_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM8_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM8_CH3_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM8_CH3_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM8_CH4_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM8_CH4_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
-                                     .pin = GPIO_PIN_2,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
+                                     .pin = GPIO_PIN_2}
 
-#define TIM9_CH1_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM9EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM9,                             \
+#define TIM9_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_2,                         \
-                                     .alternate_func = GPIO_AF3_TIM9}
+                                     .pin = GPIO_PIN_2}
 
-#define TIM9_CH1_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM9EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM9,                             \
+#define TIM9_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_5,                         \
-                                     .alternate_func = GPIO_AF3_TIM9}
+                                     .pin = GPIO_PIN_5}
 
-#define TIM9_CH2_PP1_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM9EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM9,                             \
+#define TIM9_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_3,                         \
-                                     .alternate_func = GPIO_AF3_TIM9}
+                                     .pin = GPIO_PIN_3}
 
-#define TIM9_CH2_PP2_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM9EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM9,                             \
+#define TIM9_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF3_TIM9}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM10_CH1_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB2ENR_TIM10EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM10,                            \
+#define TIM10_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF3_TIM10}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM10_CH1_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB2ENR_TIM10EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
-                                     .timer = TIM10,                            \
+#define TIM10_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF3_TIM10}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM11_CH1_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB2ENR_TIM11EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM11,                            \
+#define TIM11_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF3_TIM11}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM11_CH1_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB2ENR_TIM11EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
-                                     .timer = TIM11,                            \
+#define TIM11_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF3_TIM11}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM12_CH1_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM12EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM12,                            \
+#define TIM12_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_14,                        \
-                                     .alternate_func = GPIO_AF9_TIM12}
+                                     .pin = GPIO_PIN_14}
 
-#define TIM12_CH1_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM12EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
-                                     .timer = TIM12,                            \
+#define TIM12_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
                                      .port = GPIOH,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF9_TIM12}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM12_CH2_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM12EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
-                                     .timer = TIM12,                            \
+#define TIM12_CH2_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
-                                     .pin = GPIO_PIN_15,                        \
-                                     .alternate_func = GPIO_AF9_TIM12}
+                                     .pin = GPIO_PIN_15}
 
-#define TIM12_CH2_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM12EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
-                                     .timer = TIM12,                            \
+#define TIM12_CH2_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOHEN,  \
                                      .port = GPIOH,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF9_TIM12}
+                                     .pin = GPIO_PIN_9}
 
-#define TIM13_CH1_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM13EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM13,                            \
+#define TIM13_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_6,                         \
-                                     .alternate_func = GPIO_AF9_TIM13}
+                                     .pin = GPIO_PIN_6}
 
-#define TIM13_CH1_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM13EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
-                                     .timer = TIM13,                            \
+#define TIM13_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
-                                     .pin = GPIO_PIN_8,                         \
-                                     .alternate_func = GPIO_AF9_TIM13}
+                                     .pin = GPIO_PIN_8}
 
-#define TIM14_CH1_PP1_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM14EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM14,                            \
+#define TIM14_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF9_TIM14}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM14_CH1_PP2_HW_INFO       {.rcc_apbenr_timen = RCC_APB1ENR_TIM14EN,   \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
-                                     .timer = TIM14,                            \
+#define TIM14_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
-                                     .pin = GPIO_PIN_9,                         \
-                                     .alternate_func = GPIO_AF9_TIM14}
+                                     .pin = GPIO_PIN_9}
 
 /*
  * Timer External Counter Hardware Information.
  */
-#define TIM1_PP1_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_12,                        \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_12}
 
-#define TIM1_PP2_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM1EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM1,                             \
+#define TIM1_PP2_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_7,                         \
-                                     .alternate_func = GPIO_AF1_TIM1}
+                                     .pin = GPIO_PIN_7}
 
-#define TIM2_PP1_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM2_PP2_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_PP2_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_5,                         \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_5}
 
-#define TIM2_PP3_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM2EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM2,                             \
+#define TIM2_PP3_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_15,                        \
-                                     .alternate_func = GPIO_AF1_TIM2}
+                                     .pin = GPIO_PIN_15}
 
-#define TIM3_PP1_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM3EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
-                                     .timer = TIM3,                             \
+#define TIM3_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIODEN,  \
                                      .port = GPIOD,                             \
-                                     .pin = GPIO_PIN_2,                         \
-                                     .alternate_func = GPIO_AF2_TIM3}
+                                     .pin = GPIO_PIN_2}
 
-#define TIM4_PP1_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB1ENR_TIM4EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
-                                     .timer = TIM4,                             \
+#define TIM4_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOEEN,  \
                                      .port = GPIOE,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF2_TIM4}
+                                     .pin = GPIO_PIN_0}
 
-#define TIM8_PP1_ETR_HW_INFO        {.rcc_apbenr_timen = RCC_APB2ENR_TIM8EN,    \
-                                     .rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
-                                     .timer = TIM8,                             \
+#define TIM8_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
-                                     .pin = GPIO_PIN_0,                         \
-                                     .alternate_func = GPIO_AF3_TIM8}
-/*
- * Timer Hardware Information.
- */
-typedef struct {
-    uint32_t        rcc_apbenr_timen;       /*!< Timer RCC APBENR register */
-    uint32_t        rcc_ahbenr_gpioen;      /*!< GPIO RCC AHPENR register */
-    TIM_TypeDef     *timer;                 /*!< TIM */
-    GPIO_TypeDef    *port;                  /*!< General Purpose I/O */
-    uint16_t        pin;                    /*!< Pin */
-    uint8_t         alternate_func;         /*!< Alternative function */
-} tim_hw_info_t;
+                                     .pin = GPIO_PIN_0}
 
 /*
  * Timer Handle.
  */
 static TIM_HandleTypeDef timer_handle[TIMER_NUM_MAX];
 
+static TIM_TypeDef* TIM_MAPPING[TIMER_NUM_MAX] = {
+    TIM1,
+    TIM2,
+    TIM3,
+    TIM4,
+    TIM5,
+    TIM6,
+    TIM7,
+    TIM8,
+    TIM9,
+    TIM10,
+    TIM11,
+    TIM12,
+    TIM13,
+    TIM14
+};
+
+static uint32_t TIM_ALTERNATE_FUNC_MAPPING[TIMER_NUM_MAX] = {
+    GPIO_AF1_TIM1,
+    GPIO_AF1_TIM2,
+    GPIO_AF2_TIM3,
+    GPIO_AF2_TIM4,
+    GPIO_AF2_TIM5,
+    0,
+    0,
+    GPIO_AF3_TIM8,
+    GPIO_AF3_TIM9,
+    GPIO_AF3_TIM10,
+    GPIO_AF3_TIM11,
+    GPIO_AF9_TIM12,
+    GPIO_AF9_TIM13,
+    GPIO_AF9_TIM14
+};
+
+/*
+ * Timer Hardware Information.
+ */
+typedef struct {
+    uint32_t        rcc_ahbenr_gpioen;      /*!< GPIO RCC AHPENR register */
+    GPIO_TypeDef    *port;                  /*!< General Purpose I/O */
+    uint16_t        pin;                    /*!< Pin */
+} tim_hw_info_t;
+
 /*
  * Timer Channel Mapping Table.
  */
-uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
+static uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
     TIM_CHANNEL_1,      /*!< HAL Timer channel 1 define */
     TIM_CHANNEL_2,      /*!< HAL Timer channel 2 define */
     TIM_CHANNEL_3,      /*!< HAL Timer channel 3 define */
     TIM_CHANNEL_4       /*!< HAL Timer channel 4 define */
 };
 
-uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
+static uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
     TIM_COUNTERMODE_UP,
     TIM_COUNTERMODE_DOWN
 };
@@ -607,7 +414,7 @@ uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
 /*
  * APB Clock Mapping Table.
  */
-uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
+static uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
     APB2_CLOCK,         /*!< Timer 1 APB clock frequency */
     APB1_CLOCK,         /*!< Timer 2 APB clock frequency */
     APB1_CLOCK,         /*!< Timer 3 APB clock frequency */
@@ -622,6 +429,23 @@ uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
     APB1_CLOCK,         /*!< Timer 12 APB clock frequency */
     APB1_CLOCK,         /*!< Timer 13 APB clock frequency */
     APB1_CLOCK          /*!< Timer 14 APB clock frequency */
+};
+
+static uint32_t RCC_APBENR_TIMEN_MAPPING[TIMER_NUM_MAX] = {
+    RCC_APB2ENR_TIM1EN,
+    RCC_APB1ENR_TIM2EN,
+    RCC_APB1ENR_TIM3EN,
+    RCC_APB1ENR_TIM4EN,
+    RCC_APB1ENR_TIM5EN,
+    0,
+    0,
+    RCC_APB2ENR_TIM8EN,
+    RCC_APB2ENR_TIM9EN,
+    RCC_APB2ENR_TIM10EN,
+    RCC_APB2ENR_TIM11EN,
+    RCC_APB1ENR_TIM12EN,
+    RCC_APB1ENR_TIM13EN,
+    RCC_APB1ENR_TIM14EN
 };
 
 /*
@@ -733,26 +557,6 @@ tim_hw_info_t TIM_ETR_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_PINS_PACK_MAX] = {
     {                  {0},                  {0},                  {0}},
 };
 
-/* 
- * TIM Mapping Table 
- */
-static TIM_TypeDef *TIM_MAPPING[TIMER_NUM_MAX] = {
-    TIM1,
-    TIM2,
-    TIM3,
-    TIM4,
-    TIM5,
-    TIM6,
-    TIM7,
-    TIM8,
-    TIM9,
-    TIM10,
-    TIM11,
-    TIM12,
-    TIM13,
-    TIM14
-};
-
 static tim_hw_info_t _tim_pwm_get_hw_info(timer_num_t timer_num, timer_chnl_t timer_chnl, timer_pins_pack_t timer_pins_pack)
 {
     tim_hw_info_t hw_info;
@@ -789,12 +593,12 @@ stm_err_t pwm_config(pwm_config_t *config)
     /* Enable timer clock */
     tmpreg = 0x00;
     if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
-        SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
-        tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+        SET_BIT(RCC->APB2ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
+        tmpreg = READ_BIT(RCC->APB2ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
     }
     else {
-        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
-        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+        SET_BIT(RCC->APB1ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
+        tmpreg = READ_BIT(RCC->APB1ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
     }
     UNUSED(tmpreg);
 
@@ -804,11 +608,11 @@ stm_err_t pwm_config(pwm_config_t *config)
     GPIO_InitStruct.Mode = GPIO_MODE_DEFAULT;
     GPIO_InitStruct.Pull = GPIO_PULL_REG_DEFAULT;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    GPIO_InitStruct.Alternate = TIM_ALTERNATE_FUNC_MAPPING[config->timer_num];
     HAL_GPIO_Init(hw_info.port, &GPIO_InitStruct);
 
     /* Configure Timer */
-    timer_handle[config->timer_num].Instance                 = hw_info.timer;
+    timer_handle[config->timer_num].Instance                 = TIM_MAPPING[config->timer_num];
     timer_handle[config->timer_num].Init.Prescaler           = 0;
     timer_handle[config->timer_num].Init.CounterMode         = PWM_COUNTERMODE_DEFAULT;
     timer_handle[config->timer_num].Init.Period              = 0;
@@ -949,12 +753,12 @@ stm_err_t etr_config(etr_config_t *config)
     /* Enable timer clock */
     tmpreg = 0x00;
     if ((config->timer_num == TIMER_NUM_1) || (config->timer_num == TIMER_NUM_8) || (config->timer_num == TIMER_NUM_9) || (config->timer_num == TIMER_NUM_10) || (config->timer_num == TIMER_NUM_11)) {
-        SET_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
-        tmpreg = READ_BIT(RCC->APB2ENR, hw_info.rcc_apbenr_timen);
+        SET_BIT(RCC->APB2ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
+        tmpreg = READ_BIT(RCC->APB2ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
     }
     else {
-        SET_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
-        tmpreg = READ_BIT(RCC->APB1ENR, hw_info.rcc_apbenr_timen);
+        SET_BIT(RCC->APB1ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
+        tmpreg = READ_BIT(RCC->APB1ENR, RCC_APBENR_TIMEN_MAPPING[config->timer_num]);
     }
     UNUSED(tmpreg);
 
@@ -964,11 +768,11 @@ stm_err_t etr_config(etr_config_t *config)
     GPIO_InitStruct.Mode = GPIO_MODE_DEFAULT;
     GPIO_InitStruct.Pull = GPIO_PULL_REG_DEFAULT;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_DEFAULT;
-    GPIO_InitStruct.Alternate = hw_info.alternate_func;
+    GPIO_InitStruct.Alternate = TIM_ALTERNATE_FUNC_MAPPING[config->timer_num];
     HAL_GPIO_Init(hw_info.port, &GPIO_InitStruct);
 
     /* Configure Timer */
-    timer_handle[config->timer_num].Instance                 = hw_info.timer;
+    timer_handle[config->timer_num].Instance                 = TIM_MAPPING[config->timer_num];
     timer_handle[config->timer_num].Init.Prescaler           = EXT_CNT_PRES_DEFAULT;
     timer_handle[config->timer_num].Init.CounterMode         = TIMER_COUNTER_MODE_MAPPING[config->counter_mode];
     timer_handle[config->timer_num].Init.Period              = config->max_reload;
