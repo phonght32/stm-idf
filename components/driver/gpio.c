@@ -10,68 +10,56 @@
 static const char* GPIO_TAG = "DRIVER GPIO";
 #define GPIO_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(GPIO_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
-        return (ret);                                                                  \
+        return (ret);                                                                   \
         }
 
-/*
- * GPIO Port Mapping Table.
- */
-static GPIO_TypeDef *GPIOx_MAPPING[GPIO_PORT_MAX] = {
-    GPIOA,          /*!< HAL GPIO Port A define */
-    GPIOB,          /*!< HAL GPIO Port B define */
-    GPIOC,          /*!< HAL GPIO Port C define */
-    GPIOD,          /*!< HAL GPIO Port D define */
-    GPIOE,          /*!< HAL GPIO Port E define */
-    GPIOF,          /*!< HAL GPIO Port F define */
-    GPIOG,          /*!< HAL GPIO Port G define */
-    GPIOH,          /*!< HAL GPIO Port H define */
-    GPIOI           /*!< HAL GPIO Port I define */
+static GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
+    GPIOA,          
+    GPIOB,          
+    GPIOC,          
+    GPIOD,          
+    GPIOE,          
+    GPIOF,          
+    GPIOG,          
+    GPIOH,          
+    GPIOI           
 };
 
-/*
- * GPIO Pin Mapping Table.
- */
 static uint16_t GPIO_PIN_x_MAPPING[GPIO_NUM_MAX] = {
-    GPIO_PIN_0,     /*!< HAL GPIO Pin 0 define */
-    GPIO_PIN_1,     /*!< HAL GPIO Pin 1 define */
-    GPIO_PIN_2,     /*!< HAL GPIO Pin 2 define */
-    GPIO_PIN_3,     /*!< HAL GPIO Pin 3 define */
-    GPIO_PIN_4,     /*!< HAL GPIO Pin 4 define */
-    GPIO_PIN_5,     /*!< HAL GPIO Pin 5 define */
-    GPIO_PIN_6,     /*!< HAL GPIO Pin 6 define */
-    GPIO_PIN_7,     /*!< HAL GPIO Pin 7 define */
-    GPIO_PIN_8,     /*!< HAL GPIO Pin 8 define */
-    GPIO_PIN_9,     /*!< HAL GPIO Pin 9 define */
-    GPIO_PIN_10,    /*!< HAL GPIO Pin 10 define */
-    GPIO_PIN_11,    /*!< HAL GPIO Pin 11 define */
-    GPIO_PIN_12,    /*!< HAL GPIO Pin 12 define */
-    GPIO_PIN_13,    /*!< HAL GPIO Pin 13 define */
-    GPIO_PIN_14,    /*!< HAL GPIO Pin 14 define */
-    GPIO_PIN_15     /*!< HAL GPIO Pin 15 define */
+    GPIO_PIN_0,     
+    GPIO_PIN_1,     
+    GPIO_PIN_2,     
+    GPIO_PIN_3,     
+    GPIO_PIN_4,     
+    GPIO_PIN_5,     
+    GPIO_PIN_6,     
+    GPIO_PIN_7,     
+    GPIO_PIN_8,     
+    GPIO_PIN_9,     
+    GPIO_PIN_10,    
+    GPIO_PIN_11,    
+    GPIO_PIN_12,    
+    GPIO_PIN_13,    
+    GPIO_PIN_14,    
+    GPIO_PIN_15     
 };
 
-/*
- * GPIO Pull Register Mapping Table.
- */
 static uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
-    GPIO_NOPULL,    /*!< HAL GPIO no pull registor define */
-    GPIO_PULLUP,    /*!< HAL GPIO pull up registor define */
-    GPIO_PULLDOWN   /*!< HAL GPIO pull down registor define */
+    GPIO_NOPULL,    
+    GPIO_PULLUP,    
+    GPIO_PULLDOWN   
 };
 
-/*
- * GPIO RCC_APBENR Register Mapping Table.
- */
 static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
-    RCC_AHB1ENR_GPIOAEN,    /*!< HAL GPIO Port A RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOBEN,    /*!< HAL GPIO Port B RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOCEN,    /*!< HAL GPIO Port C RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIODEN,    /*!< HAL GPIO Port D RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOEEN,    /*!< HAL GPIO Port E RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOFEN,    /*!< HAL GPIO Port F RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOGEN,    /*!< HAL GPIO Port G RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOHEN,    /*!< HAL GPIO Port H RCC AHBENR Register define */
-    RCC_AHB1ENR_GPIOIEN,    /*!< HAL GPIO Port I RCC AHBENR Register define */
+    RCC_AHB1ENR_GPIOAEN,    
+    RCC_AHB1ENR_GPIOBEN,    
+    RCC_AHB1ENR_GPIOCEN,    
+    RCC_AHB1ENR_GPIODEN,    
+    RCC_AHB1ENR_GPIOEEN,    
+    RCC_AHB1ENR_GPIOFEN,    
+    RCC_AHB1ENR_GPIOGEN,    
+    RCC_AHB1ENR_GPIOHEN,   
+    RCC_AHB1ENR_GPIOIEN,    
 };
 
 static uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {

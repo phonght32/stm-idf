@@ -70,19 +70,19 @@ typedef enum {
 } gpio_num_t;
 
 typedef enum {
-    GPIO_INPUT = 0,     /*!< Input mode selected */
-    GPIO_OUTPUT_PP,        /*!< Output mode selected */
-    GPIO_OUTPUT_OD,
-    GPIO_AF_PP,
-    GPIO_AF_OD,
-    GPIO_ANALOG,
-    GPIO_IT_RISING_EDGE,
-    GPIO_IT_FALLING_EDGE,
-    GPIO_IT_BOTH_EDGE,
-    GPIO_EVT_RISING_EDGE,
-    GPIO_EVT_FALLING_EDGE,
-    GPIO_EVT_BOTH_EDGE,
-    GPIO_MODE_MAX
+    GPIO_INPUT = 0,             /*!< GPIO input mode */
+    GPIO_OUTPUT_PP,             /*!< GPIO output push pull mode */
+    GPIO_OUTPUT_OD,             /*!< GPIO output open drain */
+    GPIO_AF_PP,                 /*!< GPIO alternate function push pull mode  */
+    GPIO_AF_OD,                 /*!< GPIO alternate function open drain mode */
+    GPIO_ANALOG,                /*!< GPIO analog mode */
+    GPIO_IT_RISING_EDGE,        /*!< GPIO external interrupt mode with rising edge trigger dectection */
+    GPIO_IT_FALLING_EDGE,       /*!< GPIO external interrupt mode with falling edge trigger dectection */
+    GPIO_IT_BOTH_EDGE,          /*!< GPIO external interrupt mode with both falling and rising edge trigger dectection */
+    GPIO_EVT_RISING_EDGE,       /*!< GPIO external event mode with rising edge trigger dectection */
+    GPIO_EVT_FALLING_EDGE,      /*!< GPIO external event mode with falling edge trigger dectection */
+    GPIO_EVT_BOTH_EDGE,         /*!< GPIO external event mode with both falling and rising edge trigger dectection */
+    GPIO_MODE_MAX               
 } gpio_mode_t;
 
 typedef enum {
@@ -103,7 +103,7 @@ typedef enum {
 typedef struct {
     gpio_port_t             gpio_port;      /*!< GPIO Port */
     gpio_num_t              gpio_num;       /*!< GPIO Pin */
-    gpio_mode_t             mode;      /*!< GPIO Mode */
+    gpio_mode_t             mode;           /*!< GPIO Mode */
     gpio_reg_pull_mode_t    reg_pull_mode;  /*!< GPIO Pull Registor */
     gpio_intr_type_t        intr_type;      /*!< GPIO interrupt type */
 } gpio_config_t;

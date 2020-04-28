@@ -86,9 +86,15 @@ static const char* I2C_TAG = "DRIVER I2C";
                              .pin_scl = GPIO_PIN_7,                         \
                              .pin_sda = GPIO_PIN_8}
 
-/* 
- * I2C Handle.
- */
+typedef struct {
+    uint32_t        rcc_ahbenr_gpio_scl;    /*!< SCL GPIO RCC AHPENR register */
+    uint32_t        rcc_ahbenr_gpio_sda;    /*!< SDA GPIO RCC AHPENR register */
+    GPIO_TypeDef    *port_scl;              /*!< SCL General Purpose I/O */
+    GPIO_TypeDef    *port_sda;              /*!< SDA General Purpose I/O */
+    uint16_t        pin_scl;                /*!< SCL GPIO Pin */
+    uint16_t        pin_sda;                /*!< SDA GPIO Pin */
+} i2c_hw_info_t;
+
 static I2C_HandleTypeDef i2c_handle[I2C_NUM_MAX];
 
 static I2C_TypeDef* I2C_MAPPING[I2C_NUM_MAX] = {
@@ -109,21 +115,6 @@ static I2C_ALTERNATE_FUNC_MAPPING[I2C_NUM_MAX] = {
     GPIO_AF4_I2C3
 };
 
-/*
- * I2C Hardware Information Structure.
- */
-typedef struct {
-    uint32_t        rcc_ahbenr_gpio_scl;    /*!< SCL GPIO RCC AHPENR register */
-    uint32_t        rcc_ahbenr_gpio_sda;    /*!< SDA GPIO RCC AHPENR register */
-    GPIO_TypeDef    *port_scl;              /*!< SCL General Purpose I/O */
-    GPIO_TypeDef    *port_sda;              /*!< SDA General Purpose I/O */
-    uint16_t        pin_scl;                /*!< SCL GPIO Pin */
-    uint16_t        pin_sda;                /*!< SDA GPIO Pin */
-} i2c_hw_info_t;
-
-/*
- * I2C Hardware Information Mapping Table.
- */
 static i2c_hw_info_t I2C_HW_INFO_MAPPING[I2C_NUM_MAX][I2C_PINS_PACK_MAX] = {
     {I2C1_PP1_HW_INFO, I2C1_PP2_HW_INFO, I2C1_PP3_HW_INFO},
     {I2C2_PP1_HW_INFO, I2C2_PP2_HW_INFO, I2C2_PP3_HW_INFO},

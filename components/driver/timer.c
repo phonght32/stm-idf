@@ -348,9 +348,12 @@ static const char* TIMER_TAG = "DRIVER TIMER";
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_0}
 
-/*
- * Timer Handle.
- */
+typedef struct {
+    uint32_t        rcc_ahbenr_gpioen;      /*!< GPIO RCC AHPENR register */
+    GPIO_TypeDef    *port;                  /*!< General Purpose I/O */
+    uint16_t        pin;                    /*!< Pin */
+} tim_hw_info_t;
+
 static TIM_HandleTypeDef timer_handle[TIMER_NUM_MAX];
 
 static TIM_TypeDef* TIM_MAPPING[TIMER_NUM_MAX] = {
@@ -387,23 +390,11 @@ static uint32_t TIM_ALTERNATE_FUNC_MAPPING[TIMER_NUM_MAX] = {
     GPIO_AF9_TIM14
 };
 
-/*
- * Timer Hardware Information.
- */
-typedef struct {
-    uint32_t        rcc_ahbenr_gpioen;      /*!< GPIO RCC AHPENR register */
-    GPIO_TypeDef    *port;                  /*!< General Purpose I/O */
-    uint16_t        pin;                    /*!< Pin */
-} tim_hw_info_t;
-
-/*
- * Timer Channel Mapping Table.
- */
 static uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
-    TIM_CHANNEL_1,      /*!< HAL Timer channel 1 define */
-    TIM_CHANNEL_2,      /*!< HAL Timer channel 2 define */
-    TIM_CHANNEL_3,      /*!< HAL Timer channel 3 define */
-    TIM_CHANNEL_4       /*!< HAL Timer channel 4 define */
+    TIM_CHANNEL_1,      
+    TIM_CHANNEL_2,      
+    TIM_CHANNEL_3,      
+    TIM_CHANNEL_4       
 };
 
 static uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
@@ -411,24 +402,21 @@ static uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
     TIM_COUNTERMODE_DOWN
 };
 
-/*
- * APB Clock Mapping Table.
- */
 static uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
-    APB2_CLOCK,         /*!< Timer 1 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 2 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 3 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 4 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 5 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 6 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 7 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 8 APB clock frequency */
-    APB2_CLOCK,         /*!< Timer 9 APB clock frequency */
-    APB2_CLOCK,         /*!< Timer 10 APB clock frequency */
-    APB2_CLOCK,         /*!< Timer 11 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 12 APB clock frequency */
-    APB1_CLOCK,         /*!< Timer 13 APB clock frequency */
-    APB1_CLOCK          /*!< Timer 14 APB clock frequency */
+    APB2_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB2_CLOCK,         
+    APB2_CLOCK,         
+    APB2_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK          
 };
 
 static uint32_t RCC_APBENR_TIMEN_MAPPING[TIMER_NUM_MAX] = {
@@ -448,9 +436,6 @@ static uint32_t RCC_APBENR_TIMEN_MAPPING[TIMER_NUM_MAX] = {
     RCC_APB1ENR_TIM14EN
 };
 
-/*
- * Timer Hardware Information Mapping Table.
- */
 tim_hw_info_t TIM_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_CHNL_MAX][TIMER_PINS_PACK_MAX] = {
     {   {TIM1_CH1_PP1_HW_INFO , TIM1_CH1_PP2_HW_INFO ,                  {0}},
         {TIM1_CH2_PP1_HW_INFO , TIM1_CH2_PP2_HW_INFO ,                  {0}},
@@ -537,9 +522,6 @@ tim_hw_info_t TIM_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_CHNL_MAX][TIMER_PINS_PACK
     }
 };
 
-/*
- * External Counter Hardware Information Mapping Table.
- */
 tim_hw_info_t TIM_ETR_HW_INFO_MAPPING[TIMER_NUM_MAX][TIMER_PINS_PACK_MAX] = {
     { TIM1_PP1_ETR_HW_INFO, TIM1_PP2_ETR_HW_INFO,                  {0}},
     { TIM2_PP1_ETR_HW_INFO, TIM2_PP2_ETR_HW_INFO, TIM2_PP3_ETR_HW_INFO},
@@ -850,8 +832,7 @@ stm_err_t etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
     uint32_t last_counter_val = __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
 
     /* Set timer counter mode */
-    int ret = HAL_TIM_Base_Init(&timer_handle[timer_num]);
-    TIMER_CHECK(!ret, ETR_SET_MODE_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_Base_Init(&timer_handle[timer_num]), ETR_SET_MODE_ERR_STR, STM_FAIL);
 
     /* Set timer last counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], last_counter_val);

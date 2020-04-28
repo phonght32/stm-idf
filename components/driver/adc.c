@@ -12,7 +12,6 @@ static const char* ADC_TAG = "DRIVER ADC";
         return (ret);                                                                  \
         }
 
-/* ADC handle */
 ADC_HandleTypeDef adc_handle[ADC_NUM_MAX];
 
 static uint32_t ADC_CLK_DIV_MAPPING[ADC_CLK_DIV_MAX] = {
@@ -88,7 +87,6 @@ static uint32_t RCC_APBENR_ADCEN_MAPPING[ADC_NUM_MAX] = {
 	RCC_APB2ENR_ADC2EN,
 	RCC_APB2ENR_ADC3EN
 };
-
 
 stm_err_t adc_config(adc_config_t *config)
 {
