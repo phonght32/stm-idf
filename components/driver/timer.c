@@ -780,8 +780,6 @@ stm_err_t pwm_config(pwm_config_t *config)
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_chnl, config->timer_pins_pack);
 
-    int ret;
-
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
     SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
@@ -816,25 +814,21 @@ stm_err_t pwm_config(pwm_config_t *config)
     timer_handle[config->timer_num].Init.Period              = 0;
     timer_handle[config->timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
     timer_handle[config->timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    ret = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
-    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_Base_Init(&timer_handle[config->timer_num]), PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure PWM */
-    ret = HAL_TIM_PWM_Init(&timer_handle[config->timer_num]);
-    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_PWM_Init(&timer_handle[config->timer_num]), PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer clock source */
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
     sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-    ret = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
-    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig), PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer in master mode */
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    ret = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
-    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig), PWM_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer PWM channel */
     TIM_OC_InitTypeDef sConfigOC = {0};
@@ -842,8 +836,7 @@ stm_err_t pwm_config(pwm_config_t *config)
     sConfigOC.Pulse = 0;
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-    ret = HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_chnl]);
-    TIMER_CHECK(!ret, PWM_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_chnl]), PWM_INIT_ERR_STR, STM_FAIL);
 
     HAL_TIM_Base_Start(&timer_handle[config->timer_num]);
     return STM_OK;
@@ -947,8 +940,6 @@ stm_err_t etr_config(etr_config_t *config)
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
 
-    int ret;
-
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
     SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
@@ -983,8 +974,7 @@ stm_err_t etr_config(etr_config_t *config)
     timer_handle[config->timer_num].Init.Period              = config->max_reload;
     timer_handle[config->timer_num].Init.ClockDivision       = PWM_TIM_CLOCK_DIV_DEFAULT;
     timer_handle[config->timer_num].Init.AutoReloadPreload   = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    ret = HAL_TIM_Base_Init(&timer_handle[config->timer_num]);
-    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_Base_Init(&timer_handle[config->timer_num]), ETR_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer clock source */
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -992,15 +982,13 @@ stm_err_t etr_config(etr_config_t *config)
     sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
     sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
     sClockSourceConfig.ClockFilter = 0;
-    ret = HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig);
-    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIM_ConfigClockSource(&timer_handle[config->timer_num], &sClockSourceConfig), ETR_INIT_ERR_STR, STM_FAIL);
 
     /* Configure Timer in master mode */
     TIM_MasterConfigTypeDef sMasterConfig = {0};
     sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
     sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-    ret = HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig);
-    TIMER_CHECK(!ret, ETR_INIT_ERR_STR, STM_FAIL);
+    TIMER_CHECK(!HAL_TIMEx_MasterConfigSynchronization(&timer_handle[config->timer_num], &sMasterConfig), ETR_INIT_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }

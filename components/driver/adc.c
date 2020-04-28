@@ -93,6 +93,7 @@ static uint32_t RCC_APBENR_ADCEN_MAPPING[ADC_NUM_MAX] = {
 stm_err_t adc_config(adc_config_t *config)
 {
 	/* Check input condition */
+	ADC_CHECK(config, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 	ADC_CHECK(config->adc_num < ADC_NUM_MAX, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 	ADC_CHECK(config->resolution < ADC_RESOLUTION_MAX, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 	ADC_CHECK(config->clk_div < ADC_CLK_DIV_MAX, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
