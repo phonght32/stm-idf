@@ -175,8 +175,6 @@ stm_err_t i2c_config(i2c_config_t *config)
     tmpreg = READ_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpio_sda);
     UNUSED(tmpreg);
 
-    int err;
-
     /* Configure I2C */
     i2c_handle[config->i2c_num].Instance = hw_info.i2c;
     i2c_handle[config->i2c_num].Init.ClockSpeed = config->clk_speed;
@@ -187,8 +185,7 @@ stm_err_t i2c_config(i2c_config_t *config)
     i2c_handle[config->i2c_num].Init.OwnAddress2 = I2C_OWN_ADDRESS2_DEFAULT;
     i2c_handle[config->i2c_num].Init.GeneralCallMode = I2C_GENERALCALL_MODE_DEFAULT;
     i2c_handle[config->i2c_num].Init.NoStretchMode = I2C_NOSTRETCH_MODE_DEFAULT;
-    err = HAL_I2C_Init(&i2c_handle[config->i2c_num]);
-    I2C_CHECK(err == HAL_OK, I2C_INIT_ERR_STR, STM_FAIL);
+    I2C_CHECK(!HAL_I2C_Init(&i2c_handle[config->i2c_num]), I2C_INIT_ERR_STR, STM_FAIL);
     
     /* Configure SCL Pin */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -213,9 +210,7 @@ stm_err_t i2c_config(i2c_config_t *config)
 stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
     I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
-
-    int ret = HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms);
-    I2C_CHECK(!ret, I2C_TRANS_ERR_STR, STM_FAIL);
+    I2C_CHECK(!HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms), I2C_TRANS_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
@@ -223,9 +218,7 @@ stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, u
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_REC_ERR_STR, STM_ERR_INVALID_ARG)
-
-    int ret = HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms);
-    I2C_CHECK(!ret, I2C_REC_ERR_STR, STM_FAIL);
+    I2C_CHECK(!HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms), I2C_REC_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
