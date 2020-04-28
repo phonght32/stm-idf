@@ -102,17 +102,20 @@ typedef enum {
 
 typedef enum {
 	ADC_SCAN_MODE_DISABLE = 0,				/*!< ADC scan mode disable */
-	ADC_SCAN_MODE_ENABLE					/*!< ADC scan mode enable */
+	ADC_SCAN_MODE_ENABLE,					/*!< ADC scan mode enable */
+	ADC_SCAN_MODE_MAX
 } adc_scan_mode_t;
 
 typedef enum {
 	ADC_CONT_CONV_MODE_DISABLE = 0,			/*!< ADC continous conversion mode disable */
-	ADC_CONT_CONV_MODE_ENABLE 				/*!< ADC continous conversion mode enable */
+	ADC_CONT_CONV_MODE_ENABLE, 				/*!< ADC continous conversion mode enable */
+	ADC_CONT_CONV_MODE_MAX
 } adc_cont_conv_mode_t;
 
 typedef enum {
 	ADC_DISCONT_CONV_MODE_DISABLE = 0,		/*!< ADC discontinous conversion mode disable */
-	ADC_DISCONT_CONV_MODE_ENABLE			/*!< ADC discontinous conversion mode enable */
+	ADC_DISCONT_CONV_MODE_ENABLE,			/*!< ADC discontinous conversion mode enable */
+	ADC_DISCONT_CONV_MODE_MAX
 } adc_discont_conv_mode_t;
 
 typedef enum {
@@ -131,7 +134,8 @@ typedef enum {
 
 typedef enum {
 	ADC_DMA_CONT_RQST_DISABLE,				/*!< DMA continous request disable */
-	ADC_DMA_CONT_RQST_ENABLE				/*!< DMA continous request enable */
+	ADC_DMA_CONT_RQST_ENABLE,				/*!< DMA continous request enable */
+	ADC_DMA_CONT_RQST_MAX
 } adc_dma_cont_rqst_t;
 
 typedef enum {
@@ -167,10 +171,45 @@ typedef struct {
 	adc_eoc_mode_t 				eoc_mode;				/*!< ADC end of conversion mode */
 } adc_config_t;
 
+/*
+ * @brief   Configure ADC.
+ * @param   config Pointer to ADC configure struct.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
+ */
 stm_err_t adc_config(adc_config_t *config);
+
+/*
+ * @brief   Configure ADC channel.
+ * @param   adc_num ADC num.
+ * @param 	adc_chnl ADC channel.
+ * @param 	samp_time sample time.
+ * @param 	prior Channel priority.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
+ */
 stm_err_t adc_channel_config(adc_num_t adc_num, adc_chnl_t adc_chnl, adc_samp_time_t samp_time, uint32_t prior);
+
+/*
+ * @brief   Start ADC conversion.
+ * @param   adc_num ADC num.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
+ */
 stm_err_t adc_start(adc_num_t adc_num);
-stm_err_t adc_get_raw(adc_num_t adc_num, uint16_t *buf);
+
+/*
+ * @brief   Get ADC conversion value.
+ * @param   adc_num ADC num.
+ * @param 	value Buffer.
+ * @return
+ *      - STM_OK:       Success.
+ *      - Others:       Fail.
+ */
+stm_err_t adc_get_value(adc_num_t adc_num, uint16_t *value);
 
 #ifdef __cplusplus
 }
