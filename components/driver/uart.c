@@ -239,8 +239,6 @@ stm_err_t uart_config(uart_config_t *config)
     uart_hw_info_t hw_info;
     hw_info = _uart_get_hw_info(config->uart_num, config->uart_pins_pack);
 
-    int ret;
-
     /* Enable UART clock */
     uint32_t tmpreg = 0x00;
     if ((config->uart_num == UART_NUM_1) || (config->uart_num == UART_NUM_6)) 
@@ -283,8 +281,7 @@ stm_err_t uart_config(uart_config_t *config)
     uart_handle[config->uart_num].Init.Mode = mode;
     uart_handle[config->uart_num].Init.HwFlowCtl = hw_flw_ctrl;
     uart_handle[config->uart_num].Init.OverSampling = UART_OVERSAMPLING_DEFAULT;
-    ret = HAL_UART_Init(&uart_handle[config->uart_num]);
-    UART_CHECK(!ret, UART_INIT_ERR_STR, STM_FAIL);
+    UART_CHECK(!HAL_UART_Init(&uart_handle[config->uart_num]), UART_INIT_ERR_STR, STM_FAIL);
 
     /* Configure UART TX pins */
     GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -309,10 +306,7 @@ stm_err_t uart_config(uart_config_t *config)
 stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
     UART_CHECK(uart_num < UART_NUM_MAX, UART_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
-
-    /* Transmit data */
-    int ret = HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms);
-    UART_CHECK(!ret, UART_TRANS_ERR_STR, STM_FAIL);
+    UART_CHECK(!HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms), UART_TRANS_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
@@ -320,10 +314,7 @@ stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, 
 stm_err_t uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
     UART_CHECK(uart_num < UART_NUM_MAX, UART_REC_ERR_STR, STM_ERR_INVALID_ARG);
-
-    /* Receive data */
-    int ret = HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms);
-    UART_CHECK(!ret, UART_REC_ERR_STR, STM_FAIL);
+    UART_CHECK(!HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms), UART_REC_ERR_STR, STM_FAIL);
 
     return STM_OK;
 }
