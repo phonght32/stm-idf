@@ -38,7 +38,7 @@
 
 #define TIMER_NUM           TIMER_NUM_4
 #define TIMER_PINS_PACK     TIMER_PINS_PACK_2 
-#define TIMER_CHANNEL       TIMER_CHANNEL_2
+#define TIMER_CHANNEL       TIMER_CHNL_2
  
 static const char *TAG = "APP_MAIN";
  
