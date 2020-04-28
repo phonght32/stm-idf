@@ -58,117 +58,119 @@ extern "C" {
  */
 
 typedef enum {
-	ADC_NUM_1 = 0,
-	ADC_NUM_2,
-	ADC_NUM_3,
+	ADC_NUM_1 = 0,							/*!< ADC num 1 selected */
+	ADC_NUM_2,								/*!< ADC num 2 selected */
+	ADC_NUM_3,								/*!< ADC num 3 selected */
 	ADC_NUM_MAX
 } adc_num_t;
 
 typedef enum {
-	ADC_CHNL_0 = 0,
-	ADC_CHNL_1,
-	ADC_CHNL_2,
-	ADC_CHNL_3,
-	ADC_CHNL_4,
-	ADC_CHNL_5,
-	ADC_CHNL_6,
-	ADC_CHNL_7,
-	ADC_CHNL_8,
-	ADC_CHNL_9,
-	ADC_CHNL_10,
-	ADC_CHNL_11,
-	ADC_CHNL_12,
-	ADC_CHNL_13,
-	ADC_CHNL_14,
-	ADC_CHNL_15,
+	ADC_CHNL_0 = 0,   						/*!< ADC channel 0 selected */
+	ADC_CHNL_1,								/*!< ADC channel 1 selected */
+	ADC_CHNL_2,								/*!< ADC channel 2 selected */
+	ADC_CHNL_3,								/*!< ADC channel 3 selected */
+	ADC_CHNL_4,								/*!< ADC channel 4 selected */
+	ADC_CHNL_5,								/*!< ADC channel 5 selected */
+	ADC_CHNL_6,								/*!< ADC channel 6 selected */
+	ADC_CHNL_7,								/*!< ADC channel 7 selected */
+	ADC_CHNL_8,								/*!< ADC channel 8 selected */
+	ADC_CHNL_9,								/*!< ADC channel 9 selected */
+	ADC_CHNL_10,							/*!< ADC channel 10 selected */
+	ADC_CHNL_11,							/*!< ADC channel 11 selected */
+	ADC_CHNL_12,							/*!< ADC channel 12 selected */
+	ADC_CHNL_13,							/*!< ADC channel 13 selected */
+	ADC_CHNL_14,							/*!< ADC channel 14 selected */
+	ADC_CHNL_15,							/*!< ADC channel 15 selected */
 	ADC_CHNL_MAX
 } adc_chnl_t;
 
 typedef enum {
-	ADC_RESOLUTION_6BIT = 0,
-	ADC_RESOLUTION_8BIT,
-	ADC_RESOLUTION_10BIT,
-	ADC_RESOLUTION_12BIT,
-	ADC_RESOLUTION_MAX_TYPE
+	ADC_RESOLUTION_6BIT = 0,				/*!< ADC resolution 6 bit data */
+	ADC_RESOLUTION_8BIT,					/*!< ADC resolution 8 bit data */
+	ADC_RESOLUTION_10BIT,					/*!< ADC resolution 10 bit data */
+	ADC_RESOLUTION_12BIT,					/*!< ADC resolution 12 bit data */
+	ADC_RESOLUTION_MAX
 } adc_resolution_t;
 
 typedef enum {
-	ADC_CLK_DIV_2 = 0,
-	ADC_CLK_DIV_4,
-	ADC_CLK_DIV_6,
-	ADC_CLK_DIV_8,
-	ADC_CLK_DIV_MAX_TYPE
+	ADC_CLK_DIV_2 = 0,						/*!< ADC clock divide by 2 */
+	ADC_CLK_DIV_4,							/*!< ADC clock divide by 4 */
+	ADC_CLK_DIV_6,							/*!< ADC clock divide by 6 */
+	ADC_CLK_DIV_8,							/*!< ADC clock divide by 8 */
+	ADC_CLK_DIV_MAX
 } adc_clk_div_t;
 
 typedef enum {
-	ADC_SCAN_MODE_DISABLE = 0,
-	ADC_SCAN_MODE_ENABLE
+	ADC_SCAN_MODE_DISABLE = 0,				/*!< ADC scan mode disable */
+	ADC_SCAN_MODE_ENABLE					/*!< ADC scan mode enable */
 } adc_scan_mode_t;
 
 typedef enum {
-	ADC_CONT_CONV_MODE_DISABLE = 0,
-	ADC_CONT_CONV_MODE_ENABLE
+	ADC_CONT_CONV_MODE_DISABLE = 0,			/*!< ADC continous conversion mode disable */
+	ADC_CONT_CONV_MODE_ENABLE 				/*!< ADC continous conversion mode enable */
 } adc_cont_conv_mode_t;
 
 typedef enum {
-	ADC_DISCONT_CONV_MODE_DISABLE = 0,
-	ADC_DISCONT_CONV_MODE_ENABLE
+	ADC_DISCONT_CONV_MODE_DISABLE = 0,		/*!< ADC discontinous conversion mode disable */
+	ADC_DISCONT_CONV_MODE_ENABLE			/*!< ADC discontinous conversion mode enable */
 } adc_discont_conv_mode_t;
 
 typedef enum {
-	ADC_DATA_ALIGN_RIGHT = 0,
-	ADC_DATA_ALIGN_LEFT,
-	ADC_DATA_ALIGN_MAX_TYPE
+	ADC_DATA_ALIGN_RIGHT = 0,				/*!< ADC data align right */
+	ADC_DATA_ALIGN_LEFT,					/*!< ADC data align left */
+	ADC_DATA_ALIGN_MAX
 } adc_data_align_t;
 
 typedef enum {
-	ADC_EXT_TRIGCONV_NONE = 0,
-	ADC_EXT_TRIGCONV_RISING_EDGE,
-	ADC_EXT_TRIGCONV_FALING_EDGE,
-	ADC_EXT_TRIGCONV_BOTH_EDGE,
+	ADC_EXT_TRIGCONV_NONE = 0,				/*!< ADC external trigger conversion disable */
+	ADC_EXT_TRIGCONV_RISING_EDGE,			/*!< ADC external trigger conversion rising edge */
+	ADC_EXT_TRIGCONV_FALLING_EDGE,			/*!< ADC external trigger conversion falling edge */
+	ADC_EXT_TRIGCONV_BOTH_EDGE,				/*!< ADC external trigger conversion both rising and falling edge */
 	ADC_EXT_TRIGCONV_MAX
 } adc_ext_trigconv_edge_t;
 
 typedef enum {
-	ADC_DMA_CONT_RQST_DISABLE,
-	ADC_DMA_CONT_RQST_ENABLE
+	ADC_DMA_CONT_RQST_DISABLE,				/*!< DMA continous request disable */
+	ADC_DMA_CONT_RQST_ENABLE				/*!< DMA continous request enable */
 } adc_dma_cont_rqst_t;
 
 typedef enum {
-	ADC_EOC_MODE_SEQ_CONV = 0,
-	ADC_EOC_MODE_SINGLE_CONV,
-	ADC_EOC_MODE_SINGLE_SEQ_CONV,
+	ADC_EOC_MODE_SEQ_CONV = 0,				/*!< EOC mode sequence conversion */
+	ADC_EOC_MODE_SINGLE_CONV,				/*!< EOC Mode single conversion */
+	ADC_EOC_MODE_SINGLE_SEQ_CONV,			/*!< EOC mode single sequence conversion */
 	ADC_EOC_MODE_MAX
 } adc_eoc_mode_t;
 
 typedef enum {
-	ADC_SAMP_TIME_3CYCLES = 0,
-	ADC_SAMP_TIME_15CYCLES,
-	ADC_SAMP_TIME_28CYCLES,
-	ADC_SAMP_TIME_56CYCLES,
-	ADC_SAMP_TIME_84CYCLES,
-	ADC_SAMP_TIME_112CYCLES,
-	ADC_SAMP_TIME_144CYCLES,
-	ADC_SAMP_TIME_480CYCLES,
+	ADC_SAMP_TIME_3CYCLES = 0,				/*!< ADC sample time 3 cycles */
+	ADC_SAMP_TIME_15CYCLES,					/*!< ADC sample time 15 cycles */
+	ADC_SAMP_TIME_28CYCLES,					/*!< ADC sample time 28 cycles */
+	ADC_SAMP_TIME_56CYCLES,					/*!< ADC sample time 56 cycles */
+	ADC_SAMP_TIME_84CYCLES,					/*!< ADC sample time 84 cycles */
+	ADC_SAMP_TIME_112CYCLES,				/*!< ADC sample time 112 cycles */
+	ADC_SAMP_TIME_144CYCLES,				/*!< ADC sample time 144 cycles */
+	ADC_SAMP_TIME_480CYCLES,				/*!< ADC sample time 480 cycles */
 	ADC_SAMP_TIME_MAX
 } adc_samp_time_t;
 
 typedef struct {
-	adc_num_t adc_num;
-	adc_resolution_t resolution;
-	adc_clk_div_t clk_div;
-	adc_data_align_t data_align;
-	uint32_t num_disconn_conv;
-	adc_scan_mode_t scan_mode;
-	adc_cont_conv_mode_t cont_conv_mode;
-	adc_discont_conv_mode_t discont_conv_mode;
-	adc_ext_trigconv_edge_t ext_trigconv_edge;
-	adc_dma_cont_rqst_t dma_cont_rqst;
-	adc_eoc_mode_t eoc_mode;
+	adc_num_t 					adc_num;				/*!< ADC num selection */
+	adc_resolution_t 			resolution;				/*!< ADC resolution */
+	adc_clk_div_t 				clk_div;				/*!< ADC clock divider */
+	adc_data_align_t 			data_align;				/*!< ADC data alignment */
+	uint32_t 					num_conv;				/*!< ADC number of conversion */
+	adc_scan_mode_t 			scan_mode;				/*!< ADC scan mode */
+	adc_cont_conv_mode_t 		cont_conv_mode;			/*!< ADC continous conversion mode */
+	adc_discont_conv_mode_t 	discont_conv_mode;		/*!< ADC discontinous conversion mode */
+	adc_ext_trigconv_edge_t 	ext_trigconv_edge;		/*!< ADC external trigger conver */
+	adc_dma_cont_rqst_t 		dma_cont_rqst;			/*!< ADC DMA continous requests */
+	adc_eoc_mode_t 				eoc_mode;				/*!< ADC end of conversion mode */
 } adc_config_t;
 
 stm_err_t adc_config(adc_config_t *config);
 stm_err_t adc_channel_config(adc_num_t adc_num, adc_chnl_t adc_chnl, adc_samp_time_t samp_time, uint32_t prior);
+stm_err_t adc_start(adc_num_t adc_num);
+stm_err_t adc_get_raw(adc_num_t adc_num, uint16_t *buf);
 
 #ifdef __cplusplus
 }

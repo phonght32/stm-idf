@@ -1,20 +1,20 @@
 #include "driver/adc.h"
 
-static uint32_t ADC_CLK_DIV_MAPPING[ADC_CLK_DIV_MAX_TYPE] = {
+static uint32_t ADC_CLK_DIV_MAPPING[ADC_CLK_DIV_MAX] = {
 	ADC_CLOCK_SYNC_PCLK_DIV2,
 	ADC_CLOCK_SYNC_PCLK_DIV4,
 	ADC_CLOCK_SYNC_PCLK_DIV6,
 	ADC_CLOCK_SYNC_PCLK_DIV8
 };
 
-static uint32_t ADC_RESOLUTION_MAPPING[ADC_RESOLUTION_MAX_TYPE] = {
+static uint32_t ADC_RESOLUTION_MAPPING[ADC_RESOLUTION_MAX] = {
 	ADC_RESOLUTION_6B,
 	ADC_RESOLUTION_8B,
 	ADC_RESOLUTION_10B,
 	ADC_RESOLUTION_12B
 };
 
-static uint32_t ADC_DATA_ALIGN_MAPPING[ADC_DATA_ALIGN_MAX_TYPE] = {
+static uint32_t ADC_DATA_ALIGN_MAPPING[ADC_DATA_ALIGN_MAX] = {
 	ADC_DATAALIGN_RIGHT,
 	ADC_DATAALIGN_LEFT
 };
@@ -62,31 +62,33 @@ static uint32_t ADC_CHNL_MAPPING[ADC_CHNL_MAX] = {
 	ADC_CHANNEL_15
 };
 
+static uint32_t ADC_MAPPING[ADC_NUM_MAX] = {
+	ADC1,
+	ADC2,
+	ADC3
+};
+
+static uint32_t RCC_APBENR_ADCEN_MAPPING[ADC_NUM_MAX] = {
+	RCC_APB2ENR_ADC1EN,
+	RCC_APB2ENR_ADC2EN,
+	RCC_APB2ENR_ADC3EN
+};
+
+/* ADC handle */
 ADC_HandleTypeDef adc_handle[ADC_NUM_MAX];
 
 stm_err_t adc_config(adc_config_t *config)
 {
-	switch (config->adc_num) {
-		case ADC_NUM_1:
-			__HAL_RCC_ADC1_CLK_ENABLE();
-			adc_handle[ADC_NUM_1].Instance = ADC1;
-			break;
-		case ADC_NUM_2:
-			__HAL_RCC_ADC2_CLK_ENABLE();
-			adc_handle[ADC_NUM_2].Instance = ADC2;
-			break;
-		case ADC_NUM_3:
-			__HAL_RCC_ADC2_CLK_ENABLE();
-			adc_handle[ADC_NUM_3].Instance = ADC3;
-			break;
-		default:
-			break;
-	}
-	
+  	uint32_t tmpreg = 0x00U; 
+    SET_BIT(RCC->APB2ENR, RCC_APBENR_ADCEN_MAPPING[config->adc_num]);
+    tmpreg = READ_BIT(RCC->APB2ENR, RCC_APBENR_ADCEN_MAPPING[config->adc_num]);
+    UNUSED(tmpreg); 
+
+	adc_handle[config->adc_num].Instance = ADC_MAPPING[config->adc_num];
 	adc_handle[config->adc_num].Init.ClockPrescaler = ADC_CLK_DIV_MAPPING[config->clk_div];
 	adc_handle[config->adc_num].Init.Resolution = ADC_RESOLUTION_MAPPING[config->resolution];
 	adc_handle[config->adc_num].Init.DataAlign = ADC_DATA_ALIGN_MAPPING[config->data_align];
-	adc_handle[config->adc_num].Init.NbrOfConversion = config->num_disconn_conv;
+	adc_handle[config->adc_num].Init.NbrOfConversion = config->num_conv;
 	adc_handle[config->adc_num].Init.ScanConvMode = config->scan_mode;
 	adc_handle[config->adc_num].Init.ContinuousConvMode = config->cont_conv_mode;
 	adc_handle[config->adc_num].Init.DiscontinuousConvMode = config->discont_conv_mode;
@@ -105,3 +107,12 @@ stm_err_t adc_channel_config(adc_num_t adc_num, adc_chnl_t adc_chnl, adc_samp_ti
   	HAL_ADC_ConfigChannel(&adc_handle[adc_num], &sConfig);
 }
 
+stm_err_t adc_start(adc_num_t adc_num)
+{
+	HAL_ADC_Start(&adc_handle[adc_num]);
+}
+
+stm_err_t adc_get_raw(adc_num_t adc_num, uint16_t *buf)
+{
+	*buf = HAL_ADC_GetValue(&adc_handle[adc_num]);
+}
