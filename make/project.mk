@@ -104,6 +104,12 @@ SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
 					$(foreach comp_src, $(COMPONENT_SOURCES), \
 						$(addprefix $(comp)/, $(comp_src))))
 
+ifeq ($(STM_IDF_TARGET), STM32F4) 
+SOURCE_PATHS += $(STM_IDF_PATH)/components/hal_driver/stm32f4xx
+INCLUDE_PATHS += -I$(STM_IDF_PATH)/components/hal_driver/stm32f4xx/include
+INCLUDE_PATHS += -I$(STM_IDF_PATH)/components/hal_driver/stm32f4xx/include/Legacy
+endif
+
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
 PREFIX = arm-none-eabi-
@@ -214,7 +220,7 @@ flash_usart:
   
 
 #######################################
-# flash over USART
+# flash over st-link
 #######################################
 flash_stlink:
 	st-flash write build/$(PROJECT_NAME).bin 0x8000000
@@ -226,4 +232,3 @@ flash_stlink:
 monitor:
 	minicom -c on
   
-
