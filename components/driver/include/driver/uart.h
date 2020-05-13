@@ -30,8 +30,7 @@ extern "C" {
 #include "stdlib.h"
 #include "stdint.h"
 
-#include "stm32f4xx_hal.h"
-
+#include "stm_hal.h"
 #include "stm_err.h"
 #include "stm_log.h"
 

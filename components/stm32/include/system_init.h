@@ -20,6 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "stm32f4xx_hal.h"
+#include "stm_hal.h"
 
 void system_init(void) __attribute__((constructor));

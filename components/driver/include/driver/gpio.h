@@ -31,8 +31,7 @@ extern "C" {
 #include "stdbool.h"
 #include "stdlib.h"
 
-#include "stm32f4xx_hal.h"
-
+#include "stm_hal.h"
 #include "stm_log.h"
 #include "stm_err.h"
 

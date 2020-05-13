@@ -109,6 +109,7 @@ HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
 
 ifeq ($(STM_IDF_TARGET), STM32F4) 
 STM_IDF_TARGET_PREFIX = stm32f4
+C_DEFS += -DSTM32F4_TARGET
 endif
 
 SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)
@@ -142,7 +143,7 @@ FPU = -mfpu=fpv4-sp-d16
 FLOAT-ABI = -mfloat-abi=hard
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 AS_DEFS = 
-C_DEFS =  \
+C_DEFS +=  \
 -DUSE_HAL_DRIVER \
 -DSTM32F407xx \
 
