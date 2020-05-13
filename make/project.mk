@@ -104,11 +104,16 @@ SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
 					$(foreach comp_src, $(COMPONENT_SOURCES), \
 						$(addprefix $(comp)/, $(comp_src))))
 
+# Handle specify STM32 target.
+HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
+
 ifeq ($(STM_IDF_TARGET), STM32F4) 
-SOURCE_PATHS += $(STM_IDF_PATH)/components/hal_driver/stm32f4xx
-INCLUDE_PATHS += -I$(STM_IDF_PATH)/components/hal_driver/stm32f4xx/include
-INCLUDE_PATHS += -I$(STM_IDF_PATH)/components/hal_driver/stm32f4xx/include/Legacy
+STM_IDF_TARGET_PREFIX = stm32f4
 endif
+
+SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)
+INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include
+INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy
 
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
@@ -139,7 +144,7 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 AS_DEFS = 
 C_DEFS =  \
 -DUSE_HAL_DRIVER \
--DSTM32F407xx
+-DSTM32F407xx \
 
 # ASM flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
