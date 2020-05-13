@@ -1,5 +1,5 @@
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_it.h"
+#include "stm_hal.h"
+#include "stm_it.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

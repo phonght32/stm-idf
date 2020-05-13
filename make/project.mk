@@ -112,9 +112,11 @@ STM_IDF_TARGET_PREFIX = stm32f4
 C_DEFS += -DSTM32F4_TARGET
 endif
 
-SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)
-INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include
-INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy
+SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX) \
+$(STM_IDF_PATH)/components/stm32_private/$(STM_IDF_TARGET_PREFIX)
+
+INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include \
+-I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy
 
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
