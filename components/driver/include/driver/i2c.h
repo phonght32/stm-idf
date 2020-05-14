@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,43 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _I2C_H_
-#define _I2C_H_
+#ifndef _DRIVER_I2C_H_
+#define _DRIVER_I2C_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdlib.h"
-#include "stdint.h"
-
-#include "stm32f4xx_hal.h"
-
 #include "stm_err.h"
-#include "stm_log.h"
-
-/* Table below shows all possible pins for each i2c.
- *
- *  I2Cx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
- *       |  SCL   SDA  |  SCL   SDA  |  SCL    SDA |       |
- *----------------------------------------------------------
- *  I2C1 |  PB6   PB7  |  PB8   PB9  |  PB6    PB9 |   1   |
- *  I2C2 |  PB10  PB11 |  PF1   PF0  |  PH4    PH5 |   1   |
- *  I2C3 |  PA8   PC9  |  PH7   PH8  |  -      -   |   1   |
- */
 
 typedef enum {
     I2C_NUM_1 = 0,                  /*!< I2C Num 1 selected */
     I2C_NUM_2,                      /*!< I2C Num 2 selected */
     I2C_NUM_3,                      /*!< I2C Num 3 selected */
-    I2C_NUM_MAX
 } i2c_num_t;
 
 typedef enum {
     I2C_PINS_PACK_1 = 0,            /*!< I2C Pins Pack 1 selected */
     I2C_PINS_PACK_2,                /*!< I2C Pins Pack 2 selected */
     I2C_PINS_PACK_3,                /*!< I2C Pins Pack 3 selected */
-    I2C_PINS_PACK_MAX
 } i2c_pins_pack_t;
 
 typedef struct {
@@ -100,9 +82,8 @@ stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, u
  */
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
-
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _I2C_H_ */
+#endif /* _DRIVER_I2C_H_ */

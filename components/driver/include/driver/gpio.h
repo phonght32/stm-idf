@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,53 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _GPIO_H_
-#define _GPIO_H_
+#ifndef _DIRVER_GPIO_H_
+#define _DRIVER_GPIO_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdint.h"
-#include "stdbool.h"
-#include "stdlib.h"
-
-#include "stm32f4xx_hal.h"
-
-#include "stm_log.h"
 #include "stm_err.h"
 
 typedef enum {
-    GPIO_PORT_A = 0,    /*!< Port A selected */
-    GPIO_PORT_B,        /*!< Port B selected */
-    GPIO_PORT_C,        /*!< Port C selected */
-    GPIO_PORT_D,        /*!< Port D selected */
-    GPIO_PORT_E,        /*!< Port E selected */
-    GPIO_PORT_F,        /*!< Port F selected */
-    GPIO_PORT_G,        /*!< Port G selected */
-    GPIO_PORT_H,        /*!< Port H selected */
-    GPIO_PORT_I,        /*!< Port I selected */
-    GPIO_PORT_MAX
+    GPIO_PORT_A = 0,            /*!< Port A selected */
+    GPIO_PORT_B,                /*!< Port B selected */
+    GPIO_PORT_C,                /*!< Port C selected */
+    GPIO_PORT_D,                /*!< Port D selected */
+    GPIO_PORT_E,                /*!< Port E selected */
+    GPIO_PORT_F,                /*!< Port F selected */
+    GPIO_PORT_G,                /*!< Port G selected */
+    GPIO_PORT_H,                /*!< Port H selected */
+    GPIO_PORT_I,                /*!< Port I selected */
 } gpio_port_t;
 
 typedef enum {
-    GPIO_NUM_0 = 0,     /*!< Pin 0 selected */
-    GPIO_NUM_1,         /*!< Pin 1 selected */
-    GPIO_NUM_2,         /*!< Pin 2 selected */
-    GPIO_NUM_3,         /*!< Pin 3 selected */
-    GPIO_NUM_4,         /*!< Pin 4 selected */
-    GPIO_NUM_5,         /*!< Pin 5 selected */
-    GPIO_NUM_6,         /*!< Pin 6 selected */
-    GPIO_NUM_7,         /*!< Pin 7 selected */
-    GPIO_NUM_8,         /*!< Pin 8 selected */
-    GPIO_NUM_9,         /*!< Pin 9 selected */
-    GPIO_NUM_10,        /*!< Pin 10 selected */
-    GPIO_NUM_11,        /*!< Pin 11 selected */
-    GPIO_NUM_12,        /*!< Pin 12 selected */
-    GPIO_NUM_13,        /*!< Pin 13 selected */
-    GPIO_NUM_14,        /*!< Pin 14 selected */
-    GPIO_NUM_15,        /*!< Pin 15 selected */
-    GPIO_NUM_MAX
+    GPIO_NUM_0 = 0,             /*!< Pin 0 selected */
+    GPIO_NUM_1,                 /*!< Pin 1 selected */
+    GPIO_NUM_2,                 /*!< Pin 2 selected */
+    GPIO_NUM_3,                 /*!< Pin 3 selected */
+    GPIO_NUM_4,                 /*!< Pin 4 selected */
+    GPIO_NUM_5,                 /*!< Pin 5 selected */
+    GPIO_NUM_6,                 /*!< Pin 6 selected */
+    GPIO_NUM_7,                 /*!< Pin 7 selected */
+    GPIO_NUM_8,                 /*!< Pin 8 selected */
+    GPIO_NUM_9,                 /*!< Pin 9 selected */
+    GPIO_NUM_10,                /*!< Pin 10 selected */
+    GPIO_NUM_11,                /*!< Pin 11 selected */
+    GPIO_NUM_12,                /*!< Pin 12 selected */
+    GPIO_NUM_13,                /*!< Pin 13 selected */
+    GPIO_NUM_14,                /*!< Pin 14 selected */
+    GPIO_NUM_15,                /*!< Pin 15 selected */
 } gpio_num_t;
 
 typedef enum {
@@ -81,15 +72,13 @@ typedef enum {
     GPIO_IT_BOTH_EDGE,          /*!< GPIO external interrupt mode with both falling and rising edge trigger dectection */
     GPIO_EVT_RISING_EDGE,       /*!< GPIO external event mode with rising edge trigger dectection */
     GPIO_EVT_FALLING_EDGE,      /*!< GPIO external event mode with falling edge trigger dectection */
-    GPIO_EVT_BOTH_EDGE,         /*!< GPIO external event mode with both falling and rising edge trigger dectection */
-    GPIO_MODE_MAX               
+    GPIO_EVT_BOTH_EDGE,         /*!< GPIO external event mode with both falling and rising edge trigger dectection */              
 } gpio_mode_t;
 
 typedef enum {
     GPIO_REG_PULL_NONE = 0,     /*!< None pull registor selected */
     GPIO_REG_PULL_UP,           /*!< Registor pull up selected */
     GPIO_REG_PULL_DOWN,         /*!< Registor pull down selected*/
-    GPIO_REG_PULL_MAX
 } gpio_reg_pull_mode_t;
 
 typedef enum {
@@ -125,7 +114,7 @@ stm_err_t gpio_config(gpio_config_t *config);
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
+stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, uint8_t state);
 
 /*
  * @brief   Toggle GPIO level.
@@ -135,7 +124,6 @@ stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
  *      - Others:       Fail.
  */
 stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
-
 
 #ifdef __cplusplus
 }

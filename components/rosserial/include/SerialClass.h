@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,7 @@
 #ifndef ROSSERIAL_CLIENT_SRC_ROS_LIB_SERIALCLASS_H_
 #define ROSSERIAL_CLIENT_SRC_ROS_LIB_SERIALCLASS_H_
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx.h"
-#include "stm32f4xx_it.h"
+#include "stm_hal.h"
 
 UART_HandleTypeDef huart4;
 DMA_HandleTypeDef hdma_uart4_rx;

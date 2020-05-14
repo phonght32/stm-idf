@@ -11,8 +11,7 @@
 #include "sys/queue.h"
 #include "stm_log.h"
 
-#include "stm32f4xx_hal.h"
-#include "stm32f4xx_hal_uart.h"
+#include "stm_hal.h"
 
 /* Print number of bytes per line for stm_log_buffer_char and stm_log_buffer_hex */
 #define BYTES_PER_LINE      16

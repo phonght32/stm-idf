@@ -29,18 +29,18 @@ ifndef BUILD_DIR
 export BUILD_DIR
 endif
 
-# If no configure STM32F4_IDF_PATH to variable environment, use stm-idf in current project. Assume
-# current project contain stm32f4-idf
-ifndef STM32F4_IDF_PATH
-STM32F4_IDF_PATH := $(PROJECT_PATH)/stm32f4-idf
-export STM32F4_IDF_PATH
+# If no configure STM_IDF_PATH to variable environment, use stm-idf in current project. Assume
+# current project contain stm-idf
+ifndef STM_IDF_PATH
+STM_IDF_PATH := $(PROJECT_PATH)/stm-idf
+export STM_IDF_PATH
 endif
 
 # Component directory. The project Makefile can override these directory, or add extra component
 # directory via EXTRA_COMPONENT_DIRS
 ifndef COMPONENT_DIRS
 EXTRA_COMPONENT_DIRS ?=
-COMPONENT_DIRS := $(PROJECT_PATH)/components $(EXTRA_COMPONENT_DIRS) $(STM32F4_IDF_PATH)/components $(PROJECT_PATH)/main
+COMPONENT_DIRS := $(PROJECT_PATH)/components $(EXTRA_COMPONENT_DIRS) $(STM_IDF_PATH)/components $(PROJECT_PATH)/main
 endif
 
 # Make sure that every directory in the list is absulute path without trailing slash.
@@ -104,6 +104,22 @@ SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
 					$(foreach comp_src, $(COMPONENT_SOURCES), \
 						$(addprefix $(comp)/, $(comp_src))))
 
+# Handle specify STM32 target.
+HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
+
+ifeq ($(STM_IDF_TARGET), STM32F4) 
+STM_IDF_TARGET_PREFIX = stm32f4
+C_DEFS += -DSTM32F4_TARGET
+endif
+
+SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX) \
+$(STM_IDF_PATH)/components/stm32_private/$(STM_IDF_TARGET_PREFIX)
+
+INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include \
+-I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy \
+-I$(STM_IDF_PATH)/components/driver/private/$(STM_IDF_TARGET_PREFIX)/include \
+-I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_IDF_TARGET_PREFIX)/include 
+
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
 PREFIX = arm-none-eabi-
@@ -131,9 +147,9 @@ FPU = -mfpu=fpv4-sp-d16
 FLOAT-ABI = -mfloat-abi=hard
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 AS_DEFS = 
-C_DEFS =  \
+C_DEFS +=  \
 -DUSE_HAL_DRIVER \
--DSTM32F407xx
+-DSTM32F407xx \
 
 # ASM flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
@@ -150,7 +166,7 @@ CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunc
 CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # LD flags
-LDSCRIPT = $(STM32F4_IDF_PATH)/make/stm32f4xx_flash.ld
+LDSCRIPT = $(STM_IDF_PATH)/make/$(STM_IDF_TARGET_PREFIX)/stm32f4xx_flash.ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
@@ -210,11 +226,11 @@ clean:
 # flash over USART
 #######################################
 flash_usart:
-	$(STM32F4_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x8000000 /dev/ttyUSB0  
+	$(STM_IDF_PATH)/tools/bootloader/./stm32flash -b 115200 -w build/$(PROJECT_NAME).bin -v -g 0x8000000 /dev/ttyUSB0  
   
 
 #######################################
-# flash over USART
+# flash over st-link
 #######################################
 flash_stlink:
 	st-flash write build/$(PROJECT_NAME).bin 0x8000000
@@ -226,4 +242,3 @@ flash_stlink:
 monitor:
 	minicom -c on
   
-
