@@ -29,29 +29,6 @@ extern "C" {
 
 #include "stm_err.h"
 
-/* 
- * Table below shows all possible pins for ADC.
- * 
- *  Channel       | ADC1 | ADC2 | ADC3 |
- * -------------- | ---- | ---- | ---- |
- * ADC Channel 0  | PA0  | PA0  | PA0  |
- * ADC Channel 1  | PA1  | PA1  | PA1  |
- * ADC Channel 2  | PA2  | PA2  | PA2  |
- * ADC Channel 3  | PA3  | PA3  | PA3  |
- * ADC Channel 4  | PA4  | PA4  | PF6  |
- * ADC Channel 5  | PA5  | PA5  | PF7  |
- * ADC Channel 6  | PA6  | PA6  | PF8  |
- * ADC Channel 7  | PA7  | PA7  | PF9  |
- * ADC Channel 8  | PB0  | PB0  | PF10 |
- * ADC Channel 9  | PB1  | PB1  | PF3  |
- * ADC Channel 10 | PC0  | PC0  | PC0  |
- * ADC Channel 11 | PC1  | PC1  | PC1  |
- * ADC Channel 12 | PC2  | PC2  | PC2  |
- * ADC Channel 13 | PC3  | PC   | PC3  |
- * ADC Channel 14 | PC4  | PC4  | PF4  |
- * ADC Channel 15 | PC5  | PC5  | PF5  |
- */
-
 typedef enum {
 	ADC_NUM_1 = 0,							/*!< ADC num 1 selected */
 	ADC_NUM_2,								/*!< ADC num 2 selected */

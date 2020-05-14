@@ -20,6 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+/* Table below shows all possible pins for each uart
+ *
+ *  U(S)ARTx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
+ *           |  TX    RX   |  TX    RX   |  TX    RX   |       |
+ *--------------------------------------------------------------
+ *  USART1   |  PA9   PA10 |  PB6   PB7  |  -     -    |   2   |
+ *  USART2   |  PA2   PA3  |  PD5   PD6  |  -     -    |   1   |
+ *  USART3   |  PB10  PB11 |  PC10  PC11 |  PD8   PD9  |   1   |
+ *  USART4   |  PA0   PA1  |  PC10  PC11 |  -     -    |   1   |
+ *  USART5   |  PC12  PD2  |  -     -    |  -     -    |   1   |
+ *  USART6   |  PC6   PC7  |  PG14  PG9  |  -     -    |   2   |
+ *  USART7   |  PE8   PE7  |  PF7   PF6  |  -     -    |   1   |
+ *  USART8   |  PE1   PE0  |  -     -    |  -     -    |   1   |
+ */
+
 #ifndef _UART_MAPPING_STM32F4_H_
 #define _UART_MAPPING_STM32F4_H_
 
@@ -27,7 +42,6 @@
 extern "C" {
 #endif
 
-/* UART Hardware Information */
 #define UART1_PP1_HW_INFO   {.rcc_ahbenr_gpioen_tx = RCC_AHB1ENR_GPIOAEN,    \
                              .rcc_ahbenr_gpioen_rx = RCC_AHB1ENR_GPIOAEN,    \
                              .port_tx = GPIOA,                               \

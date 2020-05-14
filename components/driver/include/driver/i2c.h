@@ -29,16 +29,6 @@ extern "C" {
 
 #include "stm_err.h"
 
-/* Table below shows all possible pins for each i2c.
- *
- *  I2Cx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
- *       |  SCL   SDA  |  SCL   SDA  |  SCL    SDA |       |
- *----------------------------------------------------------
- *  I2C1 |  PB6   PB7  |  PB8   PB9  |  PB6    PB9 |   1   |
- *  I2C2 |  PB10  PB11 |  PF1   PF0  |  PH4    PH5 |   1   |
- *  I2C3 |  PA8   PC9  |  PH7   PH8  |  -      -   |   1   |
- */
-
 typedef enum {
     I2C_NUM_1 = 0,                  /*!< I2C Num 1 selected */
     I2C_NUM_2,                      /*!< I2C Num 2 selected */
@@ -91,7 +81,6 @@ stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, u
  *      - Others:       Fail.
  */
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
-
 
 #ifdef __cplusplus
 }

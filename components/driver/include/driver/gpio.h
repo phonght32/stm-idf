@@ -30,34 +30,34 @@ extern "C" {
 #include "stm_err.h"
 
 typedef enum {
-    GPIO_PORT_A = 0,    /*!< Port A selected */
-    GPIO_PORT_B,        /*!< Port B selected */
-    GPIO_PORT_C,        /*!< Port C selected */
-    GPIO_PORT_D,        /*!< Port D selected */
-    GPIO_PORT_E,        /*!< Port E selected */
-    GPIO_PORT_F,        /*!< Port F selected */
-    GPIO_PORT_G,        /*!< Port G selected */
-    GPIO_PORT_H,        /*!< Port H selected */
-    GPIO_PORT_I,        /*!< Port I selected */
+    GPIO_PORT_A = 0,            /*!< Port A selected */
+    GPIO_PORT_B,                /*!< Port B selected */
+    GPIO_PORT_C,                /*!< Port C selected */
+    GPIO_PORT_D,                /*!< Port D selected */
+    GPIO_PORT_E,                /*!< Port E selected */
+    GPIO_PORT_F,                /*!< Port F selected */
+    GPIO_PORT_G,                /*!< Port G selected */
+    GPIO_PORT_H,                /*!< Port H selected */
+    GPIO_PORT_I,                /*!< Port I selected */
 } gpio_port_t;
 
 typedef enum {
-    GPIO_NUM_0 = 0,     /*!< Pin 0 selected */
-    GPIO_NUM_1,         /*!< Pin 1 selected */
-    GPIO_NUM_2,         /*!< Pin 2 selected */
-    GPIO_NUM_3,         /*!< Pin 3 selected */
-    GPIO_NUM_4,         /*!< Pin 4 selected */
-    GPIO_NUM_5,         /*!< Pin 5 selected */
-    GPIO_NUM_6,         /*!< Pin 6 selected */
-    GPIO_NUM_7,         /*!< Pin 7 selected */
-    GPIO_NUM_8,         /*!< Pin 8 selected */
-    GPIO_NUM_9,         /*!< Pin 9 selected */
-    GPIO_NUM_10,        /*!< Pin 10 selected */
-    GPIO_NUM_11,        /*!< Pin 11 selected */
-    GPIO_NUM_12,        /*!< Pin 12 selected */
-    GPIO_NUM_13,        /*!< Pin 13 selected */
-    GPIO_NUM_14,        /*!< Pin 14 selected */
-    GPIO_NUM_15,        /*!< Pin 15 selected */
+    GPIO_NUM_0 = 0,             /*!< Pin 0 selected */
+    GPIO_NUM_1,                 /*!< Pin 1 selected */
+    GPIO_NUM_2,                 /*!< Pin 2 selected */
+    GPIO_NUM_3,                 /*!< Pin 3 selected */
+    GPIO_NUM_4,                 /*!< Pin 4 selected */
+    GPIO_NUM_5,                 /*!< Pin 5 selected */
+    GPIO_NUM_6,                 /*!< Pin 6 selected */
+    GPIO_NUM_7,                 /*!< Pin 7 selected */
+    GPIO_NUM_8,                 /*!< Pin 8 selected */
+    GPIO_NUM_9,                 /*!< Pin 9 selected */
+    GPIO_NUM_10,                /*!< Pin 10 selected */
+    GPIO_NUM_11,                /*!< Pin 11 selected */
+    GPIO_NUM_12,                /*!< Pin 12 selected */
+    GPIO_NUM_13,                /*!< Pin 13 selected */
+    GPIO_NUM_14,                /*!< Pin 14 selected */
+    GPIO_NUM_15,                /*!< Pin 15 selected */
 } gpio_num_t;
 
 typedef enum {
@@ -124,7 +124,6 @@ stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, uint8_t sta
  *      - Others:       Fail.
  */
 stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
-
 
 #ifdef __cplusplus
 }

@@ -32,7 +32,6 @@ extern "C" {
 #define GPIO_MODE_MAX           12
 #define GPIO_REG_PULL_MAX       3
 
-
 GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOA,          
     GPIOB,          

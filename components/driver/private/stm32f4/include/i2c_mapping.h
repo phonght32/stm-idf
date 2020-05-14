@@ -23,6 +23,16 @@
 #ifndef _I2C_MAPPING_STM32F4_H_
 #define _I2C_MAPPING_STM32F4_H_
 
+/* Table below shows all possible pins for each i2c.
+ *
+ *  I2Cx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
+ *       |  SCL   SDA  |  SCL   SDA  |  SCL    SDA |       |
+ *----------------------------------------------------------
+ *  I2C1 |  PB6   PB7  |  PB8   PB9  |  PB6    PB9 |   1   |
+ *  I2C2 |  PB10  PB11 |  PF1   PF0  |  PH4    PH5 |   1   |
+ *  I2C3 |  PA8   PC9  |  PH7   PH8  |  -      -   |   1   |
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,9 +40,6 @@ extern "C" {
 #define I2C_NUM_MAX         3
 #define I2C_PINS_PACK_MAX   3
 
-/*
- * I2C Hardware Information Define.
- */
 #define I2C1_PP1_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
                              .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
                              .port_scl = GPIOB,                             \
