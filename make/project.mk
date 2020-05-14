@@ -30,9 +30,9 @@ export BUILD_DIR
 endif
 
 # If no configure STM_IDF_PATH to variable environment, use stm-idf in current project. Assume
-# current project contain stm32f4-idf
+# current project contain stm-idf
 ifndef STM_IDF_PATH
-STM_IDF_PATH := $(PROJECT_PATH)/stm32f4-idf
+STM_IDF_PATH := $(PROJECT_PATH)/stm-idf
 export STM_IDF_PATH
 endif
 
