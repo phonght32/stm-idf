@@ -1,6 +1,3 @@
-#include "stdlib.h"
-#include "stdint.h"
-
 #include "stm_hal.h"
 #include "stm_log.h"
 
