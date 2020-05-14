@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#include "stdbool.h"
+
 #include "stm_err.h"
 
 typedef enum {
@@ -113,7 +115,7 @@ stm_err_t gpio_config(gpio_config_t *config);
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, uint8_t state);
+stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state);
 
 /*
  * @brief   Toggle GPIO level.

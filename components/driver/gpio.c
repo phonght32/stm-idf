@@ -43,7 +43,7 @@ stm_err_t gpio_config(gpio_config_t *config)
     return STM_OK;
 }
 
-stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, uint8_t state)
+stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
 {
     GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
