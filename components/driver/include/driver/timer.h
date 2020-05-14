@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef _DRIVER_TIMER_H_
+#define _DRIVER_TIMER_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdint.h"
-#include "stdlib.h"
-
-#include "stm_hal.h"
 #include "stm_err.h"
-#include "stm_log.h"
 
 /*
  * Table below shows all Timer's clock description.
@@ -297,4 +292,4 @@ stm_err_t etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 }
 #endif
 
-#endif /* _TIMER_H_ */
+#endif /* _DRIVER_TIMER_H_ */
