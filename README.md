@@ -6,19 +6,19 @@ STM-IDF is a SDK (Software Development Kit) based on HAL (Hardware Abstraction L
 
 Hardware:
 
-- STM32F4 board.
-- USB UART (This SDK flash to stm32 target over usart).
+- STM32 board.
+- USB UART or ST-LinkV2 programmer/debugger.
 
 Software:
 
-- Toolchain to compile code.
+- Toolchain GNU ARM Embedded to compile code.
 - Build tools - CMake to build application.
-- STM-IDF that contains API (software library and source code) for STM32F4.
-- Text editor to write project.
-- Minicom to view log output.
+- STM-IDF that contains API (software library and source code) for STM32.
+- Text editor.
+- Terminal (support ANSI/VT100) to view log output: minicom, putty,...
 - Computer with Linux OS.
 
-### 1. Setting up build environment
+### 1. Setting up environment
 
 #### Install GNU ARM Embedded Toolchain
 
@@ -34,6 +34,28 @@ sudo apt-get update
 sudo apt-get install gcc-arm-none-eabi
 ```
 
+#### Install ST-LinkV2 driver 
+
+Install dependency:
+
+```
+sudo apt-get install git make cmake libusb-1.0-0-dev
+sudo apt-get install gcc build-essential
+```
+
+Install ST-LinkV2 driver:
+
+```
+cd ~download_directory
+git clone https://github.com/texane/stlink
+cd stlink
+cmake .
+make
+
+sudo cp bin/st-* /usr/local/bin
+sudo cp etc/udev/rules.d/49-stlinkv* /etc/udev/rules.d/
+```
+
 ### 2. Setting up STM-IDF
 
 #### Dowload STM-IDF
@@ -42,7 +64,7 @@ sudo apt-get install gcc-arm-none-eabi
 git clone https://github.com/thanhphong98/stm-idf
 ```
 
-#### Setup environment variable.
+#### Setup environment variable
 
 You need to export STM_IDF_PATH to use STM-IDF. Open your bash file and add this instruction:
 
@@ -80,13 +102,21 @@ If the are no error occurs. the build will finish by generating binary .bin file
 
 ### 5. Flashing to target
 
-This SDK flash to STM32 target over USART3, PC10: TX_Pin, PC11: RX_Pin. You have to complete this connection before flash. To flash to STM32 board, run this command:
+Flash over USART:
 
 ```
-make flash
+make flash_usart
+```
+
+Flash over ST-LinkV2:
+
+```
+make flash_stlink
 ```
 
 ### 6. Viewing log output 
+
+This SDK send log out put over UART3, tx_pin: PC10, rx_pin: PC11.
 
 To view log output, run this command:
 
@@ -96,10 +126,8 @@ make monitor
 
 ### 7. Examples
 
-There are many examples in stm-idf/examples folder. You can follow tutorial in README file to implement it.
+There are many examples in stm-idf/examples folder. Follow tutorial in README file to implement.
 
-## Contact us
+## Problem
 
-Email: thanhphongho1998@gmail.com
-
-Github: thanhphong98 
+Any problem when using this SDK, please create in [Issues.](https://github.com/thanhphong98/stm-idf/issues)
