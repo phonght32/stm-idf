@@ -1,6 +1,7 @@
 // MIT License
 
 // Copyright (c) 2020 thanhphong98
+
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -25,6 +26,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define GPIO_PORT_MAX           9
+#define GPIO_NUM_MAX            16
+#define GPIO_MODE_MAX           12
+#define GPIO_REG_PULL_MAX       3
+
 
 GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOA,          
