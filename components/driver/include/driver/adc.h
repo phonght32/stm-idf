@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _ADC_H_
-#define _ADC_H_ 
+#ifndef _DRIVER_ADC_H_
+#define _DRIVER_ADC_H_ 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdint.h"
-
-#include "stm_hal.h"
 #include "stm_err.h"
-#include "stm_log.h"
 
 /* 
  * Table below shows all possible pins for ADC.
@@ -60,7 +56,6 @@ typedef enum {
 	ADC_NUM_1 = 0,							/*!< ADC num 1 selected */
 	ADC_NUM_2,								/*!< ADC num 2 selected */
 	ADC_NUM_3,								/*!< ADC num 3 selected */
-	ADC_NUM_MAX
 } adc_num_t;
 
 typedef enum {
@@ -80,7 +75,6 @@ typedef enum {
 	ADC_CHNL_13,							/*!< ADC channel 13 selected */
 	ADC_CHNL_14,							/*!< ADC channel 14 selected */
 	ADC_CHNL_15,							/*!< ADC channel 15 selected */
-	ADC_CHNL_MAX
 } adc_chnl_t;
 
 typedef enum {
@@ -88,7 +82,6 @@ typedef enum {
 	ADC_RESOLUTION_8BIT,					/*!< ADC resolution 8 bit data */
 	ADC_RESOLUTION_10BIT,					/*!< ADC resolution 10 bit data */
 	ADC_RESOLUTION_12BIT,					/*!< ADC resolution 12 bit data */
-	ADC_RESOLUTION_MAX
 } adc_resolution_t;
 
 typedef enum {
@@ -96,13 +89,11 @@ typedef enum {
 	ADC_CLK_DIV_4,							/*!< ADC clock divide by 4 */
 	ADC_CLK_DIV_6,							/*!< ADC clock divide by 6 */
 	ADC_CLK_DIV_8,							/*!< ADC clock divide by 8 */
-	ADC_CLK_DIV_MAX
 } adc_clk_div_t;
 
 typedef enum {
 	ADC_SCAN_MODE_DISABLE = 0,				/*!< ADC scan mode disable */
 	ADC_SCAN_MODE_ENABLE,					/*!< ADC scan mode enable */
-	ADC_SCAN_MODE_MAX
 } adc_scan_mode_t;
 
 typedef enum {
@@ -114,13 +105,12 @@ typedef enum {
 typedef enum {
 	ADC_DISCONT_CONV_MODE_DISABLE = 0,		/*!< ADC discontinous conversion mode disable */
 	ADC_DISCONT_CONV_MODE_ENABLE,			/*!< ADC discontinous conversion mode enable */
-	ADC_DISCONT_CONV_MODE_MAX
 } adc_discont_conv_mode_t;
 
 typedef enum {
 	ADC_DATA_ALIGN_RIGHT = 0,				/*!< ADC data align right */
 	ADC_DATA_ALIGN_LEFT,					/*!< ADC data align left */
-	ADC_DATA_ALIGN_MAX
+	
 } adc_data_align_t;
 
 typedef enum {
@@ -128,20 +118,17 @@ typedef enum {
 	ADC_EXT_TRIGCONV_RISING_EDGE,			/*!< ADC external trigger conversion rising edge */
 	ADC_EXT_TRIGCONV_FALLING_EDGE,			/*!< ADC external trigger conversion falling edge */
 	ADC_EXT_TRIGCONV_BOTH_EDGE,				/*!< ADC external trigger conversion both rising and falling edge */
-	ADC_EXT_TRIGCONV_MAX
 } adc_ext_trigconv_edge_t;
 
 typedef enum {
 	ADC_DMA_CONT_RQST_DISABLE,				/*!< DMA continous request disable */
 	ADC_DMA_CONT_RQST_ENABLE,				/*!< DMA continous request enable */
-	ADC_DMA_CONT_RQST_MAX
 } adc_dma_cont_rqst_t;
 
 typedef enum {
 	ADC_EOC_MODE_SEQ_CONV = 0,				/*!< EOC mode sequence conversion */
 	ADC_EOC_MODE_SINGLE_CONV,				/*!< EOC Mode single conversion */
 	ADC_EOC_MODE_SINGLE_SEQ_CONV,			/*!< EOC mode single sequence conversion */
-	ADC_EOC_MODE_MAX
 } adc_eoc_mode_t;
 
 typedef enum {
@@ -153,7 +140,6 @@ typedef enum {
 	ADC_SAMP_TIME_112CYCLES,				/*!< ADC sample time 112 cycles */
 	ADC_SAMP_TIME_144CYCLES,				/*!< ADC sample time 144 cycles */
 	ADC_SAMP_TIME_480CYCLES,				/*!< ADC sample time 480 cycles */
-	ADC_SAMP_TIME_MAX
 } adc_samp_time_t;
 
 typedef struct {
@@ -214,4 +200,4 @@ stm_err_t adc_get_value(adc_num_t adc_num, uint16_t *value);
 }
 #endif
 
-#endif /* _ADC_H_ */
+#endif /* _DRIVER_ADC_H_ */
