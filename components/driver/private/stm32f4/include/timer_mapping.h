@@ -23,6 +23,12 @@
 #ifndef _TIMER_MAPPING_STM32F4_H_
 #define _TIMER_MAPPING_STM32F4_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "stm_hal.h"
+
 /*
  * Table below shows all Timer's clock description.
  *
@@ -108,10 +114,6 @@
  *  -------------------------------
  *
  */
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define SYSTEM_CLOCK                168000000                   /*!< System clock */
 #define APB1_CLOCK                  (SYSTEM_CLOCK/2)            /*!< APB1 clock */

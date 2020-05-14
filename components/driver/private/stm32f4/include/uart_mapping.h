@@ -20,6 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#ifndef _UART_MAPPING_STM32F4_H_
+#define _UART_MAPPING_STM32F4_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "stm_hal.h"
+
 /* Table below shows all possible pins for each uart
  *
  *  U(S)ARTx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
@@ -34,13 +43,6 @@
  *  USART7   |  PE8   PE7  |  PF7   PF6  |  -     -    |   1   |
  *  USART8   |  PE1   PE0  |  -     -    |  -     -    |   1   |
  */
-
-#ifndef _UART_MAPPING_STM32F4_H_
-#define _UART_MAPPING_STM32F4_H_
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define UART1_PP1_HW_INFO   {.rcc_ahbenr_gpioen_tx = RCC_AHB1ENR_GPIOAEN,    \
                              .rcc_ahbenr_gpioen_rx = RCC_AHB1ENR_GPIOAEN,    \

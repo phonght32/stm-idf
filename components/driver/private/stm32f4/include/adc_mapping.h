@@ -23,6 +23,12 @@
 #ifndef _ADC_MAPPING_STM32F4_H_
 #define _ADC_MAPPING_STM32F4_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif 
+
+#include "stm_hal.h"
+
 /* 
  * Table below shows all possible pins for ADC.
  * 
@@ -45,10 +51,6 @@
  * ADC Channel 14 | PC4  | PC4  | PF4  |
  * ADC Channel 15 | PC5  | PC5  | PF5  |
  */
-
-#ifdef __cplusplus
-extern "C" {
-#endif 
 
 #define ADC_NUM_MAX 					3
 #define ADC_CHNL_MAX					16	

@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#include "stm_hal.h"
+
 #define GPIO_PORT_MAX           9
 #define GPIO_NUM_MAX            16
 #define GPIO_MODE_MAX           12
