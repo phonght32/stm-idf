@@ -115,6 +115,11 @@ extern "C" {
  *
  */
 
+#define TIMER_NUM_MAX               14
+#define TIMER_CHNL_MAX              4
+#define TIMER_PINS_PACK_MAX         3
+#define TIMER_COUNTER_MODE_MAX      2
+
 #define SYSTEM_CLOCK                168000000                   /*!< System clock */
 #define APB1_CLOCK                  (SYSTEM_CLOCK/2)            /*!< APB1 clock */
 #define APB2_CLOCK                  (SYSTEM_CLOCK)              /*!< APB2 clock */

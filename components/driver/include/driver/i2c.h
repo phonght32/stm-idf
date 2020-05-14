@@ -32,13 +32,13 @@ extern "C" {
 typedef enum {
     I2C_NUM_1 = 0,                  /*!< I2C Num 1 selected */
     I2C_NUM_2,                      /*!< I2C Num 2 selected */
-    I2C_NUM_3,                      /*!< I2C Num 3 selected */
+    I2C_NUM_3                       /*!< I2C Num 3 selected */
 } i2c_num_t;
 
 typedef enum {
     I2C_PINS_PACK_1 = 0,            /*!< I2C Pins Pack 1 selected */
     I2C_PINS_PACK_2,                /*!< I2C Pins Pack 2 selected */
-    I2C_PINS_PACK_3,                /*!< I2C Pins Pack 3 selected */
+    I2C_PINS_PACK_3	                /*!< I2C Pins Pack 3 selected */
 } i2c_pins_pack_t;
 
 typedef struct {

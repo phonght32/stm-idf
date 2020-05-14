@@ -43,29 +43,25 @@ typedef enum {
     TIMER_NUM_11,           /*!< Timer Num 11 selected */
     TIMER_NUM_12,           /*!< Timer Num 12 selected */
     TIMER_NUM_13,           /*!< Timer Num 13 selected */
-    TIMER_NUM_14,           /*!< Timer Num 14 selected */
-    TIMER_NUM_MAX
+    TIMER_NUM_14            /*!< Timer Num 14 selected */
 } timer_num_t;
 
 typedef enum {
     TIMER_CHNL_1 = 0,       /*!< Timer Channel 1 selected */
     TIMER_CHNL_2,           /*!< Timer Channel 2 selected */
     TIMER_CHNL_3,           /*!< Timer Channel 3 selected */
-    TIMER_CHNL_4,           /*!< Timer Channel 4 selected */
-    TIMER_CHNL_MAX
+    TIMER_CHNL_4            /*!< Timer Channel 4 selected */
 } timer_chnl_t;
 
 typedef enum {
     TIMER_PINS_PACK_1 = 0,  /*!< Timer Pins Pack 1 selected */
     TIMER_PINS_PACK_2,      /*!< Timer Pins Pack 2 selected */
-    TIMER_PINS_PACK_3,      /*!< Timer Pins Pack 3 selected */
-    TIMER_PINS_PACK_MAX
+    TIMER_PINS_PACK_3       /*!< Timer Pins Pack 3 selected */
 } timer_pins_pack_t;
 
 typedef enum {
     TIMER_COUNTER_UP = 0,   /*!< Timer counter mode up */
-    TIMER_COUNTER_DOWN,     /*!< Timer counter mode down */
-    TIMER_COUNTER_MODE_MAX
+    TIMER_COUNTER_DOWN      /*!< Timer counter mode down */
 } timer_counter_mode_t;
 
 typedef struct {

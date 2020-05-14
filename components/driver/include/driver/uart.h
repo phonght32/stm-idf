@@ -35,15 +35,13 @@ typedef enum {
     UART_NUM_3,                 /*!< UART Num 3 selected */
     UART_NUM_4,                 /*!< UART Num 4 selected */
     UART_NUM_5,                 /*!< UART Num 5 selected */
-    UART_NUM_6,                 /*!< UART Num 6 selected */
-    UART_NUM_MAX
+    UART_NUM_6                  /*!< UART Num 6 selected */
 } uart_num_t;
 
 typedef enum {
     UART_PINS_PACK_1 = 0,       /*!< UART Pins Pack 1 selected */
     UART_PINS_PACK_2,           /*!< UART Pins Pack 2 selected */
-    UART_PINS_PACK_3,           /*!< UART Pins Pack 3 selected */
-    UART_PINS_PACK_MAX
+    UART_PINS_PACK_3            /*!< UART Pins Pack 3 selected */
 } uart_pins_pack_t;
 
 typedef enum {
@@ -58,23 +56,20 @@ typedef enum {
     UART_FRAME_8O1,             /*!< 8 bit data, odd parity, 1 stop bit */
     UART_FRAME_8O2,             /*!< 8 bit data, odd parity, 2 stop bit */
     UART_FRAME_9O1,             /*!< 9 bit data, odd parity, 1 stop bit */
-    UART_FRAME_9O2,             /*!< 9 bit data, odd parity, 2 stop bit */
-    UART_FRAME_MAX_TYPE
+    UART_FRAME_9O2              /*!< 9 bit data, odd parity, 2 stop bit */
 } uart_frame_format_t;
 
 typedef enum {
     UART_TRANSFER_MODE_RX = 0,  /*!< UART mode receive*/
     UART_TRANSFER_MODE_TX,      /*!< UART mode transfer*/
-    UART_TRANSFER_MODE_TX_RX,   /*!< UART mode transfer and receive */
-    UART_TRANSFER_MODE_MAX
+    UART_TRANSFER_MODE_TX_RX    /*!< UART mode transfer and receive */
 } uart_transfer_mode_t;
 
 typedef enum {
     UART_HW_FLW_CTRL_NONE = 0,  /* No hardware flow control */
     UART_HW_FLW_CTRL_RTS,       /* Use RTS */
     UART_HW_FLW_CTRL_CTS,       /* Use CTS */
-    UART_HW_FLW_CTRL_RTS_CTS,   /* Use RTS and CTS */
-    UART_HW_FLW_CTRL_MAX_TYPE
+    UART_HW_FLW_CTRL_RTS_CTS    /* Use RTS and CTS */
 } uart_hw_flw_ctrl_t;
 
 typedef struct {

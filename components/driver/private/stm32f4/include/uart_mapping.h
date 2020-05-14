@@ -44,6 +44,12 @@ extern "C" {
  *  USART8   |  PE1   PE0  |  -     -    |  -     -    |   1   |
  */
 
+#define UART_NUM_MAX        6
+#define UART_PINS_PACK_MAX      3
+#define UART_FRAME_MAX_TYPE     12
+#define UART_TRANSFER_MODE_MAX  3
+#define UART_HW_FLW_CTRL_MAX_TYPE   4
+
 #define UART1_PP1_HW_INFO   {.rcc_ahbenr_gpioen_tx = RCC_AHB1ENR_GPIOAEN,    \
                              .rcc_ahbenr_gpioen_rx = RCC_AHB1ENR_GPIOAEN,    \
                              .port_tx = GPIOA,                               \

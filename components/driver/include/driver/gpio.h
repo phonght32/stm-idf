@@ -38,7 +38,7 @@ typedef enum {
     GPIO_PORT_F,                /*!< Port F selected */
     GPIO_PORT_G,                /*!< Port G selected */
     GPIO_PORT_H,                /*!< Port H selected */
-    GPIO_PORT_I,                /*!< Port I selected */
+    GPIO_PORT_I                 /*!< Port I selected */
 } gpio_port_t;
 
 typedef enum {
@@ -57,7 +57,7 @@ typedef enum {
     GPIO_NUM_12,                /*!< Pin 12 selected */
     GPIO_NUM_13,                /*!< Pin 13 selected */
     GPIO_NUM_14,                /*!< Pin 14 selected */
-    GPIO_NUM_15,                /*!< Pin 15 selected */
+    GPIO_NUM_15                 /*!< Pin 15 selected */
 } gpio_num_t;
 
 typedef enum {
@@ -72,21 +72,20 @@ typedef enum {
     GPIO_IT_BOTH_EDGE,          /*!< GPIO external interrupt mode with both falling and rising edge trigger dectection */
     GPIO_EVT_RISING_EDGE,       /*!< GPIO external event mode with rising edge trigger dectection */
     GPIO_EVT_FALLING_EDGE,      /*!< GPIO external event mode with falling edge trigger dectection */
-    GPIO_EVT_BOTH_EDGE,         /*!< GPIO external event mode with both falling and rising edge trigger dectection */              
+    GPIO_EVT_BOTH_EDGE           /*!< GPIO external event mode with both falling and rising edge trigger dectection */              
 } gpio_mode_t;
 
 typedef enum {
     GPIO_REG_PULL_NONE = 0,     /*!< None pull registor selected */
     GPIO_REG_PULL_UP,           /*!< Registor pull up selected */
-    GPIO_REG_PULL_DOWN,         /*!< Registor pull down selected*/
+    GPIO_REG_PULL_DOWN          /*!< Registor pull down selected*/
 } gpio_reg_pull_mode_t;
 
 typedef enum {
     GPIO_INTR_DISABLE = 0,      /*!< Disable interrupt */
     GPIO_INTR_POS_EDGE,         /*!< Interrupt trigger when positive edge */
     GPIO_INTR_NEG_EDGE,         /*!< Interrupt trigger when negative edge */
-    GPIO_INTR_ANY_EDGE,         /*!< Interrupt trigger when any edge */
-    GPIO_INTR_MAX
+    GPIO_INTR_ANY_EDGE          /*!< Interrupt trigger when any edge */
 } gpio_intr_type_t;
 
 typedef struct {
