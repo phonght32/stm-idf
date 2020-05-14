@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _I2C_H_
-#define _I2C_H_
+#ifndef _DRIVER_I2C_H_
+#define _DRIVER_I2C_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdlib.h"
-#include "stdint.h"
-
-#include "stm_hal.h"
 #include "stm_err.h"
-#include "stm_log.h"
 
 /* Table below shows all possible pins for each i2c.
  *
@@ -48,14 +43,12 @@ typedef enum {
     I2C_NUM_1 = 0,                  /*!< I2C Num 1 selected */
     I2C_NUM_2,                      /*!< I2C Num 2 selected */
     I2C_NUM_3,                      /*!< I2C Num 3 selected */
-    I2C_NUM_MAX
 } i2c_num_t;
 
 typedef enum {
     I2C_PINS_PACK_1 = 0,            /*!< I2C Pins Pack 1 selected */
     I2C_PINS_PACK_2,                /*!< I2C Pins Pack 2 selected */
     I2C_PINS_PACK_3,                /*!< I2C Pins Pack 3 selected */
-    I2C_PINS_PACK_MAX
 } i2c_pins_pack_t;
 
 typedef struct {
@@ -104,4 +97,4 @@ stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uin
 }
 #endif
 
-#endif /* _I2C_H_ */
+#endif /* _DRIVER_I2C_H_ */

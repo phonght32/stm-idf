@@ -1,4 +1,11 @@
+#include "stdlib.h"
+#include "stdint.h"
+
+#include "stm_hal.h"
+#include "stm_log.h"
+
 #include "driver/i2c.h"
+#include "i2c_mapping.h"
 
 #define I2C_DUTYCYCLE_DEFAULT           I2C_DUTYCYCLE_2             /*!< Default I2C duty cycle */
 #define I2C_CLOCKSPEED_DEFAULT          100000                      /*!< Default I2C clock speed */
@@ -27,101 +34,9 @@ static const char* I2C_TAG = "DRIVER I2C";
 #define I2C_TRANS_ERR_STR       "i2c transmit data error"
 #define I2C_REC_ERR_STR         "i2c receive data error"
 
-/*
- * I2C Hardware Information Define.
- */
-#define I2C1_PP1_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
-                             .port_scl = GPIOB,                             \
-                             .port_sda = GPIOB,                             \
-                             .pin_scl = GPIO_PIN_6,                         \
-                             .pin_sda = GPIO_PIN_7}
+I2C_HandleTypeDef i2c_handle[I2C_NUM_MAX];
 
-#define I2C1_PP2_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
-                             .port_scl = GPIOB,                             \
-                             .port_sda = GPIOB,                             \
-                             .pin_scl = GPIO_PIN_8,                         \
-                             .pin_sda = GPIO_PIN_9}
-
-#define I2C1_PP3_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
-                             .port_scl = GPIOB,                             \
-                             .port_sda = GPIOB,                             \
-                             .pin_scl = GPIO_PIN_6,                         \
-                             .pin_sda = GPIO_PIN_9}
-
-#define I2C2_PP1_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
-                             .port_scl = GPIOB,                             \
-                             .port_sda = GPIOB,                             \
-                             .pin_scl = GPIO_PIN_10,                        \
-                             .pin_sda = GPIO_PIN_11}
-
-#define I2C2_PP2_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOFEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOFEN,    \
-                             .port_scl = GPIOF,                             \
-                             .port_sda = GPIOF,                             \
-                             .pin_scl = GPIO_PIN_1,                         \
-                             .pin_sda = GPIO_PIN_0}
-
-#define I2C2_PP3_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOHEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOHEN,    \
-                             .port_scl = GPIOH,                             \
-                             .port_sda = GPIOH,                             \
-                             .pin_scl = GPIO_PIN_4,                         \
-                             .pin_sda = GPIO_PIN_5}
-
-#define I2C3_PP1_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOAEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOCEN,    \
-                             .port_scl = GPIOA,                             \
-                             .port_sda = GPIOC,                             \
-                             .pin_scl = GPIO_PIN_8,                         \
-                             .pin_sda = GPIO_PIN_9}
-
-#define I2C3_PP2_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOHEN,    \
-                             .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOHEN,    \
-                             .port_scl = GPIOH,                             \
-                             .port_sda = GPIOH,                             \
-                             .pin_scl = GPIO_PIN_7,                         \
-                             .pin_sda = GPIO_PIN_8}
-
-typedef struct {
-    uint32_t        rcc_ahbenr_gpio_scl;    /*!< SCL GPIO RCC AHPENR register */
-    uint32_t        rcc_ahbenr_gpio_sda;    /*!< SDA GPIO RCC AHPENR register */
-    GPIO_TypeDef    *port_scl;              /*!< SCL General Purpose I/O */
-    GPIO_TypeDef    *port_sda;              /*!< SDA General Purpose I/O */
-    uint16_t        pin_scl;                /*!< SCL GPIO Pin */
-    uint16_t        pin_sda;                /*!< SDA GPIO Pin */
-} i2c_hw_info_t;
-
-static I2C_HandleTypeDef i2c_handle[I2C_NUM_MAX];
-
-static I2C_TypeDef* I2C_MAPPING[I2C_NUM_MAX] = {
-    I2C1,
-    I2C2,
-    I2C3
-};
-
-static uint32_t RCC_APBENR_I2CEN_MAPPING[I2C_NUM_MAX] = {
-    RCC_APB1ENR_I2C1EN,
-    RCC_APB1ENR_I2C2EN,
-    RCC_APB1ENR_I2C3EN
-};
-
-static I2C_ALTERNATE_FUNC_MAPPING[I2C_NUM_MAX] = {
-    GPIO_AF4_I2C1,
-    GPIO_AF4_I2C2,
-    GPIO_AF4_I2C3
-};
-
-static i2c_hw_info_t I2C_HW_INFO_MAPPING[I2C_NUM_MAX][I2C_PINS_PACK_MAX] = {
-    {I2C1_PP1_HW_INFO, I2C1_PP2_HW_INFO, I2C1_PP3_HW_INFO},
-    {I2C2_PP1_HW_INFO, I2C2_PP2_HW_INFO, I2C2_PP3_HW_INFO},
-    {I2C3_PP1_HW_INFO, I2C3_PP2_HW_INFO, {0}             }
-};
-
-static i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pins_pack)
+i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pins_pack)
 {
     i2c_hw_info_t hw_info;
     hw_info = I2C_HW_INFO_MAPPING[i2c_num][i2c_pins_pack];
