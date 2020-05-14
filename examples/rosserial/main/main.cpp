@@ -66,8 +66,8 @@ static void example_task(void* arg)
     gpio_config_t gpio_cfg;
     gpio_cfg.gpio_port = GPIO_PORT_D;
     gpio_cfg.gpio_num = GPIO_NUM_12;
-    gpio_cfg.mode = GPIO_OUTPUT;
-    gpio_cfg.pull_mode = GPIO_REG_PULL_NONE;
+    gpio_cfg.mode = GPIO_OUTPUT_PP;
+    gpio_cfg.reg_pull_mode = GPIO_REG_PULL_NONE;
     gpio_config(&gpio_cfg);
 
     while (1)

@@ -26,15 +26,15 @@
 #include "freertos/task.h"
 
 /*
- * This test code shows how to use HAL Library to blink 4 leds connected to PD12,
- * PD13, PD14, PD15 on STM32F4 Discovery Board.
+ * This test code shows how to use HAL Library to blink LED connected to PD12 
+ * on STM32F4 Discovery Board.
  */
 
 #define TASK_SIZE   512
 #define TASK_PRIOR  5
 
 #define GPIO_PORT               GPIOD
-#define GPIO_OUTPUT_BIT_MASK    GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15
+#define GPIO_OUTPUT_BIT_MASK    GPIO_PIN_12
 
 static void blinky_task(void* arg)
 {
