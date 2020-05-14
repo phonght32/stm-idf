@@ -1,7 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
-
+// Copyright (c) 2020 thanhphong98
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -20,19 +19,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _GPIO_H_
-#define _GPIO_H_
+#ifndef _DIRVER_GPIO_H_
+#define _DRIVER_GPIO_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdint.h"
 #include "stdbool.h"
-#include "stdlib.h"
-
-#include "stm_hal.h"
-#include "stm_log.h"
 #include "stm_err.h"
 
 typedef enum {
