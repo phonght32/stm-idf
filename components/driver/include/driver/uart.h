@@ -1,6 +1,6 @@
 // MIT License
 
-// Copyright (c) 2020 thanhphong98 & thuanpham98
+// Copyright (c) 2020 thanhphong98
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _UART_H_
-#define _UART_H_
+#ifndef _DRIVER_UART_H_
+#define _DRIVER_UART_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "stdlib.h"
-#include "stdint.h"
-
-#include "stm_hal.h"
 #include "stm_err.h"
-#include "stm_log.h"
-
 
 /* Table below shows all possible pins for each uart
  *
@@ -145,4 +139,4 @@ stm_err_t uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, ui
 }
 #endif
 
-#endif /* _UART_H_ */
+#endif /* _DRIVER_UART_H_ */
