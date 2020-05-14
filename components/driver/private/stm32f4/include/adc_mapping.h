@@ -27,8 +27,6 @@
 extern "C" {
 #endif 
 
-#include "stm_hal.h"
-
 #define ADC_NUM_MAX 					3
 #define ADC_CHNL_MAX					16	
 #define ADC_RESOLUTION_MAX  			4
