@@ -117,7 +117,8 @@ $(STM_IDF_PATH)/components/stm32_private/$(STM_IDF_TARGET_PREFIX)
 
 INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include \
 -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy \
--I$(STM_IDF_PATH)/components/driver/private/$(STM_IDF_TARGET_PREFIX)/include
+-I$(STM_IDF_PATH)/components/driver/private/$(STM_IDF_TARGET_PREFIX)/include \
+-I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_IDF_TARGET_PREFIX)/include 
 
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
