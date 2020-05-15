@@ -155,6 +155,7 @@ void stm_log_write(stm_log_level_t level, const char *tag, const char *format, .
 #define LOG_COLOR_BLUE      "34"        /*!< Blue color */
 #define LOG_COLOR_PURPLE    "35"        /*!< Purple color */
 #define LOG_COLOR_CYAN      "36"        /*!< Cyan color */
+#define LOG_COLOR_WHITE     "37"        /*!< White color */
 
 #define LOG_COLOR(COLOR)    "\033[0;" COLOR "m"             /*!< Log with color */
 #define LOG_BOLD(COLOR)     "\033[1;" COLOR "m"             /*!< Log with color and bold */
@@ -165,7 +166,7 @@ void stm_log_write(stm_log_level_t level, const char *tag, const char *format, .
  */
 #define LOG_COLOR_E         LOG_COLOR(LOG_COLOR_RED)        /*!< Log error color */
 #define LOG_COLOR_W         LOG_COLOR(LOG_COLOR_YELLOW)     /*!< Log warning color */
-#define LOG_COLOR_I         LOG_COLOR(LOG_COLOR_BLACK)      /*!< Log information color */
+#define LOG_COLOR_I         LOG_COLOR(LOG_COLOR_WHITE)      /*!< Log information color */
 #define LOG_COLOR_D         LOG_COLOR(LOG_COLOR_GREEN)      /*!< Log debug color */
 #define LOG_COLOR_V         LOG_COLOR(LOG_COLOR_BLUE)       /*!< Log verbose color */
 
