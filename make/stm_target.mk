@@ -24,5 +24,5 @@ INCLUDE_PATHS += \
 -I$(HAL_DRIVER_PATH)/$(STM_SERIES_PREFIX)/inc \
 -I$(HAL_DRIVER_PATH)/$(STM_SERIES_PREFIX)/inc/Legacy \
 -I$(STM_IDF_PATH)/components/driver/private/$(STM_SERIES_PREFIX)/include \
--I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_SERIES_PREFIX)/include 
+-I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_SERIES_PREFIX)/inc 
 
