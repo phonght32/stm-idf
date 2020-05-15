@@ -104,21 +104,8 @@ SOURCE_PATHS += $(foreach comp, $(COMPONENT_PATHS), \
 					$(foreach comp_src, $(COMPONENT_SOURCES), \
 						$(addprefix $(comp)/, $(comp_src))))
 
-# Handle specify STM32 target.
-HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
-
-ifeq ($(STM_IDF_TARGET), STM32F4) 
-STM_IDF_TARGET_PREFIX = stm32f4
-C_DEFS += -DSTM32F4_TARGET
-endif
-
-SOURCE_PATHS += $(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX) \
-$(STM_IDF_PATH)/components/stm32_private/$(STM_IDF_TARGET_PREFIX)
-
-INCLUDE_PATHS += -I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include \
--I$(HAL_DRIVER_PATH)/$(STM_IDF_TARGET_PREFIX)/include/Legacy \
--I$(STM_IDF_PATH)/components/driver/private/$(STM_IDF_TARGET_PREFIX)/include \
--I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_IDF_TARGET_PREFIX)/include 
+# Handle stm32 private target to get source paths, include paths, linker script, startup,...
+include $(STM_IDF_PATH)/make/stm_target.mk
 
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
@@ -166,7 +153,7 @@ CXXFLAGS = $(MCU) $(C_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunc
 CXXFLAGS += -MMD -MP -MF"$(@:%.o=%.d)" 
 
 # LD flags
-LDSCRIPT = $(STM_IDF_PATH)/make/$(STM_IDF_TARGET_PREFIX)/stm32f4xx_flash.ld
+LDSCRIPT = $(STM_IDF_PATH)/components/ldscript/$(STM_SERIES_PREFIX)/$(STM_TARGET_PREFIX).ld
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
