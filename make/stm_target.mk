@@ -17,6 +17,7 @@ HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
 SOURCE_PATHS += \
 $(HAL_DRIVER_PATH)/$(STM_SERIES_PREFIX) \
 $(STM_IDF_PATH)/components/stm32_private/$(STM_SERIES_PREFIX) \
+$(STM_IDF_PATH)/components/stm32_private/$(STM_SERIES_PREFIX)/$(STM_LINE_PREFIX) \
 $(STM_IDF_PATH)/components/startup/$(STM_SERIES_PREFIX)/$(STM_LINE_PREFIX)
 
 INCLUDE_PATHS += \
