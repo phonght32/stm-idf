@@ -126,17 +126,6 @@ endif
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
-# debug build?
-DEBUG = 1
-OPT = -Og
-CPU = -mcpu=cortex-m4
-FPU = -mfpu=fpv4-sp-d16
-FLOAT-ABI = -mfloat-abi=hard
-MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
-AS_DEFS = 
-C_DEFS +=  \
--DUSE_HAL_DRIVER \
--DSTM32F407xx \
 
 # ASM flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
