@@ -120,10 +120,6 @@ extern "C" {
 #define TIMER_PINS_PACK_MAX         3
 #define TIMER_COUNTER_MODE_MAX      2
 
-#define SYSTEM_CLOCK                168000000                   /*!< System clock */
-#define APB1_CLOCK                  (SYSTEM_CLOCK/2)            /*!< APB1 clock */
-#define APB2_CLOCK                  (SYSTEM_CLOCK)              /*!< APB2 clock */
-
 #define TIM1_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_8}
@@ -578,23 +574,6 @@ uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
 uint32_t TIMER_COUNTER_MODE_MAPPING[TIMER_COUNTER_MODE_MAX] = {
     TIM_COUNTERMODE_UP,
     TIM_COUNTERMODE_DOWN
-};
-
-uint32_t APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
-    APB2_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB2_CLOCK,         
-    APB2_CLOCK,         
-    APB2_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK,         
-    APB1_CLOCK          
 };
 
 uint32_t RCC_APBENR_TIMEN_MAPPING[TIMER_NUM_MAX] = {

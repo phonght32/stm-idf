@@ -35,6 +35,9 @@
 #define ETR_SET_VALUE_ERR_STR       "etr set value error"
 #define ETR_SET_MODE_ERR_STR        "etr set mode error"
 
+#define APB1_CLOCK                  (1.0f/2.0f)         /*!< APB1 clock */
+#define APB2_CLOCK                  (1.0f)              /*!< APB2 clock */
+
 static const char* TIMER_TAG = "DRIVER TIMER";
 #define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(TIMER_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
@@ -42,6 +45,23 @@ static const char* TIMER_TAG = "DRIVER TIMER";
         }
 
 TIM_HandleTypeDef timer_handle[TIMER_NUM_MAX];
+
+float APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {
+    APB2_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB2_CLOCK,         
+    APB2_CLOCK,         
+    APB2_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK,         
+    APB1_CLOCK          
+};
 
 static tim_hw_info_t _tim_pwm_get_hw_info(timer_num_t timer_num, timer_chnl_t timer_chnl, timer_pins_pack_t timer_pins_pack)
 {
@@ -161,7 +181,8 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint
 
     /* Calculate Timer PWM parameters. When change timer period you also
      * need to update timer compare value to keep duty cycle stable */
-    uint32_t conduct = (uint32_t) (APBx_CLOCK_MAPPING[timer_num] / freq_hz);
+    uint32_t apb_freq = APBx_CLOCK_MAPPING[timer_num] * HAL_RCC_GetHCLKFreq();
+    uint32_t conduct = (uint32_t) (apb_freq / freq_hz);
     uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
     uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
     uint32_t timer_compare_value = cur_duty * timer_period / 100;
