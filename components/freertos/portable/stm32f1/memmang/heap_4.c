@@ -433,4 +433,3 @@ uint8_t *puc;
 		mtCOVERAGE_TEST_MARKER();
 	}
 }
-
