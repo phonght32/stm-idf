@@ -1,3 +1,4 @@
+# Check STM32 product series
 ifeq ($(STM_SERIES), STM32F4) 
 STM_SERIES_PREFIX := stm32f4
 DEBUG = 1
@@ -13,16 +14,6 @@ C_DEFS +=  \
 -DSTM32F4_TARGET 
 endif
 
-ifeq ($(STM_LINE), STM32F407) 
-STM_LINE_PREFIX := stm32f407
-endif
-
-ifeq ($(STM_TARGET), STM32F407VG) 
-STM_TARGET_PREFIX := stm32f407vg
-endif
-
-
-
 ifeq ($(STM_SERIES), STM32F1) 
 STM_SERIES_PREFIX := stm32f1
 DEBUG = 1
@@ -36,8 +27,18 @@ C_DEFS +=  \
 -DSTM32F1_TARGET 
 endif
 
+# Check STM32 product line
+ifeq ($(STM_LINE), STM32F407) 
+STM_LINE_PREFIX := stm32f407
+endif
+
 ifeq ($(STM_LINE), STM32F103) 
 STM_LINE_PREFIX := stm32f103
+endif
+
+# Check STM32 target 
+ifeq ($(STM_TARGET), STM32F407VG) 
+STM_TARGET_PREFIX := stm32f407vg
 endif
 
 ifeq ($(STM_TARGET), STM32F103C8) 

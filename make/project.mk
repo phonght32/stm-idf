@@ -126,7 +126,6 @@ endif
 HEX = $(CP) -O ihex
 BIN = $(CP) -O binary -S
 
-
 # ASM flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(INCLUDE_PATHS) $(OPT) -Wall -fdata-sections -ffunction-sections
 
