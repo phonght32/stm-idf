@@ -2,7 +2,6 @@
 #include "stm_log.h"
 
 #include "driver/gpio.h"
-#include "gpio_mapping.h"
 
 #define GPIO_SPEED_FREQ_DEFAULT     GPIO_SPEED_FREQ_VERY_HIGH   /*!< GPIO speed frequency default */
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
@@ -16,6 +15,70 @@ static const char* GPIO_TAG = "DRIVER GPIO";
         STM_LOGE(GPIO_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                   \
         }
+
+GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
+    GPIOA,          
+    GPIOB,          
+    GPIOC,          
+    GPIOD,          
+    GPIOE,          
+    GPIOF,          
+    GPIOG,          
+    GPIOH,          
+    GPIOI           
+};
+
+uint16_t GPIO_PIN_MAPPING[GPIO_NUM_MAX] = {
+    GPIO_PIN_0,     
+    GPIO_PIN_1,     
+    GPIO_PIN_2,     
+    GPIO_PIN_3,     
+    GPIO_PIN_4,     
+    GPIO_PIN_5,     
+    GPIO_PIN_6,     
+    GPIO_PIN_7,     
+    GPIO_PIN_8,     
+    GPIO_PIN_9,     
+    GPIO_PIN_10,    
+    GPIO_PIN_11,    
+    GPIO_PIN_12,    
+    GPIO_PIN_13,    
+    GPIO_PIN_14,    
+    GPIO_PIN_15     
+};
+
+uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
+    GPIO_NOPULL,    
+    GPIO_PULLUP,    
+    GPIO_PULLDOWN   
+};
+
+uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
+    RCC_AHB1ENR_GPIOAEN,    
+    RCC_AHB1ENR_GPIOBEN,    
+    RCC_AHB1ENR_GPIOCEN,    
+    RCC_AHB1ENR_GPIODEN,    
+    RCC_AHB1ENR_GPIOEEN,    
+    RCC_AHB1ENR_GPIOFEN,    
+    RCC_AHB1ENR_GPIOGEN,    
+    RCC_AHB1ENR_GPIOHEN,   
+    RCC_AHB1ENR_GPIOIEN,    
+};
+
+uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
+    GPIO_MODE_INPUT,
+    GPIO_MODE_OUTPUT_PP,
+    GPIO_MODE_OUTPUT_OD,
+    GPIO_MODE_AF_PP,
+    GPIO_MODE_AF_OD,
+    GPIO_MODE_ANALOG,
+    GPIO_MODE_IT_RISING,
+    GPIO_MODE_IT_FALLING,
+    GPIO_MODE_IT_RISING_FALLING,
+    GPIO_MODE_EVT_RISING,
+    GPIO_MODE_EVT_FALLING,
+    GPIO_MODE_EVT_RISING_FALLING
+};
 
 stm_err_t gpio_config(gpio_config_t *config)
 {

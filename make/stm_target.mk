@@ -16,12 +16,13 @@ $(STM_IDF_PATH)/components/stm32_private/$(STM_SERIES_PREFIX) \
 $(STM_IDF_PATH)/components/stm32_private/$(STM_SERIES_PREFIX)/$(STM_LINE_PREFIX) \
 $(STM_IDF_PATH)/components/startup/$(STM_SERIES_PREFIX)/$(STM_LINE_PREFIX) \
 $(STM_IDF_PATH)/components/freertos/portable/$(STM_SERIES_PREFIX)/memmang \
-$(STM_IDF_PATH)/components/freertos/portable/$(STM_SERIES_PREFIX)/gcc/arm_cmf
+$(STM_IDF_PATH)/components/freertos/portable/$(STM_SERIES_PREFIX)/gcc/arm_cmf \
+$(STM_IDF_PATH)/components/driver/$(STM_SERIES_PREFIX)
 
 INCLUDE_PATHS += \
 -I$(HAL_DRIVER_PATH)/$(STM_SERIES_PREFIX)/inc \
 -I$(HAL_DRIVER_PATH)/$(STM_SERIES_PREFIX)/inc/Legacy \
--I$(STM_IDF_PATH)/components/driver/private/$(STM_SERIES_PREFIX)/include \
 -I$(STM_IDF_PATH)/components/cmsis/device/stm32/$(STM_SERIES_PREFIX)/inc \
--I$(STM_IDF_PATH)/components/freertos/portable/$(STM_SERIES_PREFIX)/gcc/arm_cmf
+-I$(STM_IDF_PATH)/components/freertos/portable/$(STM_SERIES_PREFIX)/gcc/arm_cmf \
+-I$(STM_IDF_PATH)/components/driver/$(STM_SERIES_PREFIX)/include
 

@@ -23,6 +23,16 @@
 #ifndef _DRIVER_I2C_H_
 #define _DRIVER_I2C_H_
 
+/* Table below shows all possible pins for each i2c.
+ *
+ *  I2Cx | Pins pack 1 | Pins pack 2 | Pins pack 3 |  APB  |
+ *       |  SCL   SDA  |  SCL   SDA  |  SCL    SDA |       |
+ *----------------------------------------------------------
+ *  I2C1 |  PB6   PB7  |  PB8   PB9  |  PB6    PB9 |   1   |
+ *  I2C2 |  PB10  PB11 |  PF1   PF0  |  PH4    PH5 |   1   |
+ *  I2C3 |  PA8   PC9  |  PH7   PH8  |  -      -   |   1   |
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,13 +42,15 @@ extern "C" {
 typedef enum {
     I2C_NUM_1 = 0,                  /*!< I2C Num 1 selected */
     I2C_NUM_2,                      /*!< I2C Num 2 selected */
-    I2C_NUM_3                       /*!< I2C Num 3 selected */
+    I2C_NUM_3,                      /*!< I2C Num 3 selected */
+    I2C_NUM_MAX
 } i2c_num_t;
 
 typedef enum {
     I2C_PINS_PACK_1 = 0,            /*!< I2C Pins Pack 1 selected */
     I2C_PINS_PACK_2,                /*!< I2C Pins Pack 2 selected */
-    I2C_PINS_PACK_3	                /*!< I2C Pins Pack 3 selected */
+    I2C_PINS_PACK_3,                /*!< I2C Pins Pack 3 selected */
+    I2C_PINS_PACK_MAX
 } i2c_pins_pack_t;
 
 typedef struct {
