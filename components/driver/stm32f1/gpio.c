@@ -16,7 +16,7 @@ static const char* GPIO_TAG = "DRIVER GPIO";
         return (ret);                                                                   \
         }
 
-GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
+static GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOA,          
     GPIOB,          
     GPIOC,          
@@ -26,7 +26,7 @@ GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOG,                     
 };
 
-uint16_t GPIO_PIN_MAPPING[GPIO_NUM_MAX] = {
+static uint16_t GPIO_PIN_MAPPING[GPIO_NUM_MAX] = {
     GPIO_PIN_0,     
     GPIO_PIN_1,     
     GPIO_PIN_2,     
@@ -45,13 +45,13 @@ uint16_t GPIO_PIN_MAPPING[GPIO_NUM_MAX] = {
     GPIO_PIN_15     
 };
 
-uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
+static uint32_t GPIO_REG_PULL_MAPPING[GPIO_REG_PULL_MAX] = {
     GPIO_NOPULL,    
     GPIO_PULLUP,    
     GPIO_PULLDOWN   
 };
 
-uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
+static uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_APB2ENR_IOPAEN,    
     RCC_APB2ENR_IOPBEN,    
     RCC_APB2ENR_IOPCEN,    
@@ -61,7 +61,7 @@ uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_APB2ENR_IOPGEN,        
 };
 
-uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
+static uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
     GPIO_MODE_INPUT,
     GPIO_MODE_OUTPUT_PP,
     GPIO_MODE_OUTPUT_OD,
