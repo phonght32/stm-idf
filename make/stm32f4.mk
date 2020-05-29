@@ -9,6 +9,14 @@ ifeq ($(STM_TARGET), STM32F407VG)
 STM_TARGET_PREFIX := stm32f407vg
 endif
 
+ifeq ($(STM_LINE), STM32F405) 
+STM_LINE_PREFIX := stm32f405
+endif
+
+ifeq ($(STM_TARGET), STM32F405RG) 
+STM_TARGET_PREFIX := stm32f405rg
+endif
+
 # Build options
 DEBUG = 1
 OPT = -Og
