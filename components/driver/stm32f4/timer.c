@@ -648,6 +648,15 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
 
+    if (freq_hz == 0)
+    {
+        __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], 0);
+        __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], 0);
+        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], 0);
+
+        return STM_OK;
+    }
+
     uint16_t cur_period = __HAL_TIM_GET_AUTORELOAD(&timer_handle[timer_num]);
     uint32_t cur_compare  = __HAL_TIM_GET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
     uint8_t cur_duty = (uint8_t)(cur_compare * 100 / cur_period);
