@@ -165,7 +165,7 @@ typedef struct {
 	adc_ext_trigconv_edge_t 	ext_trigconv_edge;		/*!< ADC external trigger conver */
 	adc_dma_cont_rqst_t 		dma_cont_rqst;			/*!< ADC DMA continous requests */
 	adc_eoc_mode_t 				eoc_mode;				/*!< ADC end of conversion mode */
-} adc_config_t;
+} adc_cfg_t;
 
 /*
  * @brief   Configure ADC.
@@ -174,7 +174,7 @@ typedef struct {
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t adc_config(adc_config_t *config);
+stm_err_t adc_config(adc_cfg_t *config);
 
 /*
  * @brief   Configure ADC channel.

@@ -57,7 +57,7 @@ typedef struct {
     i2c_num_t       i2c_num;        /*!< I2C Num */
     i2c_pins_pack_t i2c_pins_pack;  /*!< I2C Pins Pack */
     uint32_t        clk_speed;      /*!< I2C Clock Speed */
-} i2c_config_t;
+} i2c_cfg_t;
 
 /*
  * @brief   Initialize I2C.
@@ -66,7 +66,7 @@ typedef struct {
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t i2c_config(i2c_config_t *config);
+stm_err_t i2c_config(i2c_cfg_t *config);
 
 /*
  * @brief   I2C master transmit data.

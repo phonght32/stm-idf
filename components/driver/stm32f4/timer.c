@@ -552,7 +552,7 @@ static tim_hw_info_t _tim_etr_get_hw_info(timer_num_t timer_num, timer_pins_pack
     return hw_info;
 }
 
-stm_err_t pwm_config(pwm_config_t *config)
+stm_err_t pwm_config(pwm_cfg_t *config)
 {
     /* Check input condition */
     TIMER_CHECK(config, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
@@ -722,7 +722,7 @@ stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t d
     return STM_OK;
 }
 
-stm_err_t etr_config(etr_config_t *config)
+stm_err_t etr_config(etr_cfg_t *config)
 {
     /* Check input condition */
     TIMER_CHECK(config, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);

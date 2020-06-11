@@ -101,7 +101,7 @@ typedef struct {
     gpio_mode_t             mode;           /*!< GPIO Mode */
     gpio_reg_pull_mode_t    reg_pull_mode;  /*!< GPIO Pull Registor */
     gpio_intr_type_t        intr_type;      /*!< GPIO interrupt type */
-} gpio_config_t;
+} gpio_cfg_t;
 
 /*
  * @brief   Configure GPIO's mode, pull register type. Default logic 0 when output mode.
@@ -110,7 +110,7 @@ typedef struct {
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t gpio_config(gpio_config_t *config);
+stm_err_t gpio_config(gpio_cfg_t *config);
 
 /*
  * @brief   Set GPIO level.

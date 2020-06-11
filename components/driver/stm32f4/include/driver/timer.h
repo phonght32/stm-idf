@@ -158,14 +158,14 @@ typedef struct {
     timer_num_t         timer_num;              /*!< Timer Num */
     timer_chnl_t        timer_chnl;             /*!< Timer Channel */
     timer_pins_pack_t   timer_pins_pack;        /*!< Timer Pins Pack */
-} pwm_config_t;
+} pwm_cfg_t;
 
 typedef struct {
     timer_num_t             timer_num;          /*!< Timer Num */
     timer_pins_pack_t       timer_pins_pack;    /*!< Timer Pins Pack */
     uint32_t                max_reload;         /*!< Timer Max Reload value */
     timer_counter_mode_t    counter_mode;       /*!< Timer Counter Mode */
-} etr_config_t;
+} etr_cfg_t;
 
 /*
  * @brief   Initialize PWM.
@@ -174,7 +174,7 @@ typedef struct {
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t pwm_config(pwm_config_t *config);
+stm_err_t pwm_config(pwm_cfg_t *config);
 
 /*
  * @brief   Start PWM generate.
@@ -237,7 +237,7 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t etr_config(etr_config_t *config);
+stm_err_t etr_config(etr_cfg_t *config);
 
 /*
  * @brief   Start counter external pulse input.

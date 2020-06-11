@@ -129,7 +129,7 @@ i2c_hw_info_t _i2c_get_hw_info(i2c_num_t i2c_num, i2c_pins_pack_t i2c_pins_pack)
     return hw_info;
 }
 
-stm_err_t i2c_config(i2c_config_t *config)
+stm_err_t i2c_config(i2c_cfg_t *config)
 {
     /* Check input condition */
     I2C_CHECK(config, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);

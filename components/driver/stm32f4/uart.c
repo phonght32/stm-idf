@@ -195,7 +195,7 @@ static uart_hw_info_t _uart_get_hw_info(uart_num_t uart_num, uart_pins_pack_t ua
     return hw_info;
 }
 
-stm_err_t uart_config(uart_config_t *config)
+stm_err_t uart_config(uart_cfg_t *config)
 {
     /* Check input condition */
     UART_CHECK(config, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);

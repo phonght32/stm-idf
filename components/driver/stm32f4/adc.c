@@ -91,7 +91,7 @@ uint32_t RCC_APBENR_ADCEN_MAPPING[ADC_NUM_MAX] = {
 	RCC_APB2ENR_ADC3EN
 };
 
-stm_err_t adc_config(adc_config_t *config)
+stm_err_t adc_config(adc_cfg_t *config)
 {
 	/* Check input condition */
 	ADC_CHECK(config, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);

@@ -99,7 +99,7 @@ typedef struct {
     uart_frame_format_t     frame_format;           /*!< UART Frame Format */
     uart_transfer_mode_t    mode;                   /*!< UART Mode */ 
     uart_hw_flw_ctrl_t      hw_flw_ctrl;
-} uart_config_t;
+} uart_cfg_t;
 
 /*
  * @brief   Initialize UART.
@@ -108,7 +108,7 @@ typedef struct {
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t uart_config(uart_config_t *config);
+stm_err_t uart_config(uart_cfg_t *config);
 
 /*
  * @brief   UART write bytes.

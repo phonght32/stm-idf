@@ -80,7 +80,7 @@ uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
     GPIO_MODE_EVT_RISING_FALLING
 };
 
-stm_err_t gpio_config(gpio_config_t *config)
+stm_err_t gpio_config(gpio_cfg_t *config)
 {
     /* Check input parameters */
     GPIO_CHECK(config, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
