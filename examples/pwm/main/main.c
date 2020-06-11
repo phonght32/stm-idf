@@ -45,7 +45,7 @@ static const char *TAG = "APP_MAIN";
 static void example_task(void* arg)
 {
     /* Configure Timer pin as PWM generation output */
-    pwm_config_t pwm_cfg;
+    pwm_cfg_t pwm_cfg;
     pwm_cfg.timer_num = TIMER_NUM;
     pwm_cfg.timer_pins_pack = TIMER_PINS_PACK;
     pwm_cfg.timer_chnl = TIMER_CHANNEL;

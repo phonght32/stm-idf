@@ -24,7 +24,7 @@
 #include "freertos/task.h"
 
 #include "stm_log.h"
-#include "uart.h"
+#include "driver/uart.h"
 
 /* 
  * This example shows how to configure UART.
@@ -47,7 +47,7 @@ static const char *TAG = "APP_MAIN";
 static void example_task(void* arg)
 {
     /* Configure UART */
-    uart_config_t uart_cfg;
+    uart_cfg_t uart_cfg;
     uart_cfg.uart_num = UART_NUM;
     uart_cfg.uart_pins_pack = UART_PINS_PACK;
     uart_cfg.baudrate = UART_BAUDRATE;

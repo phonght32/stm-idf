@@ -42,7 +42,7 @@ static const char *TAG = "APP_MAIN";
 static void example_task(void* arg)
 {
     /* Configure GPIO to output mode */
-    gpio_config_t gpio_cfg;
+    gpio_cfg_t gpio_cfg;
     gpio_cfg.gpio_port = GPIO_PORT;
     gpio_cfg.gpio_num = GPIO_NUM;
     gpio_cfg.mode = GPIO_OUTPUT_PP;

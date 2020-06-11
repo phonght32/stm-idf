@@ -48,7 +48,7 @@ uint32_t cnt_value;
 static void example_task(void* arg)
 {
     /* Configure ETR pin */
-    etr_config_t etr_cfg;
+    etr_cfg_t etr_cfg;
     etr_cfg.timer_num = TIMER_NUM;
     etr_cfg.timer_pins_pack = TIMER_PINS_PACK;
     etr_cfg.max_reload = MAX_RELOAD;
