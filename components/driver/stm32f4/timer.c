@@ -678,25 +678,22 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint
 
 stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz, uint8_t duty_percent)
 {
-    if(freq_hz == 0)
-    {
-        uint16_t timer_period = 0;
-        uint16_t timer_prescaler = 0;
-        uint32_t timer_compare_value = 0;
-
-        __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
-        __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
-        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
-        
-        return STM_OK;
-    }
-
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
 
+    if (freq_hz == 0)
+    {
+        __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], 0);
+        __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], 0);
+        __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], 0);
+
+        return STM_OK;
+    }
+
     /* Calculate Timer PWM parameters. When change timer period you also
      * need to update timer compare value to keep duty cycle stable */
-    uint32_t conduct = (uint32_t) (APBx_CLOCK_MAPPING[timer_num] / freq_hz);
+    uint32_t apb_freq = APBx_CLOCK_MAPPING[timer_num] * HAL_RCC_GetHCLKFreq();
+    uint32_t conduct = (uint32_t) (apb_freq / freq_hz);
     uint16_t timer_prescaler = conduct / TIMER_MAX_RELOAD + 1;
     uint16_t timer_period = (uint16_t)(conduct / (timer_prescaler + 1)) - 1;
     uint32_t timer_compare_value = duty_percent * timer_period / 100;
