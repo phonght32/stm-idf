@@ -7,6 +7,10 @@ ifeq ($(STM_SERIES), STM32F1)
 include $(STM_IDF_PATH)/make/stm32f1.mk
 endif
 
+ifeq ($(STM_SERIES), STM32L4) 
+include $(STM_IDF_PATH)/make/stm32l4.mk
+endif
+
 # Handle specify STM32 target.
 HAL_DRIVER_PATH := $(STM_IDF_PATH)/components/hal_driver
 

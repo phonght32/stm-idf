@@ -27,3 +27,7 @@
 #ifdef STM32F1_TARGET
 #include "stm32f1xx_hal.h"
 #endif
+
+#ifdef STM32L4_TARGET
+#include "stm32l4xx_hal.h"
+#endif
