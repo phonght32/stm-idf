@@ -10,6 +10,7 @@ endif
 
 ifeq ($(STM_TARGET), STM32L4R5ZI) 
 STM_TARGET_PREFIX := stm32l4r5zi
+STM_TARGET_HAL := STM32L4R5xx
 endif
 
 # Build options
@@ -23,4 +24,4 @@ AS_DEFS =
 C_DEFS +=  \
 -DUSE_HAL_DRIVER \
 -DSTM32L4_TARGET \
--D$(STM_LINE)xx
+-D$(STM_TARGET_HAL)
