@@ -10,9 +10,9 @@
 #define UART_OVERSAMPLING_DEFAULT       UART_OVERSAMPLING_16    /*!< Default UART over sampling */
 #define UART_MODE_DEFAULT               UART_MODE_TX_RX         /*!< Default UART mode */
 
-#define UART_INIT_ERR_STR           "uart init error"
-#define UART_TRANS_ERR_STR          "uart transmit error"
-#define UART_REC_ERR_STR            "uart_receive error"
+#define UART_INIT_ERR_STR           "uart_config error"
+#define UART_TRANS_ERR_STR          "uart_write_bytes error"
+#define UART_REC_ERR_STR            "uart_read_bytes error"
 
 #define UART1_PP1_HW_INFO   {.rcc_ahbenr_gpioen_tx = RCC_AHB1ENR_GPIOAEN,    \
                              .rcc_ahbenr_gpioen_rx = RCC_AHB1ENR_GPIOAEN,    \
@@ -232,6 +232,10 @@ stm_err_t uart_config(uart_cfg_t *config)
     /* Get UART hardware information */
     uart_hw_info_t hw_info = _uart_get_hw_info(config->uart_num, config->uart_pins_pack);
 
+    /* Check if hardware is not valid in this STM32 target */
+    UART_CHECK(UART_MAPPING[config->uart_num], UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    UART_CHECK(hw_info.port_tx, UART_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Enable UART clock */
     uint32_t tmpreg = 0x00;
     if ((config->uart_num == UART_NUM_1) || (config->uart_num == UART_NUM_6)) 
@@ -298,15 +302,27 @@ stm_err_t uart_config(uart_cfg_t *config)
 
 stm_err_t uart_write_bytes(uart_num_t uart_num, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
+    /* Check input conditions */
     UART_CHECK(uart_num < UART_NUM_MAX, UART_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
-    UART_CHECK(!HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms), UART_TRANS_ERR_STR, STM_FAIL);
 
+    /* Check if hardware is not valid in this STM32 target */
+    UART_CHECK(UART_MAPPING[uart_num], UART_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* UART write data */
+    UART_CHECK(!HAL_UART_Transmit(&uart_handle[uart_num], data, length, timeout_ms), UART_TRANS_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
 
 stm_err_t uart_read_bytes(uart_num_t uart_num, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
+    /* Check input conditions */
     UART_CHECK(uart_num < UART_NUM_MAX, UART_REC_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    UART_CHECK(UART_MAPPING[uart_num], UART_REC_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* UART read data */
     UART_CHECK(!HAL_UART_Receive(&uart_handle[uart_num], buf, length, timeout_ms), UART_REC_ERR_STR, STM_FAIL);
 
     return STM_OK;

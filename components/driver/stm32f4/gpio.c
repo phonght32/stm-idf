@@ -6,9 +6,9 @@
 #define GPIO_SPEED_FREQ_DEFAULT     GPIO_SPEED_FREQ_VERY_HIGH   /*!< GPIO speed frequency default */
 #define GPIO_LEVEL_DEFAULT          0                           /*!< GPIO level default */
 
-#define GPIO_INIT_ERR_STR           "gpio init error"
-#define GPIO_SET_LEVEL_ERR_STR      "gpio set level error"
-#define GPIO_TOGGLE_LEVEL_ERR_STR   "gpio toggle level error"
+#define GPIO_INIT_ERR_STR           "gpio_config error"
+#define GPIO_SET_LEVEL_ERR_STR      "gpio_set_level error"
+#define GPIO_TOGGLE_LEVEL_ERR_STR   "gpio_toggle_level error"
 
 static const char* GPIO_TAG = "DRIVER GPIO";
 #define GPIO_CHECK(a, str, ret)  if(!(a)) {                                             \
@@ -121,6 +121,9 @@ stm_err_t gpio_config(gpio_cfg_t *config)
     GPIO_CHECK(config->mode < GPIO_MODE_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(config->reg_pull_mode < GPIO_REG_PULL_MAX, GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    GPIO_CHECK(GPIOx_MAPPING[config->gpio_port], GPIO_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Enable GPIO Port clock */
     uint32_t tmpreg = 0x00;
     SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOxEN_MAPPING[config->gpio_port]);
@@ -140,19 +143,31 @@ stm_err_t gpio_config(gpio_cfg_t *config)
 
 stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
 {
+    /* Check input parameters */
     GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    GPIO_CHECK(GPIOx_MAPPING[gpio_port], GPIO_SET_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Set GPIO level */
     HAL_GPIO_WritePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_MAPPING[gpio_num], state);
+
     return STM_OK;
 }
 
 stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num)
 {
+    /* Check input parameters */
     GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
     GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    GPIO_CHECK(GPIOx_MAPPING[gpio_port], GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Toggle GPIO level */
     HAL_GPIO_TogglePin(GPIOx_MAPPING[gpio_port], GPIO_PIN_MAPPING[gpio_num]);
+    
     return STM_OK;
 }
 

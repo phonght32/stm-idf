@@ -3,11 +3,11 @@
 
 #include "driver/adc.h"
 
-#define ADC_INIT_ERR_STR				"adc init error"
-#define ADC_CONFIG_CHNL_ERR_STR			"adc configure channel error"
-#define ADC_GET_VALUE_ERR_STR			"adc get value error"
-#define ADC_START_ERR_STR				"adc start error"
-#define ADC_STOP_ERR_STR				"adc stop error"
+#define ADC_INIT_ERR_STR				"adc_config error"
+#define ADC_CONFIG_CHNL_ERR_STR			"adc_channel_config error"
+#define ADC_GET_VALUE_ERR_STR			"adc_get_value error"
+#define ADC_START_ERR_STR				"adc_start error"
+#define ADC_STOP_ERR_STR				"adc_stop error"
 
 static const char* ADC_TAG = "DRIVER ADC";
 #define ADC_CHECK(a, str, ret)  if(!(a)) {                                             \
@@ -126,6 +126,9 @@ stm_err_t adc_config(adc_cfg_t *config)
 	ADC_CHECK(config->dma_cont_rqst < ADC_DMA_CONT_RQST_MAX, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 	ADC_CHECK(config->eoc_mode < ADC_EOC_MODE_MAX, ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
+	/* Check if hardware is not valid in this STM32 target */
+	ADC_CHECK(ADC_MAPPING[config->adc_num], ADC_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+
 	/* Enable ADC clock */
   	uint32_t tmpreg = 0x00U; 
     SET_BIT(RCC->APB2ENR, RCC_APBENR_ADCEN_MAPPING[config->adc_num]);
@@ -152,10 +155,13 @@ stm_err_t adc_config(adc_cfg_t *config)
 stm_err_t adc_channel_config(adc_num_t adc_num, adc_chnl_t adc_chnl, adc_samp_time_t samp_time, uint32_t prior)
 {
 	/* Check input condition */
-	ADC_CHECK(adc_num < ADC_NUM_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
-	ADC_CHECK(adc_chnl < ADC_CHNL_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
-	ADC_CHECK(samp_time < ADC_SAMP_TIME_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
-	ADC_CHECK(prior < ADC_CHNL_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(adc_num < ADC_NUM_MAX				, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(adc_chnl < ADC_CHNL_MAX 			, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(samp_time < ADC_SAMP_TIME_MAX 	, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(prior < ADC_CHNL_MAX 				, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+
+	/* Check if hardware is not valid in this STM32 target */
+	ADC_CHECK(ADC_MAPPING[adc_num], ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
 
 	/* Configure ADC channel */
 	ADC_ChannelConfTypeDef sConfig;
@@ -170,17 +176,27 @@ stm_err_t adc_channel_config(adc_num_t adc_num, adc_chnl_t adc_chnl, adc_samp_ti
 stm_err_t adc_start(adc_num_t adc_num)
 {
 	/* Check input condition */
-	ADC_CHECK(adc_num < ADC_NUM_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(adc_num < ADC_NUM_MAX, ADC_START_ERR_STR, STM_ERR_INVALID_ARG);
 
+	/* Check if hardware is not valid in this STM32 target */
+	ADC_CHECK(ADC_MAPPING[adc_num], ADC_START_ERR_STR, STM_ERR_INVALID_ARG);
+
+	/* Start ADC */
 	ADC_CHECK(!HAL_ADC_Start(&adc_handle[adc_num]), ADC_START_ERR_STR, STM_FAIL);
+
 	return STM_OK;
 }
 
 stm_err_t adc_get_value(adc_num_t adc_num, uint16_t *value)
 {
 	/* Check input condition */
-	ADC_CHECK(adc_num < ADC_NUM_MAX, ADC_CONFIG_CHNL_ERR_STR, STM_ERR_INVALID_ARG);
+	ADC_CHECK(adc_num < ADC_NUM_MAX, ADC_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
 
+	/* Check if hardware is not valid in this STM32 target */
+	ADC_CHECK(ADC_MAPPING[adc_num], ADC_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
+
+	/* Get ADC value */
 	*value = HAL_ADC_GetValue(&adc_handle[adc_num]);
+	
 	return STM_OK;
 }

@@ -18,21 +18,21 @@
 #define TIMER_PINS_PACK_ERR_STR     "timer pins pack error"
 #define TIMER_CHANNEL_ERR_STR       "timer channel error"
 
-#define PWM_INIT_ERR_STR            "pwn init error"
-#define PWM_START_ERR_STR           "pwm start error"
-#define PWM_STOP_ERR_STR            "pwm stop error"
-#define PWM_SET_FREQ_ERR_STR        "pwm set frequency error"
-#define PWM_SET_DUTYCYCLE_ERR_STR   "pwm set duty cycle error"
-#define PWM_SET_PARAMS_ERR_STR      "pwm set params error"
+#define PWM_INIT_ERR_STR            "pwn_config error"
+#define PWM_START_ERR_STR           "pwm_start error"
+#define PWM_STOP_ERR_STR            "pwm_stop error"
+#define PWM_SET_FREQ_ERR_STR        "pwm_set_frequency error"
+#define PWM_SET_DUTYCYCLE_ERR_STR   "pwm_set_duty error"
+#define PWM_SET_PARAMS_ERR_STR      "pwm_set_params error"
 #define PWM_FREQUENCY_ERR_STR       "pwm frequency error"
 #define PWM_DUTYCYCLE_ERR_STR       "pwm duty cycle error"
 
-#define ETR_INIT_ERR_STR            "etr init error"
-#define ETR_START_ERR_STR           "etr start error"
-#define ETR_STOP_ERR_STR            "etr stop error"
-#define ETR_GET_VALUE_ERR_STR       "etr get value error"
-#define ETR_SET_VALUE_ERR_STR       "etr set value error"
-#define ETR_SET_MODE_ERR_STR        "etr set mode error"
+#define ETR_INIT_ERR_STR            "etr_config error"
+#define ETR_START_ERR_STR           "etr_start error"
+#define ETR_STOP_ERR_STR            "etr_stop error"
+#define ETR_GET_VALUE_ERR_STR       "etr_get_value error"
+#define ETR_SET_VALUE_ERR_STR       "etr_set_value error"
+#define ETR_SET_MODE_ERR_STR        "etr_set_mode error"
 
 #define APB1_CLOCK                  (1.0f/2.0f)         /*!< APB1 clock */
 #define APB2_CLOCK                  (1.0f)              /*!< APB2 clock */
@@ -675,6 +675,10 @@ stm_err_t pwm_config(pwm_cfg_t *config)
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_pwm_get_hw_info(config->timer_num, config->timer_chnl, config->timer_pins_pack);
 
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[config->timer_num], PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(hw_info.port, PWM_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
     SET_BIT(RCC->AHB1ENR, hw_info.rcc_ahbenr_gpioen);
@@ -732,33 +736,51 @@ stm_err_t pwm_config(pwm_cfg_t *config)
     sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
     sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
     TIMER_CHECK(!HAL_TIM_PWM_ConfigChannel(&timer_handle[config->timer_num], &sConfigOC, TIM_CHANNEL_x_MAPPING[config->timer_chnl]), PWM_INIT_ERR_STR, STM_FAIL);
+    
+    /* Start Timer Base */
+    TIMER_CHECK(!HAL_TIM_Base_Start(&timer_handle[config->timer_num]), PWM_INIT_ERR_STR, STM_FAIL);
 
-    HAL_TIM_Base_Start(&timer_handle[config->timer_num]);
     return STM_OK;
 }
 
 stm_err_t pwm_start(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], PWM_START_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Start PWM generation */
+    TIMER_CHECK(!HAL_TIM_PWM_Start(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]), PWM_START_ERR_STR, STM_FAIL);
+
     return STM_OK;
 }
 
 stm_err_t pwm_stop(timer_num_t timer_num, timer_chnl_t timer_chnl)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
 
-    HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]);
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], PWM_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Stop PWM generation */
+    TIMER_CHECK(!HAL_TIM_PWM_Stop(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl]), PWM_STOP_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
 
 stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], PWM_SET_FREQ_ERR_STR, STM_ERR_INVALID_ARG);
 
     if (freq_hz == 0)
     {
@@ -785,13 +807,18 @@ stm_err_t pwm_set_frequency(timer_num_t timer_num, timer_chnl_t timer_chnl, uint
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
+
     return STM_OK;
 }
 
 stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_t freq_hz, uint8_t duty_percent)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], PWM_SET_PARAMS_ERR_STR, STM_ERR_INVALID_ARG);
 
     if (freq_hz == 0)
     {
@@ -814,13 +841,18 @@ stm_err_t pwm_set_params(timer_num_t timer_num, timer_chnl_t timer_chnl, uint32_
     __HAL_TIM_SET_AUTORELOAD(&timer_handle[timer_num], timer_period);
     __HAL_TIM_SET_PRESCALER(&timer_handle[timer_num], timer_prescaler);
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], timer_compare_value);
+    
     return STM_OK;
 }
 
 stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t duty_percent)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(timer_chnl < TIMER_CHNL_MAX, PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], PWM_SET_DUTYCYCLE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Calculate PWM compare value */
     uint32_t compare_value;
@@ -828,6 +860,7 @@ stm_err_t pwm_set_duty(timer_num_t timer_num, timer_chnl_t timer_chnl, uint8_t d
 
     /* Configure PWM compare value */
     __HAL_TIM_SET_COMPARE(&timer_handle[timer_num], TIM_CHANNEL_x_MAPPING[timer_chnl], compare_value);
+    
     return STM_OK;
 }
 
@@ -841,6 +874,10 @@ stm_err_t etr_config(etr_cfg_t *config)
 
     /* Get hardware information */
     tim_hw_info_t hw_info = _tim_etr_get_hw_info(config->timer_num, config->timer_pins_pack);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[config->timer_num], ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    TIMER_CHECK(hw_info.port, ETR_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Enable GPIO clock */
     uint32_t tmpreg = 0x00;
@@ -897,44 +934,68 @@ stm_err_t etr_config(etr_cfg_t *config)
 
 stm_err_t etr_start(timer_num_t timer_num)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_START_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], ETR_START_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Start timer base */
-    HAL_TIM_Base_Start(&timer_handle[timer_num]);
+    TIMER_CHECK(!HAL_TIM_Base_Start(&timer_handle[timer_num]), ETR_START_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
 
 stm_err_t etr_stop(timer_num_t timer_num)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_STOP_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], ETR_STOP_ERR_STR, STM_ERR_INVALID_ARG);
+
     /* Stop time base */
-    HAL_TIM_Base_Stop(&timer_handle[timer_num]);
+    TIMER_CHECK(!HAL_TIM_Base_Stop(&timer_handle[timer_num]), ETR_STOP_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
 
 stm_err_t etr_get_value(timer_num_t timer_num, uint32_t *value)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], ETR_GET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get counter value */
     *value = __HAL_TIM_GET_COUNTER(&timer_handle[timer_num]);
+    
     return STM_OK;
 }
 
 stm_err_t etr_set_value(timer_num_t timer_num, uint32_t value)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_SET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], ETR_SET_VALUE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Set counter value */
     __HAL_TIM_SET_COUNTER(&timer_handle[timer_num], value);
+    
     return STM_OK;
 }
 
 stm_err_t etr_set_mode(timer_num_t timer_num, timer_counter_mode_t counter_mode)
 {
+    /* Check input conditions */
     TIMER_CHECK(timer_num < TIMER_NUM_MAX, ETR_SET_MODE_ERR_STR, STM_ERR_INVALID_ARG);
     TIMER_CHECK(counter_mode < TIMER_COUNTER_MODE_MAX, ETR_SET_MODE_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    TIMER_CHECK(TIM_MAPPING[timer_num], ETR_SET_MODE_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Reconfigure timer init parameters */
     timer_handle[timer_num].Instance                 = TIM_MAPPING[timer_num];

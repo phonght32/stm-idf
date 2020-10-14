@@ -22,13 +22,9 @@ static const char* I2C_TAG = "DRIVER I2C";
         return (ret);                                                                  \
         }
 
-#define I2C_INIT_ERR_STR        "i2c init error"
-#define I2C_MALLOC_ERR_STR      "i2c malloc error"
-#define I2C_NUM_ERR_STR         "i2c num error"
-#define I2C_PINS_PACK_ERR_STR   "i2c pins pack error"
-#define I2C_CLOCKSPEED_ERR_STR  "i2c clock speed error"
-#define I2C_TRANS_ERR_STR       "i2c transmit data error"
-#define I2C_REC_ERR_STR         "i2c receive data error"
+#define I2C_INIT_ERR_STR                "i2c_config error"
+#define I2C_TRANS_ERR_STR               "i2c_write_bytes error"
+#define I2C_REC_ERR_STR                 "i2c_read_bytes error"
 
 #define I2C1_PP1_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB1ENR_GPIOBEN,    \
                              .rcc_ahbenr_gpio_sda = RCC_AHB1ENR_GPIOBEN,    \
@@ -137,11 +133,15 @@ stm_err_t i2c_config(i2c_cfg_t *config)
 {
     /* Check input condition */
     I2C_CHECK(config, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
-    I2C_CHECK(config->i2c_num < I2C_NUM_MAX, I2C_NUM_ERR_STR, STM_ERR_INVALID_ARG);
-    I2C_CHECK(config->i2c_pins_pack < I2C_PINS_PACK_MAX, I2C_PINS_PACK_ERR_STR, STM_ERR_INVALID_ARG);
+    I2C_CHECK(config->i2c_num < I2C_NUM_MAX, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    I2C_CHECK(config->i2c_pins_pack < I2C_PINS_PACK_MAX, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Get I2C hardware information */
     i2c_hw_info_t hw_info = _i2c_get_hw_info(config->i2c_num, config->i2c_pins_pack);
+
+    /* Check if hardware is not valid in this STM32 target */
+    I2C_CHECK(I2C_MAPPING[config->i2c_num], I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
+    I2C_CHECK(hw_info.port_scl, I2C_INIT_ERR_STR, STM_ERR_INVALID_ARG);
 
     /* Enable I2C clock */
     uint32_t tmpreg = 0x00;
@@ -195,16 +195,28 @@ stm_err_t i2c_config(i2c_cfg_t *config)
 
 stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms)
 {
+    /* Check input condition */
     I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
-    I2C_CHECK(!HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms), I2C_TRANS_ERR_STR, STM_FAIL);
 
+    /* Check if hardware is not valid in this STM32 target */
+    I2C_CHECK(I2C_MAPPING[i2c_num], I2C_TRANS_ERR_STR, STM_ERR_INVALID_ARG);
+    
+    /* I2C write data */
+    I2C_CHECK(!HAL_I2C_Master_Transmit(&i2c_handle[i2c_num], dev_addr, data, length, timeout_ms), I2C_TRANS_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
 
 stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms)
 {
-    I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_REC_ERR_STR, STM_ERR_INVALID_ARG)
-    I2C_CHECK(!HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms), I2C_REC_ERR_STR, STM_FAIL);
+    /* Check input condition */
+    I2C_CHECK(i2c_num < I2C_NUM_MAX, I2C_REC_ERR_STR, STM_ERR_INVALID_ARG);
 
+    /* Check if hardware is not valid in this STM32 target */
+    I2C_CHECK(I2C_MAPPING[i2c_num], I2C_REC_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* I2C read data */
+    I2C_CHECK(!HAL_I2C_Master_Receive(&i2c_handle[i2c_num], dev_addr, buf, length, timeout_ms), I2C_REC_ERR_STR, STM_FAIL);
+    
     return STM_OK;
 }
