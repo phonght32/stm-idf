@@ -40,9 +40,7 @@ typedef enum {
     GPIO_PORT_F,                /*!< Port F selected */
     GPIO_PORT_G,                /*!< Port G selected */
     GPIO_PORT_H,                /*!< Port H selected */
-#ifndef STM32F446xx 
     GPIO_PORT_I,                /*!< Port I selected */
-#endif
     GPIO_PORT_MAX
 } gpio_port_t;
 

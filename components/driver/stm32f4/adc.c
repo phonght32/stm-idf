@@ -81,14 +81,34 @@ uint32_t ADC_CHNL_MAPPING[ADC_CHNL_MAX] = {
 
 ADC_TypeDef *ADC_MAPPING[ADC_NUM_MAX] = {
 	ADC1,
+
+#if defined(STM32F401xC)
+	0,
+#else
 	ADC2,
-	ADC3
+#endif
+
+#if defined(STM32F401xC)
+	0,
+#else
+	ADC3,
+#endif
 };
 
 uint32_t RCC_APBENR_ADCEN_MAPPING[ADC_NUM_MAX] = {
 	RCC_APB2ENR_ADC1EN,
+
+#if defined(STM32F401xC)
+	0,
+#else
 	RCC_APB2ENR_ADC2EN,
-	RCC_APB2ENR_ADC3EN
+#endif
+
+#if defined(STM32F401xC)
+	0,
+#else
+	RCC_APB2ENR_ADC3EN,
+#endif
 };
 
 stm_err_t adc_config(adc_cfg_t *config)

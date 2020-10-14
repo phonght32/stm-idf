@@ -203,68 +203,68 @@
                                      .port = GPIOH,                             \
                                      .pin = GPIO_PIN_12}
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx)
+#define TIM5_CH4_PP1_HW_INFO        {0}
+#else
 #define TIM5_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_3}
-#else
-#define TIM5_CH4_PP1_HW_INFO        {0}
 #endif
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx) || defined(STM32F401xC)
+#define TIM5_CH4_PP2_HW_INFO        {0}
+#else 
 #define TIM5_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_0}
-#else 
-#define TIM5_CH4_PP2_HW_INFO        {0}
 #endif
 
 #define TIM8_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_6}
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx) || defined(STM32F401xC)
+#define TIM8_CH1_PP2_HW_INFO        {0}
+#else
 #define TIM8_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_15}
-#else
-#define TIM8_CH1_PP2_HW_INFO        {0}
 #endif
 
 #define TIM8_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_7}
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx) || defined(STM32F401xC)
+#define TIM8_CH2_PP2_HW_INFO        {0}
+#else
 #define TIM8_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_6}
-#else 
-#define TIM8_CH2_PP2_HW_INFO        {0}
 #endif
 
 #define TIM8_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_8}
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx) || defined(STM32F401xC)
+#define TIM8_CH3_PP2_HW_INFO        {0}
+#else
 #define TIM8_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_7}
-#else
-#define TIM8_CH3_PP2_HW_INFO        {0}
 #endif
 
 #define TIM8_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_9}
 
-#ifndef STM32F446xx
+#if defined(STM32F446xx) || defined(STM32F401xC)
+#define TIM8_CH4_PP2_HW_INFO        {0}
+#else
 #define TIM8_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_2}
-#else
-#define TIM8_CH4_PP2_HW_INFO        {0}
 #endif
 
 #define TIM9_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
@@ -287,17 +287,24 @@
                                      .port = GPIOB,                             \
                                      .pin = GPIO_PIN_8}
 
+#if defined(STM32F401xC)
+#define TIM10_CH1_PP2_HW_INFO       {0}
+#else                                    
 #define TIM10_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
                                      .pin = GPIO_PIN_6}
+#endif
 
 #define TIM11_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
                                      .pin = GPIO_PIN_9}
-
+#if defined(STM32F401xC)
+#define TIM11_CH1_PP2_HW_INFO       {0}
+#else  
 #define TIM11_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
                                      .pin = GPIO_PIN_7}
+#endif
 
 #define TIM12_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOBEN,  \
                                      .port = GPIOB,                             \
@@ -319,17 +326,25 @@
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_6}
 
+#if defined(STM32F401xC)
+#define TIM13_CH1_PP2_HW_INFO       {0}
+#else 
 #define TIM13_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
                                      .pin = GPIO_PIN_8}
+#endif
 
 #define TIM14_CH1_PP1_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_7}
 
+#if defined(STM32F401xC)
+#define TIM14_CH1_PP2_HW_INFO       {0}
+#else
 #define TIM14_CH1_PP2_HW_INFO       {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOFEN,  \
                                      .port = GPIOF,                             \
                                      .pin = GPIO_PIN_9}
+#endif
 
 #define TIM1_PP1_ETR_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
@@ -486,15 +501,46 @@ static TIM_TypeDef* TIM_MAPPING[TIMER_NUM_MAX] = {
     TIM3,
     TIM4,
     TIM5,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     TIM6,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     TIM7,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     TIM8,
+#endif
+
     TIM9,
     TIM10,
     TIM11,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     TIM12,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     TIM13,
-    TIM14
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    TIM14,
+#endif
 };
 
 uint32_t TIM_ALTERNATE_FUNC_MAPPING[TIMER_NUM_MAX] = {
@@ -505,13 +551,34 @@ uint32_t TIM_ALTERNATE_FUNC_MAPPING[TIMER_NUM_MAX] = {
     GPIO_AF2_TIM5,
     0,
     0,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     GPIO_AF3_TIM8,
+#endif
+    
     GPIO_AF3_TIM9,
     GPIO_AF3_TIM10,
     GPIO_AF3_TIM11,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     GPIO_AF9_TIM12,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     GPIO_AF9_TIM13,
-    GPIO_AF9_TIM14
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    GPIO_AF9_TIM14,
+#endif
 };
 
 uint32_t TIM_CHANNEL_x_MAPPING[TIMER_CHNL_MAX] = {
@@ -534,13 +601,34 @@ uint32_t RCC_APBENR_TIMEN_MAPPING[TIMER_NUM_MAX] = {
     RCC_APB1ENR_TIM5EN,
     0,
     0,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB2ENR_TIM8EN,
+#endif
+
     RCC_APB2ENR_TIM9EN,
     RCC_APB2ENR_TIM10EN,
     RCC_APB2ENR_TIM11EN,
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB1ENR_TIM12EN,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB1ENR_TIM13EN,
-    RCC_APB1ENR_TIM14EN
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    RCC_APB1ENR_TIM14EN,
+#endif
 };
 
 float APBx_CLOCK_MAPPING[TIMER_NUM_MAX] = {

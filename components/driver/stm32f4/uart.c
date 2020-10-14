@@ -91,12 +91,16 @@
                              .pin_tx = GPIO_PIN_6,                           \
                              .pin_rx = GPIO_PIN_7}
 
+#if defined(STM32F401xC)
+#define UART6_PP2_HW_INFO   {0}
+#else 
 #define UART6_PP2_HW_INFO   {.rcc_ahbenr_gpioen_tx = RCC_AHB1ENR_GPIOGEN,    \
                              .rcc_ahbenr_gpioen_rx = RCC_AHB1ENR_GPIOGEN,    \
                              .port_tx = GPIOG,                               \
                              .port_rx = GPIOG,                               \
                              .pin_tx = GPIO_PIN_14,                          \
                              .pin_rx = GPIO_PIN_9}
+#endif
 
 
 static const char* UART_TAG = "DRIVER UART";
@@ -150,27 +154,47 @@ static uint32_t UART_FRAME_FORMAT_MAPPING[UART_FRAME_MAX_TYPE][FRAME_FORMAT_MAX_
 static uint32_t RCC_APBENR_UARTEN_MAPPING[UART_NUM_MAX] = {
     RCC_APB2ENR_USART1EN,
     RCC_APB1ENR_USART2EN,
+    
+#if !defined(STM32F401xC)
     RCC_APB1ENR_USART3EN,
     RCC_APB1ENR_UART4EN,
     RCC_APB1ENR_UART5EN,
+#else
+    0,
+    0,
+    0,
+#endif
+
     RCC_APB2ENR_USART6EN
 };
 
 static USART_TypeDef* UART_MAPPING[UART_NUM_MAX] = {
     USART1,
     USART2,
+#if !defined(STM32F401xC)
     USART3,
     UART4,
     UART5,
+#else
+    0,
+    0,
+    0,
+#endif
     USART6
 };
 
 static uint32_t UART_ALTERNATE_FUNC_MAPPING[UART_NUM_MAX] = {
     GPIO_AF7_USART1,
     GPIO_AF7_USART2,
+#if !defined(STM32F401xC)
     GPIO_AF7_USART3,
     GPIO_AF8_UART4,
     GPIO_AF8_UART5,
+#else
+    0,
+    0,
+    0,
+#endif
     GPIO_AF8_USART6
 };
 
