@@ -203,45 +203,69 @@
                                      .port = GPIOH,                             \
                                      .pin = GPIO_PIN_12}
 
+#ifndef STM32F446xx
 #define TIM5_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_3}
+#else
+#define TIM5_CH4_PP1_HW_INFO        {0}
+#endif
 
+#ifndef STM32F446xx
 #define TIM5_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_0}
+#else 
+#define TIM5_CH4_PP2_HW_INFO        {0}
+#endif
 
 #define TIM8_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_6}
 
+#ifndef STM32F446xx
 #define TIM8_CH1_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_15}
+#else
+#define TIM8_CH1_PP2_HW_INFO        {0}
+#endif
 
 #define TIM8_CH2_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_7}
 
+#ifndef STM32F446xx
 #define TIM8_CH2_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_6}
+#else 
+#define TIM8_CH2_PP2_HW_INFO        {0}
+#endif
 
 #define TIM8_CH3_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_8}
 
+#ifndef STM32F446xx
 #define TIM8_CH3_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_7}
+#else
+#define TIM8_CH3_PP2_HW_INFO        {0}
+#endif
 
 #define TIM8_CH4_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOCEN,  \
                                      .port = GPIOC,                             \
                                      .pin = GPIO_PIN_9}
 
+#ifndef STM32F446xx
 #define TIM8_CH4_PP2_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOIEN,  \
                                      .port = GPIOI,                             \
                                      .pin = GPIO_PIN_2}
+#else
+#define TIM8_CH4_PP2_HW_INFO        {0}
+#endif
 
 #define TIM9_CH1_PP1_HW_INFO        {.rcc_ahbenr_gpioen = RCC_AHB1ENR_GPIOAEN,  \
                                      .port = GPIOA,                             \

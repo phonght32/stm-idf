@@ -24,8 +24,10 @@ GPIO_TypeDef* GPIOx_MAPPING[GPIO_PORT_MAX] = {
     GPIOE,          
     GPIOF,          
     GPIOG,          
-    GPIOH,          
-    GPIOI           
+    GPIOH, 
+#ifndef STM32F446xx        
+    GPIOI
+#endif           
 };
 
 uint16_t GPIO_PIN_MAPPING[GPIO_NUM_MAX] = {
@@ -61,8 +63,10 @@ uint32_t RCC_AHB1ENR_GPIOxEN_MAPPING[GPIO_PORT_MAX] = {
     RCC_AHB1ENR_GPIOEEN,    
     RCC_AHB1ENR_GPIOFEN,    
     RCC_AHB1ENR_GPIOGEN,    
-    RCC_AHB1ENR_GPIOHEN,   
-    RCC_AHB1ENR_GPIOIEN,    
+    RCC_AHB1ENR_GPIOHEN, 
+#ifndef STM32F446xx   
+    RCC_AHB1ENR_GPIOIEN,  
+#endif  
 };
 
 uint32_t GPIO_MODE_MAPPING[GPIO_MODE_MAX] = {
