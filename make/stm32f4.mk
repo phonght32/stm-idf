@@ -1,6 +1,17 @@
 #Handle path prefix
 STM_SERIES_PREFIX := stm32f4
 
+################################################################################
+# STM32F401
+################################################################################
+ifeq ($(STM_LINE), STM32F401) 
+STM_LINE_PREFIX := stm32f401
+endif
+
+ifeq ($(STM_TARGET), STM32F401CB) 
+STM_TARGET_PREFIX := stm32f401cb
+endif
+
 
 ################################################################################
 # STM32F405 
@@ -41,10 +52,7 @@ ifeq ($(STM_TARGET), STM32F446ZE)
 STM_TARGET_PREFIX := stm32f446ze
 endif
 
-STM_TARGET_HAL := $(STM_LINE)
-ifeq ($(STM_LINE), STM32F446) 
-STM_TARGET_HAL := STM32F469
-endif
+STM_TARGET_HAL := $(STM_LINE)xx
 
 # Build options
 DEBUG = 1
@@ -57,4 +65,4 @@ AS_DEFS =
 C_DEFS +=  \
 -DUSE_HAL_DRIVER \
 -DSTM32F4_TARGET \
--D$(STM_TARGET_HAL)xx
+-D$(STM_TARGET_HAL)
