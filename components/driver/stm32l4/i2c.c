@@ -52,17 +52,13 @@ static const char* I2C_TAG = "DRIVER I2C";
                              .port_sda = GPIOB,                             \
                              .pin_scl = GPIO_PIN_10,                        \
                              .pin_sda = GPIO_PIN_11}
-
-#if defined(STM32F401xC)
-#define I2C2_PP2_HW_INFO    {0}
-#else                          
+                        
 #define I2C2_PP2_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB2ENR_GPIOFEN,    \
                              .rcc_ahbenr_gpio_sda = RCC_AHB2ENR_GPIOFEN,    \
                              .port_scl = GPIOF,                             \
                              .port_sda = GPIOF,                             \
                              .pin_scl = GPIO_PIN_1,                         \
                              .pin_sda = GPIO_PIN_0}
-#endif
 
 #define I2C2_PP3_HW_INFO    {.rcc_ahbenr_gpio_scl = RCC_AHB2ENR_GPIOHEN,    \
                              .rcc_ahbenr_gpio_sda = RCC_AHB2ENR_GPIOHEN,    \
