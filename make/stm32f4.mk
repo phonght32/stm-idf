@@ -54,6 +54,11 @@ endif
 
 STM_TARGET_HAL := $(STM_LINE)xx
 
+ifeq ($(STM_TARGET), STM32F401CB)
+STM_TARGET_HAL := STM32F401xC
+endif
+
+
 # Build options
 DEBUG = 1
 OPT = -Og
