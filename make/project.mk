@@ -3,7 +3,7 @@
 # makefiles of all components (in a seperate make process) to build all libraries, then links them 
 # together into the final file. 
 
-.PHONY: build flash_usart flash_stlink clean monitor help
+.PHONY: build flash_usart flash clean monitor help
 
 help:
 	@echo "Welcom to STM-IDF. There are some make targets:"
@@ -192,7 +192,7 @@ flash_usart:
 #######################################
 # flash over st-link
 #######################################
-flash_stlink:
+flash:
 	st-flash write build/$(PROJECT_NAME).bin 0x8000000
   
 
