@@ -131,6 +131,14 @@ stm_err_t gpio_set_level(gpio_port_t gpio_port, gpio_num_t gpio_num, bool state)
  */
 stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
 
+/*
+ * @brief   Get GPIO level.
+ * @param   gpio_port GPIO Port.
+ * @param   gpio_num GPIO Num.
+ * @return  GPIO level.
+ */
+bool gpio_get_level(gpio_port_t gpio_port, gpio_num_t gpio_num);
+
 #ifdef __cplusplus
 }
 #endif
