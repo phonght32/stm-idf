@@ -39,6 +39,11 @@ STM_TARGET_PREFIX := stm32f407vg
 STM_TARGET_HAL := STM32F407xx
 endif
 
+ifeq ($(STM_TARGET), STM32F407VE) 
+STM_TARGET_PREFIX := stm32f407ve
+STM_TARGET_HAL := STM32F407xx
+endif
+
 
 ################################################################################
 # STM32F446
