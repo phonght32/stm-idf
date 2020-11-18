@@ -171,5 +171,16 @@ stm_err_t gpio_toggle_level(gpio_port_t gpio_port, gpio_num_t gpio_num)
     return STM_OK;
 }
 
+bool gpio_get_level(gpio_port_t gpio_port, gpio_num_t gpio_num) 
+{
+    /* Check input parameters */
+    GPIO_CHECK(gpio_port < GPIO_PORT_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+    GPIO_CHECK(gpio_num < GPIO_NUM_MAX, GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+
+    /* Check if hardware is not valid in this STM32 target */
+    GPIO_CHECK(GPIOx_MAPPING[gpio_port], GPIO_TOGGLE_LEVEL_ERR_STR, STM_ERR_INVALID_ARG);
+
+    return HAL_GPIO_ReadPin(GPIOx_MAPPING[gpio_port], GPIO_PIN_MAPPING[gpio_num]);
+}
 
 
