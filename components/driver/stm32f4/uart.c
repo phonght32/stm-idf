@@ -103,7 +103,7 @@
 #endif
 
 
-static const char* UART_TAG = "DRIVER UART";
+static const char* UART_TAG = "DRIVER_UART";
 #define UART_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(UART_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                   \

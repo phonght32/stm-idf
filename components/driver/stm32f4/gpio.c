@@ -10,7 +10,7 @@
 #define GPIO_SET_LEVEL_ERR_STR      "gpio_set_level error"
 #define GPIO_TOGGLE_LEVEL_ERR_STR   "gpio_toggle_level error"
 
-static const char* GPIO_TAG = "DRIVER GPIO";
+static const char* GPIO_TAG = "DRIVER_GPIO";
 #define GPIO_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(GPIO_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                   \

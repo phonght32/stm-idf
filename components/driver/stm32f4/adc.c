@@ -9,7 +9,7 @@
 #define ADC_START_ERR_STR				"adc_start error"
 #define ADC_STOP_ERR_STR				"adc_stop error"
 
-static const char* ADC_TAG = "DRIVER ADC";
+static const char* ADC_TAG = "DRIVER_ADC";
 #define ADC_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(ADC_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                  \

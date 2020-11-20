@@ -16,7 +16,7 @@
 #define GPIO_PULL_REG_DEFAULT           GPIO_PULLUP                 /*!< Default pull registor mode */
 #define GPIO_SPEED_FREQ_DEFAULT         GPIO_SPEED_FREQ_VERY_HIGH   /*!< Default GPIO speed */
 
-static const char* I2C_TAG = "DRIVER I2C";
+static const char* I2C_TAG = "DRIVER_I2C";
 #define I2C_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(I2C_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                  \

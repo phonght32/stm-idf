@@ -378,7 +378,7 @@
                                      .port = GPIOA,                             \
                                      .pin = GPIO_PIN_0}
 
-static const char* TIMER_TAG = "DRIVER TIMER";
+static const char* TIMER_TAG = "DRIVER_TIMER";
 #define TIMER_CHECK(a, str, ret)  if(!(a)) {                                             \
         STM_LOGE(TIMER_TAG,"%s:%d (%s):%s", __FILE__, __LINE__, __FUNCTION__, str);      \
         return (ret);                                                                  \
