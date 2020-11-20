@@ -53,9 +53,16 @@ typedef enum {
     I2C_PINS_PACK_MAX
 } i2c_pins_pack_t;
 
+typedef enum {
+    I2C_MODE_MASTER = 0,            /*!< I2C mode master */
+    I2C_MODE_SLAVE,                 /*!< I2C mode slave */
+    I2C_MODE_MAX
+} i2c_mode_t;
+
 typedef struct {
     i2c_num_t       i2c_num;        /*!< I2C Num */
     i2c_pins_pack_t i2c_pins_pack;  /*!< I2C Pins Pack */
+    i2c_mode_t      mode;           /*!< I2C Mode */
     uint32_t        clk_speed;      /*!< I2C Clock Speed */
 } i2c_cfg_t;
 
@@ -79,7 +86,7 @@ stm_err_t i2c_config(i2c_cfg_t *config);
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms);
+stm_err_t i2c_master_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, uint16_t length, uint32_t timeout_ms);
 
 /*
  * @brief   I2C master receive data.
@@ -92,7 +99,7 @@ stm_err_t i2c_write_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *data, u
  *      - STM_OK:       Success.
  *      - Others:       Fail.
  */
-stm_err_t i2c_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
+stm_err_t i2c_master_read_bytes(i2c_num_t i2c_num, uint16_t dev_addr, uint8_t *buf, uint16_t length, uint32_t timeout_ms);
 
 #ifdef __cplusplus
 }
