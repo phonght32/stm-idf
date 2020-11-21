@@ -173,23 +173,23 @@ static uint32_t RCC_APBENR_SPIEN_MAPPING[SPI_NUM_MAX] = {
 	RCC_APB1ENR_SPI2EN,
 	RCC_APB1ENR_SPI3EN,
 
-#if !defined(STM32F407xx)
-	RCC_APB2ENR_SPI4EN,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    RCC_APB2ENR_SPI4EN,          
+#endif 
 
-#if !defined(STM32F407xx)
-	RCC_APB2ENR_SPI5EN,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    RCC_APB2ENR_SPI5EN,          
+#endif 
 
-#if !defined(STM32F407xx)
-	RCC_APB2ENR_SPI6EN,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    RCC_APB2ENR_SPI6EN,          
+#endif 
 };
 
 static SPI_TypeDef* SPI_MAPPING[SPI_NUM_MAX] = {
@@ -197,52 +197,52 @@ static SPI_TypeDef* SPI_MAPPING[SPI_NUM_MAX] = {
 	SPI2,
 	SPI3,
 
-#if !defined(STM32F407xx)
-	SPI4,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    SPI4,          
+#endif 
 
-#if !defined(STM32F407xx)
-	SPI5,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    SPI5,          
+#endif 
 
-#if !defined(STM32F407xx)
-	SPI6,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    0,
+#else 
+    SPI6,          
+#endif 
 };
 
 static uint32_t SPI_ALTERNATE_FUNC_MAPPING[SPI_NUM_MAX] = {
 	GPIO_AF5_SPI1,
 	GPIO_AF5_SPI2,
 
-#if !defined(STM32F407xx)
-	GPIO_AF5_SPI3,
-#else
-	GPIO_AF6_SPI3,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)
+    GPIO_AF6_SPI3,
+#else 
+    GPIO_AF5_SPI3,          
+#endif 
 
-#if !defined(STM32F407xx)
-	GPIO_AF5_SPI4,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)     
+    0,
+#else 
+    GPIO_AF5_SPI4,          
+#endif 
 
-#if !defined(STM32F407xx)
-	GPIO_AF5_SPI5,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)     
+    0,
+#else 
+    GPIO_AF5_SPI5,          
+#endif 
 
-#if !defined(STM32F407xx)
-	GPIO_AF5_SPI6,
-#else
-	0,
-#endif
+#if defined(STM32F407xx) || defined(STM32F405xx)  
+    0,
+#else 
+    GPIO_AF5_SPI6,          
+#endif 
 };
 
 spi_hw_info_t _spi_get_hw_info(spi_num_t spi_num, spi_pins_pack_t spi_pins_pack)
