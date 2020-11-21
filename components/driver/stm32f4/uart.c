@@ -154,15 +154,23 @@ static uint32_t UART_FRAME_FORMAT_MAPPING[UART_FRAME_MAX_TYPE][FRAME_FORMAT_MAX_
 static uint32_t RCC_APBENR_UARTEN_MAPPING[UART_NUM_MAX] = {
     RCC_APB2ENR_USART1EN,
     RCC_APB1ENR_USART2EN,
-    
-#if !defined(STM32F401xC)
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB1ENR_USART3EN,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB1ENR_UART4EN,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
     RCC_APB1ENR_UART5EN,
-#else
-    0,
-    0,
-    0,
 #endif
 
     RCC_APB2ENR_USART6EN
@@ -171,30 +179,50 @@ static uint32_t RCC_APBENR_UARTEN_MAPPING[UART_NUM_MAX] = {
 static USART_TypeDef* UART_MAPPING[UART_NUM_MAX] = {
     USART1,
     USART2,
-#if !defined(STM32F401xC)
+
+#if defined(STM32F401xC)
+    0,
+#else 
     USART3,
-    UART4,
-    UART5,
-#else
-    0,
-    0,
-    0,
 #endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    UART4,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    UART5,
+#endif
+
     USART6
 };
 
 static uint32_t UART_ALTERNATE_FUNC_MAPPING[UART_NUM_MAX] = {
     GPIO_AF7_USART1,
     GPIO_AF7_USART2,
-#if !defined(STM32F401xC)
+
+#if defined(STM32F401xC)
+    0,
+#else 
     GPIO_AF7_USART3,
-    GPIO_AF8_UART4,
-    GPIO_AF8_UART5,
-#else
-    0,
-    0,
-    0,
 #endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    GPIO_AF8_UART4,
+#endif
+
+#if defined(STM32F401xC)
+    0,
+#else 
+    GPIO_AF8_UART5,
+#endif
+
     GPIO_AF8_USART6
 };
 
