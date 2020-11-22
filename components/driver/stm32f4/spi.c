@@ -147,6 +147,12 @@ static const char* TAG = "DRIVER_SPI";
 
 static SPI_HandleTypeDef spi_handle[SPI_NUM_MAX];
 
+typedef enum {
+	SPI_MODE_INDEX,
+	SPI_DIR_INDEX,
+	SPI_MODE_MAPPING_INDEX_MAX,
+} spi_mode_mapping_index_t;
+
 typedef struct {
 	uint32_t       rcc_ahbenr_gpioen_mosi;
 	uint32_t       rcc_ahbenr_gpioen_miso;
@@ -245,6 +251,27 @@ static uint32_t SPI_ALTERNATE_FUNC_MAPPING[SPI_NUM_MAX] = {
 #endif 
 };
 
+static uint32_t SPI_MODE_MAPPING[SPI_MODE_MAX][SPI_MODE_MAPPING_INDEX_MAX] = {
+	{SPI_MODE_MASTER, SPI_DIRECTION_2LINES       },
+	{SPI_MODE_MASTER, SPI_DIRECTION_1LINE        },
+	{SPI_MODE_MASTER, SPI_DIRECTION_2LINES_RXONLY},
+	{SPI_MODE_MASTER, SPI_DIRECTION_2LINES       },
+	{SPI_MODE_SLAVE , SPI_DIRECTION_2LINES       },
+	{SPI_MODE_SLAVE , SPI_DIRECTION_1LINE        },
+	{SPI_MODE_SLAVE , SPI_DIRECTION_2LINES_RXONLY},
+	{SPI_MODE_SLAVE , SPI_DIRECTION_2LINES       },
+};
+
+static uint32_t SPI_CPOL_MAPPING[SPI_CAP_EDGE_MAX] = {
+	SPI_POLARITY_LOW,
+	SPI_POLARITY_HIGH
+};
+
+static uint32_t SPI_FIRSTBIT_MAPPING[SPI_TRANS_FIRSTBIT_MAX] = {
+	SPI_FIRSTBIT_MSB,
+	SPI_FIRSTBIT_LSB
+};
+
 spi_hw_info_t _spi_get_hw_info(spi_num_t spi_num, spi_pins_pack_t spi_pins_pack)
 {
 	return SPI_HW_INFO_MAPPING[spi_num][spi_pins_pack];
@@ -293,14 +320,14 @@ stm_err_t spi_config(spi_cfg_t *config)
 
     /* Configure SPI */
 	spi_handle[config->spi_num].Instance = SPI_MAPPING[config->spi_num];
-	spi_handle[config->spi_num].Init.Mode = SPI_MODE_MASTER;
-	spi_handle[config->spi_num].Init.Direction = SPI_DIRECTION_2LINES;
+	spi_handle[config->spi_num].Init.Mode = SPI_MODE_MAPPING[config->mode][SPI_MODE_INDEX];
+	spi_handle[config->spi_num].Init.Direction = SPI_MODE_MAPPING[config->mode][SPI_DIR_INDEX];
 	spi_handle[config->spi_num].Init.DataSize = SPI_DATASIZE_8BIT;
-	spi_handle[config->spi_num].Init.CLKPolarity = SPI_POLARITY_LOW;
+	spi_handle[config->spi_num].Init.CLKPolarity = SPI_CPOL_MAPPING[config->cap_edge];
 	spi_handle[config->spi_num].Init.CLKPhase = SPI_PHASE_1EDGE;
-	spi_handle[config->spi_num].Init.NSS = SPI_NSS_HARD_INPUT;
+	spi_handle[config->spi_num].Init.NSS = SPI_NSS_SOFT;
 	spi_handle[config->spi_num].Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
-	spi_handle[config->spi_num].Init.FirstBit = SPI_FIRSTBIT_MSB;
+	spi_handle[config->spi_num].Init.FirstBit = SPI_FIRSTBIT_MAPPING[config->firstbit];
 	spi_handle[config->spi_num].Init.TIMode = SPI_TIMODE_DISABLE;
 	spi_handle[config->spi_num].Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
 	spi_handle[config->spi_num].Init.CRCPolynomial = 10;

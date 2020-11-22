@@ -59,9 +59,36 @@ typedef enum {
 	SPI_PINS_PACK_MAX
 } spi_pins_pack_t;
 
+typedef enum {
+	SPI_MODE_MASTER_FULL_DUPLEX = 0,			/*!< Master full duplex */
+	SPI_MODE_MASTER_HALF_DUPLEX,				/*!< Master half duplex */
+	SPI_MODE_MASTER_REC_ONLY,					/*!< Master only receive */
+	SPI_MODE_MASTER_TRANS_ONLY,					/*!< Master only transmit */
+	SPI_MODE_SLAVE_FULL_DUPLEX,					/*!< Slave full duplex */
+	SPI_MODE_SLAVE_HALF_DUPLEX,					/*!< Slave half duplex */
+	SPI_MODE_SLAVE_REC_ONLY,					/*!< Slave only receive */
+	SPI_MODE_SLAVE_TRANS_ONLY,					/*!< Slave only transmit */
+	SPI_MODE_MAX,
+} spi_mode_t;
+
+typedef enum {
+	SPI_CAP_RISING_EDGE = 0,					/*!< Capture data when rising edge */
+	SPI_CAP_FALLING_EDGE,						/*!< Capture data when falling edge */
+	SPI_CAP_EDGE_MAX
+} spi_cap_edge_t;
+
+typedef enum {
+	SPI_TRANS_FIRSTBIT_MSB = 0,					/*!< MSB is firstbit */
+	SPI_TRANS_FIRSTBIT_LSB,						/*!< LSB is firsbit */
+	SPI_TRANS_FIRSTBIT_MAX
+} spi_trans_firstbit_t;
+
 typedef struct {
-	spi_num_t 			spi_num;				/*!< SPI num */ 
-	spi_pins_pack_t 	spi_pins_pack;			/*!< SPI pins pack*/ 
+	spi_num_t 				spi_num;			/*!< SPI num */ 
+	spi_pins_pack_t 		spi_pins_pack;		/*!< SPI pins pack*/ 
+	spi_mode_t 				mode;				/*!< SPI mode */
+	spi_cap_edge_t			cap_edge;			/*!< Edge type to capture data */
+	spi_trans_firstbit_t 	firstbit;			/*!< MSB/LSB firstbit */
 } spi_cfg_t;
 
 /*
