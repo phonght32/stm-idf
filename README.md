@@ -61,7 +61,7 @@ sudo cp etc/udev/rules.d/49-stlinkv* /etc/udev/rules.d/
 #### Dowload STM-IDF
 
 ```
-git clone https://github.com/thanhphong98/stm-idf
+git clone https://github.com/phonght32/stm-idf
 ```
 
 #### Setup environment variable
@@ -88,7 +88,7 @@ printenv STM_IDF_PATH
 
 STM-IDF build all source code in any folder which contains **component.mk** file. Header folder default in include folder which same directory with the **component.mk** file. You also can configure path to source and header folder by using **INCLUDE_PATHS** and **SOURCE_PATHS** .
 
-You can get the template project using STM-IDF at this [link](https://github.com/thanhphong98/stm32-template).
+You can get the template project using STM-IDF at this [link](https://github.com/phonght32/stm32-template).
 
 ### 4. Compling the project
 
@@ -130,4 +130,4 @@ There are many examples in stm-idf/examples folder. Follow tutorial in README fi
 
 ## Problem
 
-Any problem when using this SDK, please create in [Issues.](https://github.com/thanhphong98/stm-idf/issues)
+Any problem when using this SDK, please create in [Issues.](https://github.com/phonght32/stm-idf/issues)
