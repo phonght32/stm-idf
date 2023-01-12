@@ -14,8 +14,8 @@ help:
 	@echo "make flash_stlink - Flash to stm32 targets over st-linkV2"
 	@echo "make monitor - View log output"
 	@echo ""
-	@echo "Visit https://github.com/thanhphong98/stm-idf to see more details about STM-IDF or contribute"
-	@echo "Visit https://github.com/thanhphong98/stm32-template to get project template"
+	@echo "Visit https://github.com/phonght32/stm-idf to see more details about STM-IDF or contribute"
+	@echo "Visit https://github.com/phonght32/stm32-template to get project template"
 
 # Default path of the project. Assume the Makefile is exist in current project directory.
 ifndef PROJECT_PATH
