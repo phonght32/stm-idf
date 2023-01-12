@@ -4,7 +4,7 @@
 
 ### How to use
 
-- Follow this [link](https://github.com/thanhphong98/stm-idf) to setup STM-IDF on your computer.
+- Follow this [link](https://github.com/phonght32/stm-idf) to setup STM-IDF on your computer.
 
 - Copy any example project into your workspace.
 - Go to copy project:
